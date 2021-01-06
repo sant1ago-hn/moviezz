@@ -1,0 +1,95 @@
+table{
+    &.wishlist_table_nr{
+        font-size: 15px;
+    }
+    thead th {
+        border-top: 1px solid;
+        padding: 16px 12px;
+    }
+    thead th, tbody td{
+        border-color: #e7e7e7;
+    }
+    tr th.product-remove {
+        vertical-align: middle;
+        width: 40px;
+    }
+    tr th:first-child {
+        border-left-width: 1px;
+    }
+    tr th.product-thumbnail {
+        width: 80px;
+    }
+    tr td.product-remove {
+        text-align: left;
+        padding: 50px 5px;
+    }
+    tr td:first-child, tr th:first-child {
+        border-left-width: 1px;
+    }
+    tbody td {
+        padding: 50px 5px;
+    }
+    td.product-add-to-cart a {
+        display: block!important;
+        margin: 0;
+        margin-bottom: 5px;
+        text-align: center;
+    }
+    .add_to_cart.button{
+        box-shadow: none;
+        text-shadow: none;
+    }
+    .add_to_cart.button {
+        padding: 7px 12px;
+        line-height: normal;
+    }
+    tr td a.button {
+        white-space: normal;
+    }
+    tr td a.button {
+        white-space: normal;
+    }
+    .add_to_cart_button{
+        width: 48px;
+        height: 48px;
+        border: 1px solid #000000;
+        color: transparent!important;
+        background: transparent;
+        position: relative;
+        overflow: hidden;
+        letter-spacing: 0;
+    }
+    .product-stock-status span, tr td.product-stock-status span.wishlist-in-stock{
+        color: rgba( 189, 164, 125, 1 );
+        line-height: 25px;
+        border: 2px solid;
+        text-transform: uppercase;
+        letter-spacing: 6px;
+        font-size: 10px;
+        display: inline-block;
+        padding: 0 12px;
+    }
+    .add_to_cart_button:after, .product_type_external:after, .product_type_grouped:after{
+        content: "f";
+        font-family: 'linea-ecommerce-10';
+        text-transform: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        text-align: center;
+        color: #000000;
+        font-size: 22px;
+        line-height: 48px;
+    }
+    .add_to_cart_button:hover, .add_to_cart_button:focus, .product_type_external:hover, .product_type_external:focus, .product_type_grouped:hover, .product_type_grouped:focus{
+         color: transparent;
+    }
+    button:hover, button:focus, input[type="submit"]:hover, input[type="submit"]:focus, .button:hover, .button:focus, .ts-button:hover, .ts-button:focus {
+        background: #bda47d;
+        border-color: #bda47d;
+        color: #ffffff;
+        outline: none;
+    }
+}

@@ -1,0 +1,56 @@
+
+/* select widget */
+.widget .chosen-container{
+	width: 100%!important;
+}
+/* rss widget */
+.widget_rss li{
+	margin-bottom: 20px
+}
+/* widget menu */
+.widget_nav_menu ul.menu > li > a{
+	color: #000000;
+	line-height: 40px;
+	font-size: 15px;
+}
+.widget_nav_menu ul.menu > li > ul.sub-menu{
+	padding-left: 0
+}
+.widget_nav_menu ul.menu  ul.sub-menu{
+	padding-left: 20px;
+}
+.widget_nav_menu ul.menu  ul.sub-menu > li > a{
+	color: inherit;
+	line-height: 30px;
+}
+.widget_nav_menu ul.menu  ul.sub-menu > li > a:before{
+	content: "\e04b";
+	font-family: "linea-arrows-10";
+	font-size: 11px;
+	margin-right: 5px;
+}
+/* widget ul li */
+.widget ul li{list-style: none;}
+.widget > ul > li{color: #000000; font-size: 15px;}
+.widget > ul > li > a{
+	color: #000000;
+	line-height: 40px;
+}
+.widget ul li a:hover{
+	color: #bda47d;
+}
+.widget ul ul.children > li{
+	color: #949494;
+	font-size: 13px;
+}
+.widget ul ul.children > li > a{
+	color: inherit;
+	line-height: 30px;
+}
+.widget > ul >li > ul.children {padding-left: 0}
+.widget ul ul.children > li > a:before{
+	content: "\e04b";
+	font-family: "linea-arrows-10";
+	font-size: 11px;
+	margin-right: 5px;
+}

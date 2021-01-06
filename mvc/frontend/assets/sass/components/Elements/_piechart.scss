@@ -1,0 +1,159 @@
+ /* --- SCSS For Piechart --- */// Core variables and mixins
+.section-iconboxes-piechart{
+  margin-top:80px;
+  .title-piechart{
+    h4{
+      margin:30px 0; 
+    }
+  }
+}
+.wpb_column {
+  margin:80px 0; 
+  float: left;
+  width: 100%;
+  .wpb_wrapper {
+    h4{
+      margin:50px 0; 
+    }
+  }
+}
+[class*="piechart-v"]{    
+    .piechart-body{
+        position:relative; 
+        display:inline-block;  
+        .piechart-body-inner{
+            top: 0;                        
+            font-size: 35px;            
+            line-height: 140px;
+            position: absolute;                               
+            @include rtl-left(0);            
+            @include size(100%,140px);
+        }
+    }
+    &.piechart-center{
+        text-align: center;
+    }    
+    &.light-style{
+        color: #fff;             
+    }
+}
+
+.progress-title {
+    font-size: 24px;
+    color: #000;
+    font-weight: 800;
+    line-height: 100%;
+    span{
+        @include rtl-margin-right(10px);
+    }
+    small{
+        font-size: 14px;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+}
+.progress-bar {
+    box-shadow: none;
+}
+.progress-icon {
+    .progress-title {
+        padding-left: 10px;
+    }
+    .bar-chart {
+        padding-left: 50px;
+        position: relative;
+    }
+   .bar-icon{
+        position: absolute;
+        content: ""; 
+        top: 9px;
+        left: 0;
+   }  
+}
+.progress-box .progress-bar {
+    transition: all 3s ease-in 0s;
+}
+
+.process > li:hover i, .process > li:hover i:after {
+    transition: all 0.3s ease-in-out 0s;
+}
+
+
+.chart{
+  display: inline-block;
+  width: 110px;
+  margin: 40px auto 20px;
+  padding: 0 10px;
+}
+.easyPieChart {
+  position: relative;
+  text-align: center;
+  .icon-basic-lightbulb{
+    font-size: 65px!important;
+    
+    
+  }
+  .icons{
+    img{width:80%;margin-top:-22px;}
+  }
+  .icons-plain{
+      font-size: 30px;
+      font-style: normal;
+      font-weight: 100;
+  }
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+     margin: 0 auto
+  }
+}
+.percentage{
+    font-size: 45px;
+    color: #8bc34a;
+    font-weight: 100;
+    margin: 0 auto 0.5em;
+}
+.piechart-title{
+   font-weight: 700;
+   font-size: 21px;
+}
+sup{
+  top: -0.2em;
+  margin-left: 1px;
+}
+.ctrl{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  color: #c4cdcc;
+  word-spacing: 5px;
+  span{   
+    cursor: pointer;
+    @include transition(color .5s ease-in-out);
+    &:hover{
+      color: #000;
+    }
+  }
+}
+.vc_custom_1444880172207 {
+    border-right-width: 1px !important;
+    border-right-color: #ececec !important;
+    border-right-style: solid !important;
+    &:last-child{
+      border: none;
+    }
+}
+.ts-funfact {
+    text-align: center;
+    padding: 20px 0;
+}
+.ts-funfact .number {
+    font-size: 60px;
+    color: #000000;
+}
+.ts-funfact .title-funfact {
+    margin-bottom: 0;
+    margin-top: 10px;
+}

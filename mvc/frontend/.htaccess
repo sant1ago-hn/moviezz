@@ -1,0 +1,23 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule add-to-cart/([0-9]{1,}).html index.php?controller=cart&action=add&id=$1
+
+RewriteRule shopping-cart.html index.php?controller=cart&action=index
+
+RewriteRule check-out.html index.php?controller=payment&action=index
+
+RewriteRule product/(.*)/([0-9]{1,}).html index.php?controller=product&action=detail&title=$1&id=$2
+
+RewriteRule all-products.html index.php?controller=product&action=showAll
+
+RewriteRule products-list/([0-9]+).html index.php?controller=product&action=showAll&page=$1
+
+RewriteRule product/(.*)/([0-9]{1,}).html index.php?controller=product&action=detail&slug=$1&id=$2
+
+RewriteRule delete-product/([0-9]{1,}).html index.php?controller=cart&action=delete&id=$1
+
+RewriteRule login.html index.php?controller=user&action=login
+
+RewriteRule register.html index.php?controller=user&action=register

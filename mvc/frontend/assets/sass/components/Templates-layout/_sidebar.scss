@@ -1,0 +1,94 @@
+
+/* ul list categories */
+.list-categories{margin: 10px 0}
+.list-categories li{
+    list-style: none;
+    font-size: 15px;
+    display: inline-block;
+}
+.list-categories li a{
+    color: inherit;
+}
+.list-categories li a:hover{
+    color: #000000;
+}
+.list-categories li:after{
+    content: "|";
+    margin: 0 20px;
+}
+/*.list-categories li:first-child a{padding-left: 0}*/
+.list-categories li:last-child:after{display: none;}
+/* --------------------- */
+/* SIDEBAR - WIDGET      */
+/* --------------------- */
+.sidebar-left {
+  padding-left: 40px;
+}
+.sidebar .widget{
+    margin-top: 43px;
+    float: left;
+    width: 100%;
+}
+.sidebar .widget:first-child{
+    margin-top: 0;
+}
+.sidebar-title{
+    border-bottom: 1px solid #f1f1f1;
+    line-height: 35px;
+    margin-bottom: 20px;
+}
+/* Search form */
+.search-form{
+    position: relative;
+    display: table;
+    background-color: #f6f6f6;
+    padding: 10px 20px;
+}
+.search-form input[type="text"]{
+    display: table-cell;
+    width: 100%;
+    background-color: transparent;
+    border: none;
+    padding: 0 10px 0 0;
+}
+.search-form > span{
+    display: table-cell;
+    width: 1%;
+}
+.search-form button.search-submit{
+    background-color: transparent;
+    color: #000000;
+    font-size: 16px;
+    border: none;
+    padding: 0;
+}
+.search-form button.search-submit:hover,
+.search-form button.search-submit:focus{
+    color: #bda47d;
+}
+/* Calendar */
+#wp-calendar{
+	width: 100%;
+	text-align: center;
+}
+#wp-calendar th{text-align: center;}
+/* newsletter widget */
+.widget .mc4wp-form form{
+	display: table;
+}
+.mc4wp-form form input[type="text"]{
+	display: table-cell;
+	width: 100%;
+}
+.mc4wp-form form > span{
+	display: table-cell;
+	width: 1%;
+	vertical-align: middle;
+}
+.mc4wp-form form input[type="submit"],
+.mc4wp-form form button{
+	padding: 12px 10px;
+}
+.mc4wp-form input[type="text"]{
+	padding: 10px
+}

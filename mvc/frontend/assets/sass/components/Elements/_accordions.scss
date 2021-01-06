@@ -1,0 +1,163 @@
+/*accordion*/ 
+.section-iconboxes-accordion{
+	margin-top:30px;
+	margin-bottom:50px;
+}
+.accordion{
+	.panel{
+		@include box-shadow(0 0px 0px rgba(0,0,0,.05) );
+	}
+	.panel-heading{
+		padding: 15px;
+		position: relative;
+		background:#fff;
+		a {	
+		 	text-decoration: none;
+		 	font-weight: bold;
+			&:before{
+				content: "-";
+	 		    font-size: 21px;
+	 		    @include size(20px, 20px);
+	 		    text-align: center;
+	 		    line-height: 16px;
+	 		    display:  inline-block;
+	 		    color:  #000;
+	 		    background: #fff;
+			}
+		 	&.collapsed:before{
+		 		content: "+";
+	 		    font-size: 18px;
+	 		    line-height: 20px;
+		 	}
+		}	
+	}
+	.panel-body{
+		border-top-color: transparent!important;
+	}
+	
+	&.collapse-right{
+		.panel-heading{
+			a:before{
+				position: absolute;
+				@include rtl-right(20px);
+			}
+		}
+	}
+
+	&.collapse-color{
+		.panel-heading a{
+			&:before{
+			    color:#fff;
+			    background:#eee;
+			}
+		}
+	}
+	&.noborder{
+		.panel-heading{
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.panel , .panel-heading, .panel-body{
+			background-color:transparent;
+			border:none;
+		}
+		
+	}
+	&.nobackground{
+		.panel , .panel-heading, .panel-body{
+			background-color:transparent;
+		}
+	}
+}
+
+/* accordion style version 1 */
+.accordion.collapse-color .panel-heading a:before {
+    color: #000;
+    background: #fff;
+}
+.accordion-v3{
+	border-bottom:1px solid #000;
+	margin-bottom:60px;
+}
+.accordion-v1{
+	.panel-heading{
+		padding: 15px 35px;
+		position: relative;
+		background:#fff;
+		a {	
+		 	text-decoration: none;
+		 	font-weight: bold;
+			&:before{
+				
+				content: "\f105";
+	 		    font-size: 16px;
+	 		    @include size(25px, 23px);
+	 		    text-align: center;
+	 		    line-height: 20px;
+	 		    display:  inline-block;
+	 		    color:  #000;
+	 		    border:1px solid #000;
+	 		    background:#fff;
+	 		    font-family:'FontAwesome';
+	 		    position: absolute;
+	 		    left: 0;
+
+			}
+		 	&.collapsed:before{
+		 		content: "\f107 ";
+	 		    font-size: 18px;
+	 		    line-height: 20px;
+	 		    font-family:'FontAwesome';
+	 		    position: absolute;
+	 		    left: 0;
+		 	}
+		}	
+	}
+	.panel-heading a{
+		&:before{
+			// @include rtl-left (-10px);
+		    position: absolute;
+		}
+	}
+	.panel , .panel-heading, .panel-body{
+		border:none;
+	}
+}
+
+/* accordion style version 2 */
+.accordion-v2{
+	.panel , .panel-heading, .panel-body{
+		border:none;
+	}
+}
+
+/* accordion style version 3 */
+.accordion-v3{
+	.panel .panel-heading{
+		border-bottom: solid 1px #e9e9e9;
+		
+	}
+	.panel-group .panel-heading + .panel-collapse > .panel-body, .panel-group .panel-heading + .panel-collapse > .list-group{
+		border:none;
+	}
+}
+.accordion-v3 .panel:last-child .panel-heading{border:none!important;padding-bottom:50px;}
+/* accordion style version 4 */
+.accordion-v4{
+	.panel {
+	}
+	.panel-collapse{
+		position: relative;
+		&.in {
+			&:before {
+				position: absolute;
+				content: "";
+				background-color: #eee;
+				top: -51px;
+				left: -1px;
+				height: 3px;
+				width:  100.5%
+			}
+		}
+	}
+}

@@ -1,0 +1,55 @@
+/* newsletter */
+.ts-main-menu .ts-newsletter{
+    margin-top: 55px;
+}
+.ts-main-menu .ts-newsletter h6,
+.ts-social-header h6{
+    color: #ffffff;
+    border-bottom: 1px solid #353535;
+    line-height: 35px;
+    letter-spacing: 0.25px;
+}
+.ts-main-menu .ts-newsletter h6{
+    margin-bottom: 25px;
+}
+.ts-social-header h6{
+    margin-bottom: 20px;
+}
+.ts-newsletter .form-newsletter input[type="text"]{
+    padding: 6px 15px;
+    background-color: #2d2d2d;
+    border: none;
+    color: inherit;
+}
+.ts-newsletter .form-newsletter input[type="text"]::-webkit-input-placeholder {
+   color: inherit;
+}
+.ts-newsletter .form-newsletter input[type="text"]:-moz-placeholder {
+   color: inherit;  
+}
+.ts-newsletter .form-newsletter input[type="text"]::-moz-placeholder {
+   color: inherit;  
+}
+.ts-newsletter .form-newsletter input[type="text"]:-ms-input-placeholder {  
+   color: inherit;  
+}
+.ts-newsletter .form-newsletter button[type="submit"]{
+    padding: 6px 15px;
+    font-size: 8px;
+}
+
+/* newsletter shortcode */
+.ts-newsletter-shortcode h4{
+    margin: 0;
+}
+.ts-newsletter-shortcode p{
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.ts-newsletter-shortcode input[type="text"]{
+    padding: 13px 18px;
+    background-color: #ffffff;
+}
+.ts-newsletter-shortcode .form-newsletter button {
+  padding: 14px 27px;
+}
