@@ -2,42 +2,7 @@
 require_once 'helpers/Helper.php';
 ?>
     <div class="row">
-        <div class="col-lg-3">
-            <div class="card">
-                    <div class="card-body">
-                        <form action="" method="GET" class="dropdown d-inline-block">
-                            <div class="form-group">
-                                <label for="title">Title</label>
-                                <input type="text" name="title" value="<?php echo isset($_GET['title']) ? $_GET['title'] : '' ?>" id="title" class="form-control"/>
-                            </div>
-                            <div class="form-group">
-                                <label for="title">Choose category</label>
-                                <select name="category_id" class="form-control" required>
-                                    <?php foreach ($categories as $category):
-                                        $selected = '';
-                                        if (isset($_GET['category_id']) && $category['id'] == $_GET['category_id']) {
-                                            $selected = 'selected';
-                                        }
-                                    ?>
-                                        <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
-                                            <?php echo $category['name'] ?>
-                                        </option>
-                                    <?php endforeach; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <input type="hidden" name="controller" value="movie"/>
-                                <input type="hidden" name="action" value="index"/>
-                                <input type="submit" name="search" value="Search" class="btn btn-primary"/>
-                                <a href="index.php?controller=movie" class="btn btn-default">Delete filter</a>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-        </div>
-        <!--form search-->
-
-        <div class="col-lg-9">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
                     <div class="float-right ml-2">
@@ -72,7 +37,7 @@ require_once 'helpers/Helper.php';
                                                 <td><?php echo $movie['category_name'] ?></td>
                                                 <td><?php echo $movie['movie_type'] ?></td>
                                                 <td><?php echo $movie['title'] ?></td>
-                                                <td><?php echo number_format($movie['length']) ?></td>
+                                                <td><?php echo number_format($movie['lengthm']) ?></td>
                                                 <td><?php echo $movie['director'] ?></td>
                                                 <td><?php echo Helper::getStatusText($movie['status']) ?></td>
                                                 <td><?php echo date('d-m-Y H:i:s', strtotime($movie['created_at'])) ?></td>
@@ -100,7 +65,7 @@ require_once 'helpers/Helper.php';
                                         </tbody>
                                     <?php endforeach ?>
                                         <tr>
-                                            <td colspan="10">
+                                            <td colspan="12">
                                                 <div class="mt-4">
                                                     <ul class="pagination pagination-rounded justify-content-center mb-0">
                                                         <li><?php echo $pages; ?></li>
@@ -112,7 +77,7 @@ require_once 'helpers/Helper.php';
                                 <?php else: ?>
                                         <tbody>
                                         <tr>
-                                            <td colspan="10">No data found</td>
+                                            <td colspan="12">No data found</td>
                                         </tr>
                                     </tbody>
                                 <?php endif; ?>
@@ -122,4 +87,39 @@ require_once 'helpers/Helper.php';
             </div>
         </div>
         <!--movies list-->
+
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <form action="" method="GET" class="dropdown d-inline-block">
+                        <div class="form-group">
+                            <label for="title">Title</label>
+                            <input type="text" name="title" value="<?php echo isset($_GET['title']) ? $_GET['title'] : '' ?>" id="title" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <label for="title">Choose category</label>
+                            <select name="idcategory" class="form-control" required>
+                                <?php foreach ($categories as $category):
+                                    $selected = '';
+                                    if (isset($_GET['idcategory']) && $category['id'] == $_GET['idcategory']) {
+                                        $selected = 'selected';
+                                    }
+                                    ?>
+                                    <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
+                                        <?php echo $category['name'] ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="hidden" name="controller" value="movie"/>
+                            <input type="hidden" name="action" value="index"/>
+                            <input type="submit" name="search" value="Search" class="btn btn-primary"/>
+                            <a href="index.php?controller=movie" class="btn btn-default">Delete filter</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!--form search-->
     </div>

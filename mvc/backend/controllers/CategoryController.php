@@ -14,28 +14,27 @@ class CategoryController extends Controller {
             'full_mode' => FALSE,
         ];
         $page = 1;
-    if (isset($_GET['page'])) {
-        $page = $_GET['page'];
-    }
-    if (isset($_GET['name'])) {
-        $params['query_additional'] = '&name=' . $_GET['name'];
-    }
+        if (isset($_GET['page'])) {
+            $page = $_GET['page'];
+        }
+        if (isset($_GET['name'])) {
+            $params['query_additional'] = '&name=' . $_GET['name'];
+        }
 
-    $count_total = $category_model->countTotal();
-    $params['total'] = $count_total;
+        $count_total = $category_model->countTotal();
+        $params['total'] = $count_total;
+        $params['page'] = $page;
 
-    $params['page'] = $page;
-    $pagination = new Pagination($params);
-    $pages = $pagination->getPagination();
+        $pagination = new Pagination($params);
+        $pages = $pagination->getPagination();
+        $categories = $category_model->getAllPagination($params);
 
-    $categories = $category_model->getAllPagination($params);
+        $this->content = $this->render('views/categories/index.php', [
+            'categories' => $categories,
+            'pages' => $pages,
+        ]);
 
-    $this->content = $this->render('views/categories/index.php', [
-        'categories' => $categories,
-        'pages' => $pages,
-    ]);
-
-    require_once 'views/layouts/main.php';
+        require_once 'views/layouts/main.php';
     }
 
     public function create() {

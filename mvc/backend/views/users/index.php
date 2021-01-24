@@ -107,8 +107,15 @@
                             </tbody>
                         <?php endforeach ?>
                         <tr>
-                            <td colspan="7"><?php echo $pages; ?></td>
+                            <td colspan="8">
+                                <div class="mt-4">
+                                    <ul class="pagination pagination-rounded justify-content-center mb-0">
+                                        <li><?php echo $pages; ?></li>
+                                    </ul>
+                                </div>
+                            </td>
                         </tr>
+                        <!-- pagination-->
                     <?php else: ?>
                         <tbody>
                         <tr>

@@ -5,11 +5,11 @@
             <div class="table-responsive">
                 <form method="post" action="" enctype="multipart/form-data">
                     <div class="form-group">
-                        <label for="category_id">Choose category</label>
-                        <select name="category_id" class="form-control" id="category_id">
+                        <label for="idcategory">Choose category</label>
+                        <select name="idcategory" class="form-control" id="idcategory">
                             <?php foreach ($categories as $category):
                                 $selected = '';
-                                if (isset($_POST['category_id']) && $category['id'] == $_POST['category_id']) {
+                                if (isset($_POST['idcategory']) && $category['id'] == $_POST['idcategory']) {
                                     $selected = 'selected';
                                 }
                                 ?>
@@ -64,6 +64,16 @@
                         <label for="director">Director</label>
                         <input type="text" name="director" value="<?php echo isset($_POST['director']) ? $_POST['director'] : '' ?>"
                                class="form-control" id="director"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="nation">Nation</label>
+                        <input type="text" name="nation" value="<?php echo isset($_POST['nation']) ? $_POST['nation'] : '' ?>"
+                               class="form-control" id="nation"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="link">Link</label>
+                        <input type="text" name="link" value="<?php echo isset($_POST['link']) ? $_POST['link'] : '' ?>"
+                               class="form-control" id="link"/>
                     </div>
 
                     <div class="form-group">
