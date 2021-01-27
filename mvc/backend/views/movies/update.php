@@ -1,18 +1,19 @@
 <div class="col-lg-12">
     <div class="card">
         <div class="card-body">
-            <h2>Edit product #<?php echo $product['id'] ?></h2>
+            <h2>Edit movie #<?php echo $movie['id'] ?></h2>
             <form action="" method="post" enctype="multipart/form-data">
+                <!--ID-->
                 <div class="form-group">
-                    <label for="category_id">Choose category</label>
-                    <select name="category_id" class="form-control" id="category_id">
+                    <label for="idcategory">Choose category</label>
+                    <select name="idcategory" class="form-control" id="idcategory">
                         <?php
                         foreach ($categories as $category):
                             $selected = '';
-                            if ($category['id'] == $product['category_id']) {
+                            if ($category['id'] == $movie['idcategory']) {
                                 $selected = 'selected';
                             }
-                            if (isset($_POST['category_id']) && $category['id'] == $_POST['category_id']) {
+                            if (isset($_POST['idcategory']) && $category['id'] == $_POST['idcategory']) {
                                 $selected = 'selected';
                             }
                             ?>
@@ -22,58 +23,118 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+
+                <!--Title-->
                 <div class="form-group">
-                    <label for="title">Product's name</label>
+                    <label for="title">Movie's name</label>
                     <input type="text" name="title"
-                           value="<?php echo isset($_POST['title']) ? $_POST['title'] : $product['title'] ?>"
+                           value="<?php echo isset($_POST['title']) ? $_POST['title'] : $movie['title'] ?>"
                            class="form-control" id="title"/>
                 </div>
+
+                <!--Image-->
                 <div class="form-group">
-                    <label for="avatar">Avatar</label>
-                    <input type="file" name="avatar" value="" class="form-control" id="avatar"/>
-                    <img src="#" id="img-preview" style="display: none" width="100" height="100"/>
-                    <?php if (!empty($product['avatar'])): ?>
-                        <img height="80" src="assets/uploads/<?php echo $product['avatar'] ?>"/>
+                    <label for="image">Image</label>
+                    <input type="file" name="image" value="" class="form-control" id="image"/>
+                    <img src="#" id="img-preview" style="display: none" width="100" height="100" alt=""/>
+                    <?php if (!empty($movie['image'])): ?>
+                        <img height="80" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
                     <?php endif; ?>
                 </div>
+
+                <!--Length-->
                 <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="number" name="price" value="<?php echo isset($_POST['price']) ? $_POST['price'] : $product['price'] ?>" class="form-control" id="price"/>
-                </div>
-                <div class="form-group">
-                    <label for="amount">Amount</label>
-                    <input type="number" name="amount" value="<?php echo isset($_POST['amount']) ? $_POST['amount'] : $product['amount'] ?>" class="form-control" id="amount"/>
-                </div>
-                <div class="form-group">
-                    <label for="summary">Summary</label>
-                    <textarea name="summary" id="summary" class="form-control"><?php echo isset($_POST['summary']) ? $_POST['summary'] : $product['summary'] ?></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="content" id="description" class="form-control"><?php echo isset($_POST['content']) ? $_POST['content'] : $product['content'] ?></textarea>
+                    <label for="lengthm">Length (Minutes)</label>
+                    <input type="number" name="lengthm"
+                           value="<?php echo isset($_POST['lengthm']) ? $_POST['lengthm'] : $movie['lengthm'] ?>"
+                           class="form-control" id="lengthm"/>
                 </div>
 
+                <!--Year-->
                 <div class="form-group">
-                    <label for="seo-title">SEO title</label>
-                    <input type="text" name="seo_title" value="<?php echo isset($_POST['seo_title']) ? $_POST['seo_title'] : $product['seo_title'] ?>" class="form-control" id="seo-title"/>
-                </div>
-                <div class="form-group">
-                    <label for="seo-description">SEO description</label>
-                    <input type="text" name="seo_description" value="<?php echo isset($_POST['seo_description']) ? $_POST['seo_description'] : $product['seo_description'] ?>" class="form-control" id="seo-description"/>
+                    <label for="yeary">Year</label>
+                    <input type="number" name="yeary" value="<?php echo isset($_POST['yeary']) ? $_POST['yeary'] : $movie['yeary'] ?>"
+                           class="form-control" id="yeary"/>
                 </div>
 
+                <!--Director-->
                 <div class="form-group">
-                    <label for="seo-keywords">SEO keywords</label>
-                    <input type="text" name="seo_keywords" value="<?php echo isset($_POST['seo_keywords']) ? $_POST['seo_keywords'] : $product['seo_keywords'] ?>" class="form-control" id="seo-keywords"/>
+                    <label for="director">Director</label>
+                    <input type="text" name="director" value="<?php echo isset($_POST['director']) ? $_POST['director'] : $movie['director'] ?>"
+                           class="form-control" id="director"/>
                 </div>
 
+                <!--Nation-->
+                <div class="form-group">
+                    <label for="nation">Nation</label>
+                    <input type="text" name="nation" value="<?php echo isset($_POST['nation']) ? $_POST['nation'] : $movie['nation'] ?>"
+                           class="form-control" id="nation"/>
+                </div>
+
+                <!--Link 480P-->
+                <div class="form-group">
+                    <label for="link480">Link 480P</label>
+                    <input type="text" name="link480" value="<?php echo isset($_POST['link480']) ? $_POST['link480'] : $movie['link480'] ?>"
+                           class="form-control" id="link480"/>
+                </div>
+
+                <!--Link 720P-->
+                <div class="form-group">
+                    <label for="link720">Link 720P</label>
+                    <input type="text" name="link720" value="<?php echo isset($_POST['link720']) ? $_POST['link720'] : $movie['link720'] ?>"
+                           class="form-control" id="link720"/>
+                </div>
+
+                <!--Link 1080P-->
+                <div class="form-group">
+                    <label for="link1080">Link 1080P</label>
+                    <input type="text" name="link1080" value="<?php echo isset($_POST['link1080']) ? $_POST['link1080'] : $movie['link1080'] ?>"
+                           class="form-control" id="link1080"/>
+                </div>
+
+                <!--English Subtitle-->
+                <div class="form-group">
+                    <label for="en_sub">English Subtitle</label>
+                    <input type="file" name="en_sub" value="" class="form-control" id="en_sub"/>
+                </div>
+
+                <!--Vietnamese Subtitle-->
+                <div class="form-group">
+                    <label for="vie_sub">Vietnamese Subtitle</label>
+                    <input type="file" name="vie_sub" value="" class="form-control" id="vie_sub"/>
+                </div>
+
+                <!--Movie Type-->
+                <div class="form-group">
+                    <label for="movie_type">Movie Type</label>
+                    <select name="movie_type" class="form-control" id="movie_type">
+                        <?php
+                        $selected_movie = '';
+                        $selected_tvseries = '';
+                        if (isset($_POST['movie_type'])) {
+                            switch ($_POST['movie_type']) {
+                                case 0:
+                                    $selected_movie = 'selected';
+                                    break;
+                                case 1:
+                                    $selected_tvseries = 'selected';
+                                    break;
+                            }
+                        }
+                        ?>
+                        <option value="0" <?php echo $selected_movie; ?>>Movies</option>
+                        <option value="1" <?php echo $selected_tvseries ?>>TV Series</option>
+                    </select>
+                </div>
+
+                <!--Status-->
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select name="status" class="form-control" id="status">
                         <?php
                         $selected_disabled = '';
                         $selected_active = '';
-                        if ($product['status'] == 0) {
+                        if ($movie['status'] == 0) {
                             $selected_disabled = 'selected';
                         } else {
                             $selected_active = 'selected';
@@ -93,9 +154,11 @@
                         <option value="1" <?php echo $selected_active ?>>Active</option>
                     </select>
                 </div>
+
+                <!--Submit-->
                 <div class="form-group">
                     <input type="submit" name="submit" value="Save" class="btn btn-primary"/>
-                    <a href="index.php?controller=product&action=index" class="btn btn-default">Back</a>
+                    <a href="index.php?controller=movie&action=index" class="btn btn-default">Back</a>
                 </div>
             </form>
         </div>

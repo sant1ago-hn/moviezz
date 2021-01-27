@@ -1,6 +1,5 @@
 <?php
-class Pagination
-{
+class Pagination {
     public $params = [
         'total' => 0,
         'limit' => 0,
@@ -31,21 +30,20 @@ class Pagination
         return $page;
     }
 
-    public function getPrevPage() {
+    public function getPrevPage(): string {
         $prev_page = '';
         $current_page = $this->getCurrentPage();
         if ($current_page >= 2) {
             $controller = $this->params['controller'];
             $action = $this->params['action'];
             $page = $current_page - 1;
-            $prev_url =
-                "index.php?controller=$controller&action=$action&page=$page";
+            $prev_url = "index.php?controller=$controller&action=$action&page=$page";
             $prev_page = "<li class='page-item'><a class='page-link' href='$prev_url' aria-label='Previous'><i class='mdi mdi-chevron-left'></i></a></li>";
         }
         return $prev_page;
     }
 
-    public function getNextPage() {
+    public function getNextPage(): string {
         $next_page = '';
         $current_page = $this->getCurrentPage();
         $total_page = $this->getTotalPage();
@@ -53,14 +51,13 @@ class Pagination
             $controller = $this->params['controller'];
             $action = $this->params['action'];
             $page = $current_page + 1;
-            $next_url =
-                "index.php?controller=$controller&action=$action&page=$page";
+            $next_url = "index.php?controller=$controller&action=$action&page=$page";
             $next_page = "<li class='page-item'><a class='page-link' href='$next_url' aria-label='Next'><i class='mdi mdi-chevron-right'></i></a></li>";
         }
         return $next_page;
     }
 
-    public function getPagination() {
+    public function getPagination(): string {
         $data = '';
         $total_page = $this->getTotalPage();
         if ($total_page == 1) {

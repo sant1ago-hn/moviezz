@@ -14,47 +14,43 @@ require_once 'helpers/Helper.php';
                     <a href="#"><i class="ion-social-googleplus"></i></a>
                     <a href="#"><i class="ion-social-youtube"></i></a>
                 </div>
+
                 <div  class="slick-multiItemSlider">
                     <?php
                     $link = mysqli_connect("localhost", "root", "", "cinema");
                     mysqli_query($link,'set names utf8');
-                    $sql = 'select * from `movies` where `movie_type` = 2 order by `id` DESC limit 12';
+                    $sql = 'select * from `movies` where `movie_type` = 0 order by `id` DESC limit 12';
                     $query = mysqli_query($link, $sql);
                     while($result = mysqli_fetch_assoc($query)) {
                     ?>
                         <div class="movie-item">
                             <div class="mv-img">
                                 <a href="#">
-                                    <img src="assets/images/uploads/slider2.jpg" alt="" width="285" height="437">
+                                    <img src="../backend/assets/posters/<?php echo $result['image'] ?>" alt="" width="285" height="437"/>
                                 </a>
                             </div>
                             <div class="title-in">
                                 <div class="cate">
-                                    <span class="yell"><a href="#">action</a></span>
+                                    <span class="yell">
+                                        <a href="#">
+                                            <?php echo $result['idcategory']?>
+                                        </a>
+                                    </span>
                                 </div>
-                                <h6><a href="?mod=detail&film_id=<?php echo $result['id'] ?>" title="<?php echo $result['name'] ?>"><?php echo $result['name'] ?></a></h6>
+                                <h6><a href="?mod=detail&film_id=<?php echo $result['id'] ?>" title="<?php echo $result['title'] ?>"><?php echo $result['title'] ?></a></h6>
                                 <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
                             </div>
                         </div>
                     <?php } ?>
-                    <div class="movie-item">
-                        <div class="mv-img">
-                            <a href="#">
-                                <img src="assets/images/uploads/slider1.jpg" alt="" width="285" height="437">
-                            </a>
-                        </div>
-                        <div class="title-in">
-                            <div class="cate">
-                                <span class="blue"><a href="#">Sci-fi</a></span>
-                            </div>
-                            <h6><a href="#">Interstellar</a></h6>
-                            <p><i class="ion-android-star"></i><span>7.4</span> /10</p>
-                        </div>
-                    </div>
                 </div>
+
+
+
+
             </div>
         </div>
     </div>
+
     <div class="movie-items">
         <div class="container">
             <div class="row ipad-width">

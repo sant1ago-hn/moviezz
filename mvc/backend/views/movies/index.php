@@ -17,9 +17,9 @@ require_once 'helpers/Helper.php';
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
+                                        <th scope="col">Title</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Type</th>
-                                        <th scope="col">Title</th>
                                         <th scope="col">Avatar</th>
                                         <th scope="col">Length (Minutes)</th>
                                         <th scope="col">Director</th>
@@ -34,9 +34,24 @@ require_once 'helpers/Helper.php';
                                         <tbody>
                                             <tr>
                                                 <td><?php echo $movie['id'] ?></td>
-                                                <td><?php echo $movie['category_name'] ?></td>
-                                                <td><?php echo $movie['movie_type'] ?></td>
                                                 <td><?php echo $movie['title'] ?></td>
+                                                <td><?php echo $movie['category_name'] ?></td>
+                                                <td>
+                                                    <?php
+                                                        $type = '';
+                                                        if ($movie['movie_type'] == 0) {
+                                                            $type = 'Movies';
+                                                        } elseif ($movie['movie_type'] == 1) {
+                                                            $type = 'TV Series';
+                                                        }
+                                                        echo $type
+                                                    ?>
+                                                </td>
+                                                <td>
+                                                    <?php if (!empty($movie['avatar'])): ?>
+                                                        <img height="80" src="assets/uploads/<?php echo $movie['avatar'] ?>" alt=""/>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td><?php echo number_format($movie['lengthm']) ?></td>
                                                 <td><?php echo $movie['director'] ?></td>
                                                 <td><?php echo Helper::getStatusText($movie['status']) ?></td>

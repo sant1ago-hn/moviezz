@@ -19,7 +19,11 @@ class Movie extends Model {
     public $created_at;
     public $updated_at;
     public $str_search = '';
-    public $link;
+    public $link480;
+    public $link720;
+    public $link1080;
+    public $en_sub;
+    public $vie_sub;
 
     public function __construct() {
         parent::__construct();
@@ -31,7 +35,7 @@ class Movie extends Model {
         }
     }
 
-    public function getAll() {
+    public function getAll(): array {
         $obj_select = $this->connection
             ->prepare("SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON categories.id = movies.idcategory WHERE TRUE $this->str_search ORDER BY movies.created_at DESC");
         $arr_select = [];
@@ -39,9 +43,9 @@ class Movie extends Model {
         return $obj_select->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllPagination($arr_params) {
-        $limit = $arr_params['limit'];
-        $page = $arr_params['page'];
+    public function getAllPagination($params): array {
+        $limit = $params['limit'];
+        $page = $params['page'];
         $start = ($page - 1) * $limit;
         $obj_select = $this->connection->prepare("SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON categories.id = movies.idcategory WHERE TRUE $this->str_search ORDER BY movies.updated_at DESC, movies.created_at DESC LIMIT $start, $limit");
         $arr_select = [];
@@ -52,13 +56,12 @@ class Movie extends Model {
     public function countTotal() {
         $obj_select = $this->connection->prepare("SELECT COUNT(id) FROM movies WHERE TRUE $this->str_search");
         $obj_select->execute();
-
         return $obj_select->fetchColumn();
     }
 
-    public function insert() {
+    public function insert(): bool {
         $obj_insert = $this->connection
-            ->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, movie_type, link, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :movie_type, :link, :status)");
+            ->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, movie_type, link480, link720, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :movie_type, :link480, :link720, :link1080, :en_sub, :vie_sub, :status)");
         $arr_insert = [
             ':idcategory' => $this->idcategory,
             ':title' => $this->title,
@@ -68,7 +71,11 @@ class Movie extends Model {
             ':yeary' => $this->yeary,
             ':director' => $this->director,
             ':movie_type' => $this->movie_type,
-            ':link' => $this->link,
+            ':link480' => $this->link480,
+            ':link720' => $this->link720,
+            ':link1080' => $this->link1080,
+            ':en_sub' => $this->en_sub,
+            ':vie_sub' => $this->vie_sub,
             ':status' => $this->status,
         ];
         return $obj_insert->execute($arr_insert);
@@ -76,13 +83,12 @@ class Movie extends Model {
 
     public function getById($id) {
         $obj_select = $this->connection->prepare("SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON movies.idcategory = categories.id WHERE movies.id = $id");
-
         $obj_select->execute();
         return $obj_select->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function update($id) {
-        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, director=:director, movie_type=:movie_type, updated_at=:updated_at WHERE id = $id");
+    public function update($id): bool {
+        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, director=:director, movie_type=:movie_type, link480=:link480, link720=:link720, link1080=:link1080, en_sub=:en_sub, vie_sub=:vie_sub, status=:status, updated_at=:updated_at WHERE id = $id");
         $arr_update = [
             ':idcategory' => $this->idcategory,
             ':title' => $this->title,
@@ -92,12 +98,18 @@ class Movie extends Model {
             ':yeary' => $this->yeary,
             ':director' => $this->director,
             ':movie_type' => $this->movie_type,
+            ':link480' => $this->link480,
+            ':link720' => $this->link720,
+            ':link1080' => $this->link1080,
+            ':en_sub' => $this->en_sub,
+            ':vie_sub' => $this->vie_sub,
             ':status' => $this->status,
+            ':updated_at' => $this->updated_at,
         ];
         return $obj_update->execute($arr_update);
     }
 
-    public function delete($id) {
+    public function delete($id): bool {
         $obj_delete = $this->connection->prepare("DELETE FROM movies WHERE id = $id");
         return $obj_delete->execute();
     }

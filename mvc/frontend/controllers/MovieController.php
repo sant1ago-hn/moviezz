@@ -36,8 +36,7 @@ class MovieController extends Controller {
         require_once 'views/layouts/main.php';
     }
 
-    public function index()
-    {
+    public function index() {
         $Movie_model = new Movie();
         $count_total = $Movie_model->countTotal();
         $query_additional = '';
@@ -51,7 +50,7 @@ class MovieController extends Controller {
             'total' => $count_total,
             'limit' => 5,
             'query_string' => 'page',
-            'controller' => 'Movie',
+            'controller' => 'movie',
             'action' => 'index',
             'full_mode' => false,
             'query_additional' => $query_additional,
@@ -73,8 +72,7 @@ class MovieController extends Controller {
         require_once 'views/layouts/main.php';
     }
 
-    public function detail()
-    {
+    public function detail() {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $_SESSION['error'] = 'ID is not valid';
             $url_redirect = $_SERVER['SCRIPT_NAME'] . '/';
