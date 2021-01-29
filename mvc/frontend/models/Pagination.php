@@ -1,9 +1,8 @@
 <?php
-class Pagination
-{
+class Pagination {
     public $params = [
         'total' => 0,
-        'limit' => 0,
+        'limit' => 12,
         'controller' => '',
         'action' => '',
         'full_mode' => FALSE
@@ -31,21 +30,27 @@ class Pagination
         return $page;
     }
 
-    public function getPrevPage() {
+    public function getPrevPage(): string {
         $prev_page = '';
         $current_page = $this->getCurrentPage();
         if ($current_page >= 2) {
             $controller = $this->params['controller'];
             $action = $this->params['action'];
             $page = $current_page - 1;
-            $prev_url =
-                "index.php?controller=$controller&action=$action&page=$page";
-            $prev_page = "<li class='page-item'><a class='page-link' href='$prev_url' aria-label='Previous'><i class='mdi mdi-chevron-left'></i></a></li>";
+            $prev_url = "index.php?controller=$controller&action=$action&page=$page";
+            $prev_page = "<li class='page-item'>
+                              <a href='$prev_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M0.75 5.36475L13.1992 5.36475' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/>
+                                      <path d='M5.771 10.1271L0.749878 5.36496L5.771 0.602051' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/>
+                                  </svg>
+                              </a>
+                          </li>";
         }
         return $prev_page;
     }
 
-    public function getNextPage() {
+    public function getNextPage(): string {
         $next_page = '';
         $current_page = $this->getCurrentPage();
         $total_page = $this->getTotalPage();
@@ -53,14 +58,20 @@ class Pagination
             $controller = $this->params['controller'];
             $action = $this->params['action'];
             $page = $current_page + 1;
-            $next_url =
-                "index.php?controller=$controller&action=$action&page=$page";
-            $next_page = "<li class='page-item'><a class='page-link' href='$next_url' aria-label='Next'><i class='mdi mdi-chevron-right'></i></a></li>";
+            $next_url = "index.php?controller=$controller&action=$action&page=$page";
+            $next_page = "<li class='page-item'>
+                              <a href='$next_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M13.1992 5.3645L0.75 5.3645' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/>
+                                      <path d='M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'/>
+                                  </svg>
+                              </a>
+                          </li>";
         }
         return $next_page;
     }
 
-    public function getPagination() {
+    public function getPagination(): string {
         $data = '';
         $total_page = $this->getTotalPage();
         if ($total_page == 1) {

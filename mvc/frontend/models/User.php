@@ -4,8 +4,7 @@ class User extends Model {
     public $id;
     public $username;
     public $password;
-    public $first_name;
-    public $last_name;
+    public $fullname;
     public $phone;
     public $address;
     public $email;
@@ -26,16 +25,14 @@ class User extends Model {
         }
     }
 
-    public function getAll() {
+    public function getAll(): array {
         $obj_select = $this->connection
             ->prepare("SELECT * FROM users ORDER BY updated_at DESC, created_at DESC");
         $obj_select->execute();
-        $users = $obj_select->fetchAll(PDO::FETCH_ASSOC);
-
-        return $users;
+        return $obj_select->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllPagination($params = []) {
+    public function getAllPagination($params = []): array {
         $limit = $params['limit'];
         $page = $params['page'];
         $start = ($page - 1) * $limit;
@@ -43,9 +40,7 @@ class User extends Model {
             ->prepare("SELECT * FROM users WHERE TRUE $this->str_search ORDER BY created_at DESC LIMIT $start, $limit");
 
         $obj_select->execute();
-        $users = $obj_select->fetchAll(PDO::FETCH_ASSOC);
-
-        return $users;
+        return $obj_select->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getTotal() {
@@ -69,14 +64,13 @@ class User extends Model {
         return $obj_select->fetchColumn();
     }
 
-    public function insert() {
+    public function insert(): bool {
         $obj_insert = $this->connection
-            ->prepare("INSERT INTO users(username, password, first_name, last_name, phone, address, email, avatar, facebook, status) VALUES(:username, :password, :first_name, :last_name, :phone, :address, :email, :avatar, :facebook, :status)");
+            ->prepare("INSERT INTO users(username, password, fullname, phone, address, email, avatar, facebook, status) VALUES(:username, :password, :fullname, :phone, :address, :email, :avatar, :facebook, :status)");
         $arr_insert = [
             ':username' => $this->username,
             ':password' => $this->password,
-            ':first_name' => $this->first_name,
-            ':last_name' => $this->last_name,
+            ':fullname' => $this->fullname,
             ':phone' => $this->phone,
             ':address' => $this->address,
             ':email' => $this->email,
@@ -87,12 +81,11 @@ class User extends Model {
         return $obj_insert->execute($arr_insert);
     }
 
-    public function update($id) {
+    public function update($id): bool {
         $obj_update = $this->connection
-            ->prepare("UPDATE users SET first_name=:first_name, last_name=:last_name, phone=:phone, address=:address, email=:email, avatar=:avatar, facebook=:facebook, status=:status, updated_at=:updated_at WHERE id = $id");
+            ->prepare("UPDATE users SET fullname=:fullname, phone=:phone, address=:address, email=:email, avatar=:avatar, facebook=:facebook, status=:status, updated_at=:updated_at WHERE id = $id");
         $arr_update = [
-            ':first_name' => $this->first_name,
-            ':last_name' => $this->last_name,
+            ':fullname' => $this->fullname,
             ':phone' => $this->phone,
             ':address' => $this->address,
             ':email' => $this->email,
@@ -105,8 +98,8 @@ class User extends Model {
 
         return $obj_update->execute($arr_update);
     }
-    public function delete($id)
-    {
+
+    public function delete($id): bool {
         $obj_delete = $this->connection
             ->prepare("DELETE FROM users WHERE id = $id");
         return $obj_delete->execute();
@@ -121,12 +114,10 @@ class User extends Model {
         ];
         $obj_select->execute($arr_select);
 
-        $user = $obj_select->fetch(PDO::FETCH_ASSOC);
-
-        return $user;
+        return $obj_select->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function insertRegister() {
+    public function insertRegister(): bool {
         $obj_insert = $this->connection
             ->prepare("INSERT INTO users(username, password, status) VALUES(:username, :password, :status)");
         $arr_insert = [
@@ -136,5 +127,4 @@ class User extends Model {
         ];
         return $obj_insert->execute($arr_insert);
     }
-
 }

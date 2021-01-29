@@ -2,24 +2,28 @@
     <div class="card">
         <div class="card-body">
             <h2>Edit movie #<?php echo $movie['id'] ?></h2>
+            <h2 class="text-danger"><?php echo $movie['title'] ?></h2>
             <form action="" method="post" enctype="multipart/form-data">
                 <!--ID-->
                 <div class="form-group">
                     <label for="idcategory">Choose category</label>
                     <select name="idcategory" class="form-control" id="idcategory">
-                        <?php
-                        foreach ($categories as $category):
+                        <?php foreach ($categories as $category):
                             $selected = '';
                             if ($category['id'] == $movie['idcategory']) {
                                 $selected = 'selected';
+                            } else {
+                                $selected = '';
                             }
                             if (isset($_POST['idcategory']) && $category['id'] == $_POST['idcategory']) {
                                 $selected = 'selected';
+                            } else {
+                                $selected = '';
                             }
                             ?>
-                            <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
-                                <?php echo $category['name'] ?>
-                            </option>
+                                <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
+                                    <?php echo $category['name'] ?>
+                                </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
@@ -36,9 +40,8 @@
                 <div class="form-group">
                     <label for="image">Image</label>
                     <input type="file" name="image" value="" class="form-control" id="image"/>
-                    <img src="#" id="img-preview" style="display: none" width="100" height="100" alt=""/>
                     <?php if (!empty($movie['image'])): ?>
-                        <img height="80" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                        <img src="assets/posters/<?php echo $movie['image'] ?>" id="img-preview" style="display: none" width="100" height="100" alt=""/>
                     <?php endif; ?>
                 </div>
 
@@ -71,18 +74,18 @@
                            class="form-control" id="nation"/>
                 </div>
 
-                <!--Link 480P-->
+                <!--Description-->
                 <div class="form-group">
-                    <label for="link480">Link 480P</label>
-                    <input type="text" name="link480" value="<?php echo isset($_POST['link480']) ? $_POST['link480'] : $movie['link480'] ?>"
-                           class="form-control" id="link480"/>
+                    <label for="description">Description</label>
+                    <input type="text" name="description" value="<?php echo isset($_POST['description']) ? $_POST['description'] : $movie['description'] ?>"
+                           class="form-control" id="description"/>
                 </div>
 
-                <!--Link 720P-->
+                <!--Trailer-->
                 <div class="form-group">
-                    <label for="link720">Link 720P</label>
-                    <input type="text" name="link720" value="<?php echo isset($_POST['link720']) ? $_POST['link720'] : $movie['link720'] ?>"
-                           class="form-control" id="link720"/>
+                    <label for="trailer">Trailer</label>
+                    <input type="text" name="trailer" value="<?php echo isset($_POST['trailer']) ? $_POST['trailer'] : $movie['trailer'] ?>"
+                           class="form-control" id="trailer"/>
                 </div>
 
                 <!--Link 1080P-->
@@ -95,13 +98,15 @@
                 <!--English Subtitle-->
                 <div class="form-group">
                     <label for="en_sub">English Subtitle</label>
-                    <input type="file" name="en_sub" value="" class="form-control" id="en_sub"/>
+                    <input type="text" name="en_sub" value="<?php echo isset($_POST['en_sub']) ? $_POST['en_sub'] : $movie['en_sub'] ?>"
+                           class="form-control" id="en_sub"/>
                 </div>
 
                 <!--Vietnamese Subtitle-->
                 <div class="form-group">
                     <label for="vie_sub">Vietnamese Subtitle</label>
-                    <input type="file" name="vie_sub" value="" class="form-control" id="vie_sub"/>
+                    <input type="text" name="vie_sub" value="<?php echo isset($_POST['vie_sub']) ? $_POST['vie_sub'] : $movie['vie_sub'] ?>"
+                           class="form-control" id="vie_sub"/>
                 </div>
 
                 <!--Movie Type-->

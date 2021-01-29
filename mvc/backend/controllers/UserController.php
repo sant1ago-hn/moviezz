@@ -129,7 +129,6 @@ class UserController extends Controller {
             $phone = $_POST['phone'];
             $email = $_POST['email'];
             $address = $_POST['address'];
-            $jobs = $_POST['jobs'];
             $facebook = $_POST['facebook'];
             $status = $_POST['status'];
             if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {

@@ -30,6 +30,81 @@ class UserController extends Controller {
             'pages' => $pages,
         ]);
 
+        $this->page_title = 'Profile';
+
+        require_once 'views/layouts/main.php';
+    }
+
+    public function update() {
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            header("Location: index.php?controller=user");
+            exit();
+        } else {
+            $id = $_GET['id'];
+            $user_model = new User();
+            $user = $user_model->getById($id);
+            if (isset($_POST['submit'])) {
+
+                $fullname = $_POST['fullname'];
+                $phone = $_POST['phone'];
+                $email = $_POST['email'];
+//                $address = $_POST['address'];
+//                $facebook = $_POST['facebook'];
+//                $status = $_POST['status'];
+                if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                    $this->error = 'Email is not valid';
+                }
+//                } else if (!empty($facebook) && !filter_var($facebook, FILTER_VALIDATE_URL)) {
+//                    $this->error = 'Facebook link is not valid';
+//                } else if ($_FILES['avatar']['error'] == 0) {
+//                    $extension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
+//                    $extension = strtolower($extension);
+//                    $allow_extensions = ['png', 'jpg', 'jpeg'];
+//                    $file_size_mb = $_FILES['avatar']['size'] / 1024 / 1024;
+//                    $file_size_mb = round($file_size_mb, 2);
+//                    if (!in_array($extension, $allow_extensions)) {
+//                        $this->error = 'Avatar must be picture';
+//                    } else if ($file_size_mb > 2) {
+//                        $this->error = 'File too large, no more than 2MB';
+//                    }
+//                }
+
+                if (empty($this->error)) {
+//                    $filename = $user['avatar'];
+//                    if ($_FILES['avatar']['error'] == 0) {
+//                        $dir_uploads = __DIR__ . '/../assets/uploads';
+//                        //xóa file ảnh đã update trc đó
+//                        @unlink($dir_uploads . '/' . $filename);
+//                        if (!file_exists($dir_uploads)) {
+//                            mkdir($dir_uploads);
+//                        }
+//
+//                        $filename = time() . '-user-' . $_FILES['avatar']['name'];
+//                        move_uploaded_file($_FILES['avatar']['tmp_name'], $dir_uploads . '/' . $filename);
+//                    }
+                    $user_model->fullname = $fullname;
+                    $user_model->phone = $phone;
+//                    $user_model->address = $address;
+                    $user_model->email = $email;
+//                    $user_model->avatar = $filename;
+//                    $user_model->facebook = $facebook;
+//                    $user_model->status = $status;
+                    $is_update = $user_model->update($id);
+                    if ($is_update) {
+                        $_SESSION['success'] = 'Update successful';
+                    } else {
+                        $_SESSION['error'] = 'Update failed';
+                    }
+                    header('Location: index.php?controller=user');
+                    exit();
+                }
+            }
+            $this->content = $this->render('views/users/update.php', [
+                'user' => $user
+            ]);
+
+            $this->page_title = "Profile setting | " . (isset($user['fullname']) && !empty($user['fullname']) ? $user['fullname'] : $user['username']);
+        }
         require_once 'views/layouts/main.php';
     }
 
@@ -39,8 +114,7 @@ class UserController extends Controller {
             $username = $_POST['username'];
             $password = $_POST['password'];
             $password_confirm = $_POST['password_confirm'];
-            $first_name = $_POST['first_name'];
-            $last_name = $_POST['last_name'];
+            $fullname = $_POST['fullname'];
             $phone = $_POST['phone'];
             $email = $_POST['email'];
             $address = $_POST['address'];
@@ -88,8 +162,7 @@ class UserController extends Controller {
                 }
                 $user_model->username = $username;
                 $user_model->password = md5($password);
-                $user_model->first_name = $first_name;
-                $user_model->last_name = $last_name;
+                $user_model->fullname = $fullname;
                 $user_model->phone = $phone;
                 $user_model->address = $address;
                 $user_model->email = $email;

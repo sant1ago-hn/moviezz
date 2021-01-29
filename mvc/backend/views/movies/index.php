@@ -7,34 +7,36 @@ require_once 'helpers/Helper.php';
                 <div class="card-body">
                     <div class="float-right ml-2">
                             <a href="#">View all</a>
-                        </div>
+                    </div>
                     <h5 class="header-title mb-4">Movies List</h5>
                     <div class="float-left ml-2">
-                            <a href="index.php?controller=movie&action=create">Add new</a>
-                        </div>
+                        <button class="btn btn-primary">
+                            <a href="index.php?controller=movie&action=create" style="color: white">Add new</a>
+                        </button>
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-centered table-hover mb-0">
                                 <thead>
                                     <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Title</th>
-                                        <th scope="col">Category</th>
-                                        <th scope="col">Type</th>
-                                        <th scope="col">Avatar</th>
-                                        <th scope="col">Length (Minutes)</th>
-                                        <th scope="col">Director</th>
-                                        <th scope="col">Status</th>
-                                        <th scope="col">Created At</th>
-                                        <th scope="col">Updated At</th>
-                                        <th scope="col">Action</th>
+                                        <th scope="col" class="text-info">#</th>
+                                        <th scope="col" class="text-info">Title</th>
+                                        <th scope="col" class="text-info">Category</th>
+                                        <th scope="col" class="text-info">Type</th>
+                                        <th scope="col" class="text-info">Image</th>
+                                        <th scope="col" class="text-info">Length (Minutes)</th>
+                                        <th scope="col" class="text-info">Director</th>
+                                        <th scope="col" class="text-info">Status</th>
+                                        <th scope="col" class="text-info">Created At</th>
+                                        <th scope="col" class="text-info">Updated At</th>
+                                        <th scope="col" class="text-info">Action</th>
                                     </tr>
                                 </thead>
                                 <?php if (!empty($movies)): ?>
                                     <?php foreach ($movies as $movie): ?>
                                         <tbody>
                                             <tr>
-                                                <td><?php echo $movie['id'] ?></td>
-                                                <td><?php echo $movie['title'] ?></td>
+                                                <td class="badge badge-info"><?php echo $movie['id'] ?></td>
+                                                <td class="text-danger"><?php echo $movie['title'] ?></td>
                                                 <td><?php echo $movie['category_name'] ?></td>
                                                 <td>
                                                     <?php
@@ -48,13 +50,29 @@ require_once 'helpers/Helper.php';
                                                     ?>
                                                 </td>
                                                 <td>
-                                                    <?php if (!empty($movie['avatar'])): ?>
-                                                        <img height="80" src="assets/uploads/<?php echo $movie['avatar'] ?>" alt=""/>
+                                                    <?php if (!empty($movie['image'])): ?>
+                                                        <img height="80" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
                                                     <?php endif; ?>
                                                 </td>
                                                 <td><?php echo number_format($movie['lengthm']) ?></td>
                                                 <td><?php echo $movie['director'] ?></td>
-                                                <td><?php echo Helper::getStatusText($movie['status']) ?></td>
+                                                <td>
+                                                    <?php
+                                                    $status_text = 'Active';
+                                                    if ($movie['status'] == 0) {
+                                                        $status_text = 'Disabled';
+                                                    }
+                                                    ?>
+                                                    <?php if ($movie['status'] == 1): ?>
+                                                        <div class="badge badge-soft-primary">
+                                                            <?php echo $status_text; ?>
+                                                        </div>
+                                                    <?php elseif ($movie['status'] == 0): ?>
+                                                        <div class="badge badge-soft-danger">
+                                                            <?php echo $status_text; ?>
+                                                        </div>
+                                                    <?php endif; ?>
+                                                </td>
                                                 <td><?php echo date('d-m-Y H:i:s', strtotime($movie['created_at'])) ?></td>
                                                 <td><?php echo !empty($movie['updated_at']) ? date('d-m-Y H:i:s', strtotime($movie['updated_at'])) : '--' ?></td>
                                                 <td>
@@ -112,18 +130,20 @@ require_once 'helpers/Helper.php';
                             <input type="text" name="title" value="<?php echo isset($_GET['title']) ? $_GET['title'] : '' ?>" id="title" class="form-control"/>
                         </div>
                         <div class="form-group">
-                            <label for="title">Choose category</label>
+                            <label for="idcategory">Choose category</label>
                             <select name="idcategory" class="form-control" required>
-                                <?php foreach ($categories as $category):
-                                    $selected = '';
-                                    if (isset($_GET['idcategory']) && $category['id'] == $_GET['idcategory']) {
-                                        $selected = 'selected';
-                                    }
-                                    ?>
-                                    <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
-                                        <?php echo $category['name'] ?>
-                                    </option>
-                                <?php endforeach; ?>
+                                <?php if (!empty($categories)): ?>
+                                    <?php foreach ($categories as $category):
+                                        $selected = '';
+                                        if (isset($_GET['idcategory']) && $category['id'] == $_GET['idcategory']) {
+                                            $selected = 'selected';
+                                        }
+                                        ?>
+                                        <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
+                                            <?php echo $category['name'] ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                <?php endif;?>
                             </select>
                         </div>
                         <div class="form-group">

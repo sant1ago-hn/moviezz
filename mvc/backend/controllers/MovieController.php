@@ -51,8 +51,8 @@ class MovieController extends Controller {
             $nation = $_POST['nation'];
             $yeary = $_POST['yeary'];
             $director = $_POST['director'];
-            $link480 = $_POST['link480'];
-            $link720 = $_POST['link720'];
+            $description = $_POST['description'];
+            $trailer = $_POST['trailer'];
             $link1080 = $_POST['link1080'];
             $en_sub = $_POST['en_sub'];
             $vie_sub = $_POST['vie_sub'];
@@ -70,30 +70,6 @@ class MovieController extends Controller {
                         }   else if ($file_size_mb > 2) {
                             $this->error = 'File too large, no more than 2MB';
                         }
-                } else if ($_FILES['en_sub']['error'] == 0) {
-                    $sub_extension = pathinfo($_FILES['en_sub']['name'], PATHINFO_EXTENSION);
-                    $sub_extension = strtolower($sub_extension);
-                    $arr_extension = ['vtt'];
-                    $file_size_mb = $_FILES['en_sub']['size'] / 1024 / 1024;
-                    $file_size_mb = round($file_size_mb, 2);
-
-                    if (!in_array($sub_extension, $arr_extension)) {
-                        $this->error = 'Invalid subtitle file';
-                    }   else if ($file_size_mb > 2) {
-                        $this->error = 'File too large, no more than 2MB';
-                    }
-                } else if ($_FILES['vie_sub']['error'] == 0) {
-                    $sub_extension = pathinfo($_FILES['vie_sub']['name'], PATHINFO_EXTENSION);
-                    $sub_extension = strtolower($sub_extension);
-                    $arr_extension = ['vtt'];
-                    $file_size_mb = $_FILES['vie_sub']['size'] / 1024 / 1024;
-                    $file_size_mb = round($file_size_mb, 2);
-
-                        if (!in_array($sub_extension, $arr_extension)) {
-                            $this->error = 'Invalid subtitle file';
-                        }   else if ($file_size_mb > 2) {
-                            $this->error = 'File too large, no more than 2MB';
-                        }
                 }
 
                 if (empty($this->error)) {
@@ -106,22 +82,6 @@ class MovieController extends Controller {
                     $filename = time() . $_FILES['image']['name'];
                     move_uploaded_file($_FILES['image']['tmp_name'], $dir_uploads . '/' . $filename);
                 }
-                if ($_FILES['en_sub']['error'] == 0) {
-                    $dir_uploads = __DIR__ . '/../assets/subtitles';
-                    if (!file_exists($dir_uploads)) {
-                        mkdir($dir_uploads);
-                    }
-                    $filename = time() . $_FILES['en_sub']['name'];
-                    move_uploaded_file($_FILES['en_sub']['tmp_name'], $dir_uploads . '/' . $filename);
-                }
-                if ($_FILES['vie_sub']['error'] == 0) {
-                    $dir_uploads = __DIR__ . '/../assets/subtitles';
-                    if (!file_exists($dir_uploads)) {
-                        mkdir($dir_uploads);
-                    }
-                    $filename = time() . $_FILES['vie_sub']['name'];
-                    move_uploaded_file($_FILES['vie_sub']['tmp_name'], $dir_uploads . '/' . $filename);
-                }
                 $movie_model = new Movie();
                 $movie_model->idcategory = $idcategory;
                 $movie_model->title = $title;
@@ -131,8 +91,8 @@ class MovieController extends Controller {
                 $movie_model->nation = $nation;
                 $movie_model->yeary = $yeary;
                 $movie_model->director = $director;
-                $movie_model->link480 = $link480;
-                $movie_model->link720 = $link720;
+                $movie_model->description = $description;
+                $movie_model->trailer = $trailer;
                 $movie_model->link1080 = $link1080;
                 $movie_model->en_sub = $en_sub;
                 $movie_model->vie_sub = $vie_sub;
@@ -193,8 +153,8 @@ class MovieController extends Controller {
         $nation = $_POST['nation'];
         $yeary = $_POST['yeary'];
         $director = $_POST['director'];
-        $link480 = $_POST['link480'];
-        $link720 = $_POST['link720'];
+        $description = $_POST['description'];
+        $trailer = $_POST['trailer'];
         $link1080 = $_POST['link1080'];
         $en_sub = $_POST['en_sub'];
         $vie_sub = $_POST['vie_sub'];
@@ -205,45 +165,19 @@ class MovieController extends Controller {
             $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
             $extension = strtolower($extension);
             $arr_extension = ['jpg', 'jpeg', 'png'];
+
             $file_size_mb = $_FILES['image']['size'] / 1024 / 1024;
             $file_size_mb = round($file_size_mb, 2);
             if (!in_array($extension, $arr_extension)) {
-                $this->error = 'image must be picture';
-            } else if ($file_size_mb > 2) {
-                $this->error = 'File too large, no more than 2MB';
-            }
-        } else if ($_FILES['en_sub']['error'] == 0) {
-            $sub_extension = pathinfo($_FILES['en_sub']['name'], PATHINFO_EXTENSION);
-            $sub_extension = strtolower($sub_extension);
-            $arr_extension = ['vtt'];
-
-            $file_size_mb = $_FILES['en_sub']['size'] / 1024 / 1024;
-            $file_size_mb = round($file_size_mb, 2);
-
-            if (!in_array($sub_extension, $arr_extension)) {
-                $this->error = 'Invalid subtitle file';
-            } else if ($file_size_mb > 2) {
-                $this->error = 'File too large, no more than 2MB';
-            }
-        } else if ($_FILES['vie_sub']['error'] == 0) {
-            $sub_extension = pathinfo($_FILES['vie_sub']['name'], PATHINFO_EXTENSION);
-            $sub_extension = strtolower($sub_extension);
-            $arr_extension = ['vtt'];
-
-            $file_size_mb = $_FILES['vie_sub']['size'] / 1024 / 1024;
-            $file_size_mb = round($file_size_mb, 2);
-
-            if (!in_array($sub_extension, $arr_extension)) {
-                $this->error = 'Invalid subtitle file';
+                $this->error = 'Image must be picture';
             } else if ($file_size_mb > 2) {
                 $this->error = 'File too large, no more than 2MB';
             }
         }
 
         if (empty($this->error)) {
-            $filename = '';
+            $filename = $movie['image'];
             if ($_FILES['image']['error'] == 0) {
-                $filename = $movie['image'];
                 $dir_uploads = __DIR__ . '/../assets/posters';
                 @unlink($dir_uploads . '/' . $filename);
                 if (!file_exists($dir_uploads)) {
@@ -251,26 +185,6 @@ class MovieController extends Controller {
                 }
                 $filename = time() . $_FILES['image']['name'];
                 move_uploaded_file($_FILES['image']['tmp_name'], $dir_uploads . '/' . $filename);
-            }
-            if ($_FILES['en_sub']['error'] == 0) {
-                $filename = $movie['en_sub'];
-                $dir_uploads = __DIR__ . '/../assets/subtitles';
-                @unlink($dir_uploads . '/' . $filename);
-                if (!file_exists($dir_uploads)) {
-                    mkdir($dir_uploads);
-                }
-                $filename = time() . $_FILES['en_sub']['name'];
-                move_uploaded_file($_FILES['en_sub']['tmp_name'], $dir_uploads . '/' . $filename);
-            }
-            if ($_FILES['vie_sub']['error'] == 0) {
-                $filename = $movie['vie_sub'];
-                $dir_uploads = __DIR__ . '/../assets/subtitles';
-                @unlink($dir_uploads . '/' . $filename);
-                if (!file_exists($dir_uploads)) {
-                    mkdir($dir_uploads);
-                }
-                $filename = time() . $_FILES['vie_sub']['name'];
-                move_uploaded_file($_FILES['vie_sub']['tmp_name'], $dir_uploads . '/' . $filename);
             }
             $movie_model->idcategory = $idcategory;
             $movie_model->title = $title;
@@ -280,8 +194,8 @@ class MovieController extends Controller {
             $movie_model->yeary = $yeary;
             $movie_model->nation = $nation;
             $movie_model->director = $director;
-            $movie_model->link480 = $link480;
-            $movie_model->link720 = $link720;
+            $movie_model->description = $description;
+            $movie_model->trailer = $trailer;
             $movie_model->link1080 = $link1080;
             $movie_model->en_sub = $en_sub;
             $movie_model->vie_sub = $vie_sub;
@@ -309,22 +223,22 @@ class MovieController extends Controller {
     require_once 'views/layouts/main.php';
   }
 
-  public function delete() {
-      if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-          $_SESSION['error'] = 'ID is not valid';
-          header('Location: index.php?controller=movie');
-          exit();
-      }
+    public function delete() {
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            $_SESSION['error'] = 'ID is not valid';
+            header('Location: index.php?controller=movie');
+            exit();
+        }
 
-      $id = $_GET['id'];
-      $user_model = new Movie();
-      $is_delete = $user_model->delete($id);
-      if ($is_delete) {
-          $_SESSION['success'] = 'Deletion completed';
-      } else {
-          $_SESSION['error'] = 'Deletion failed';
-      }
-      header('Location: index.php?controller=movie');
-      exit();
-  }
+        $id = $_GET['id'];
+        $user_model = new Movie();
+        $is_delete = $user_model->delete($id);
+        if ($is_delete) {
+            $_SESSION['success'] = 'Deletion completed';
+        } else {
+            $_SESSION['error'] = 'Deletion failed';
+        }
+        header('Location: index.php?controller=movie');
+        exit();
+    }
 }

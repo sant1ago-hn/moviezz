@@ -81,12 +81,15 @@ class MovieController extends Controller {
         }
 
         $id = $_GET['id'];
-        $Movie_model = new Movie();
-        $Movie = $Movie_model->getById($id);
+        $movie_model = new Movie();
+        $movie = $movie_model->getById($id);
 
-        $this->content = $this->render('views/Movies/detail.php', [
-            'Movie' => $Movie
+        $this->content = $this->render('views/movies/detail.php', [
+            'movie' => $movie
         ]);
+
+        $this->page_title = $movie['title'] . " | " . $movie['yeary'];
+
         require_once 'views/layouts/main.php';
     }
 }

@@ -19,7 +19,7 @@ class Movie extends Model {
     public $created_at;
     public $updated_at;
     public $str_search = '';
-    public $link480;
+    public $trailer;
     public $link720;
     public $link1080;
     public $en_sub;
@@ -61,7 +61,7 @@ class Movie extends Model {
 
     public function insert(): bool {
         $obj_insert = $this->connection
-            ->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, movie_type, link480, link720, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :movie_type, :link480, :link720, :link1080, :en_sub, :vie_sub, :status)");
+            ->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, description, movie_type, trailer, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :description, :movie_type, :trailer, :link1080, :en_sub, :vie_sub, :status)");
         $arr_insert = [
             ':idcategory' => $this->idcategory,
             ':title' => $this->title,
@@ -70,9 +70,9 @@ class Movie extends Model {
             ':nation' => $this->nation,
             ':yeary' => $this->yeary,
             ':director' => $this->director,
+            ':description' => $this->description,
             ':movie_type' => $this->movie_type,
-            ':link480' => $this->link480,
-            ':link720' => $this->link720,
+            ':trailer' => $this->trailer,
             ':link1080' => $this->link1080,
             ':en_sub' => $this->en_sub,
             ':vie_sub' => $this->vie_sub,
@@ -88,7 +88,7 @@ class Movie extends Model {
     }
 
     public function update($id): bool {
-        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, director=:director, movie_type=:movie_type, link480=:link480, link720=:link720, link1080=:link1080, en_sub=:en_sub, vie_sub=:vie_sub, status=:status, updated_at=:updated_at WHERE id = $id");
+        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, director=:director, description=:description, movie_type=:movie_type, trailer=:trailer, link1080=:link1080, en_sub=:en_sub, vie_sub=:vie_sub, status=:status, updated_at=:updated_at WHERE id = $id");
         $arr_update = [
             ':idcategory' => $this->idcategory,
             ':title' => $this->title,
@@ -97,9 +97,9 @@ class Movie extends Model {
             ':nation' => $this->nation,
             ':yeary' => $this->yeary,
             ':director' => $this->director,
+            ':description' => $this->description,
             ':movie_type' => $this->movie_type,
-            ':link480' => $this->link480,
-            ':link720' => $this->link720,
+            ':trailer' => $this->trailer,
             ':link1080' => $this->link1080,
             ':en_sub' => $this->en_sub,
             ':vie_sub' => $this->vie_sub,

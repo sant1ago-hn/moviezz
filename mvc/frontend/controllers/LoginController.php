@@ -1,8 +1,7 @@
 <?php
 require_once 'models/User.php';
 
-class LoginController
-{
+class LoginController {
     public $content;
     public $error;
 
@@ -10,9 +9,7 @@ class LoginController
         extract($variables);
         ob_start();
         require_once $file;
-        $render_view = ob_get_clean();
-
-        return $render_view;
+        return ob_get_clean();
     }
 
     public function login() {
@@ -23,8 +20,8 @@ class LoginController
         if (isset($_POST['submit'])) {
             $username = $_POST['username'];
             $password = md5($_POST['password']);
-            $user_model = new User();
 
+            $user_model = new User();
             if (empty($this->error)) {
                 $user = $user_model->getUserByUsernameAndPassword($username, $password);
                 if (empty($user)) {
@@ -46,6 +43,7 @@ class LoginController
         if (isset($_POST['submit'])) {
             $user_model = new User();
             $username = $_POST['username'];
+            $fullname = $_POST['fullname'];
             $password = $_POST['password'];
             $password_confirm = $_POST['password_confirm'];
             $user = $user_model->getUserByUsername($username);
@@ -59,6 +57,7 @@ class LoginController
             if (empty($this->error)) {
 
                 $user_model->username = $username;
+                $user_model->fullname = $fullname;
                 $user_model->password = md5($password);
                 $user_model->status = 1;
                 $is_insert = $user_model->insertRegister();
