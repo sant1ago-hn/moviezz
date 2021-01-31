@@ -47,10 +47,10 @@
                             </ul>
                         </li>
                         <li class="header__nav-item">
-                            <a class="header__nav-link" href="pricing.html">Pricing plans</a>
+                            <a class="header__nav-link" href="pricing.html">Movies</a>
                         </li>
                         <li class="header__nav-item">
-                            <a class="header__nav-link header__nav-link--live" href="live.html">LIVE<svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="6" cy="4" r="4" fill="#EB5757" fill-opacity="0.5"/><g filter="url(#filter0_d)"><circle cx="6" cy="4" r="2" fill="#EB5757"/></g><defs><filter id="filter0_d" x="0" y="0" width="12" height="12" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB"><feFlood flood-opacity="0" result="BackgroundImageFix"/><feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/><feOffset dy="2"/><feGaussianBlur stdDeviation="2"/><feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.3 0"/><feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/><feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow" result="shape"/></filter></defs></svg></a>
+                            <a class="header__nav-link" href="pricing.html">TV Series</a>
                         </li>
                         <li class="header__nav-item">
                             <a class="header__nav-link header__nav-link--more" href="#" role="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

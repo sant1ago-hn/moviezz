@@ -3,12 +3,12 @@ require_once 'models/Model.php';
 
 class Movie extends Model {
     public $id;
-    public $idcategory;
+    public $idcategory = array('idcategory', 'idcategory', 'idcategory');
     public $title;
     public $image;
     public $lengthm;
     public $movie_type;
-    public $actor;
+    public $episodes;
     public $director;
     public $nation;
     public $yeary;
@@ -20,7 +20,6 @@ class Movie extends Model {
     public $updated_at;
     public $str_search = '';
     public $trailer;
-    public $link720;
     public $link1080;
     public $en_sub;
     public $vie_sub;
@@ -60,10 +59,9 @@ class Movie extends Model {
     }
 
     public function insert(): bool {
-        $obj_insert = $this->connection
-            ->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, description, movie_type, trailer, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :description, :movie_type, :trailer, :link1080, :en_sub, :vie_sub, :status)");
+        $obj_insert = $this->connection->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, description, movie_type, trailer, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :description, :movie_type, :trailer, :link1080, :en_sub, :vie_sub, :status)");
         $arr_insert = [
-            ':idcategory' => $this->idcategory,
+            ':idcategory' => implode("; ", $this->idcategory),
             ':title' => $this->title,
             ':image' => $this->image,
             ':lengthm' => $this->lengthm,

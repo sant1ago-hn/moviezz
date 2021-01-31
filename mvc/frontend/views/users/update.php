@@ -182,6 +182,7 @@ require_once 'helpers/Helper.php';
     <div class="container">
         <!-- content tabs -->
         <div class="tab-content">
+
             <!-- profile tab -->
             <div class="tab-pane fade" id="tab-1" role="tabpanel">
                 <div class="row row--grid">
@@ -761,14 +762,14 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="email">Email</label>
-                                                    <input id="email" type="text" name="email" class="sign__input" placeholder="<?php echo $_SESSION['user']['email'] ?>">
+                                                    <input id="email" type="text" name="email" class="sign__input" placeholder="<?php echo $user['email'] ?>">
                                                 </div>
                                             </div>
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="fullname">Full name</label>
-                                                    <input id="fullname" type="text" name="fullname" class="sign__input" placeholder="<?php echo $_SESSION['user']['fullname'] ?>">
+                                                    <input id="fullname" type="text" name="fullname" class="sign__input" placeholder="<?php echo $user['fullname'] ?>">
                                                 </div>
                                             </div>
 
@@ -801,15 +802,15 @@ require_once 'helpers/Helper.php';
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="newpass">New password</label>
-                                                    <input id="newpass" type="password" name="newpass" class="sign__input">
+                                                    <label class="sign__label" for="password">New password</label>
+                                                    <input id="password" type="password" name="password" class="sign__input">
                                                 </div>
                                             </div>
 
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="confirmpass">Confirm new password</label>
-                                                    <input id="confirmpass" type="password" name="confirmpass" class="sign__input">
+                                                    <label class="sign__label" for="password_confirm">Confirm new password</label>
+                                                    <input id="password_confirm" type="password" name="password_confirm" class="sign__input">
                                                 </div>
                                             </div>
 

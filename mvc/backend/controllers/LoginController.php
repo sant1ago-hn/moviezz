@@ -14,15 +14,13 @@ class LoginController {
 
     public function login() {
         if (isset($_SESSION['admin'])) {
-            header('Location: index.php?controller=category&action=index');
+            header('Location: index.php');
             exit();
         }
         if (isset($_POST['submit'])) {
             $username = $_POST['username'];
             $password = md5($_POST['password']);
-            if (empty($username) || empty($password)) {
-                $this->error = 'Username or password could not be empty';
-            }
+
             $admin_model = new Admin();
             if (empty($this->error)) {
                 $admin = $admin_model->getUserByUsernameAndPassword($username, $password);
@@ -30,12 +28,13 @@ class LoginController {
                     $this->error = 'Wrong username or password';
                 } else {
                     $_SESSION['admin'] = $admin;
-                    header("Location: index.php?controller=category&action=index");
+                    header("Location: index.php");
                     exit();
                 }
             }
         }
         $this->content = $this->render('views/admins/login.php');
+        $this->page_title = 'Sign In';
 
         require_once 'views/layouts/main_login.php';
     }
@@ -72,6 +71,7 @@ class LoginController {
         }
 
         $this->content = $this->render('views/admins/register.php');
+        $this->page_title = 'Sign Up';
         require_once 'views/layouts/main_login.php';
     }
 }

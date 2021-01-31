@@ -34,6 +34,7 @@ class LoginController {
             }
         }
         $this->content = $this->render('views/users/login.php');
+        $this->page_title = 'Sign In';
 
         require_once 'views/layouts/main_login.php';
     }

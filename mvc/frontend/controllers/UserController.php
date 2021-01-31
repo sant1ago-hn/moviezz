@@ -48,47 +48,14 @@ class UserController extends Controller {
                 $fullname = $_POST['fullname'];
                 $phone = $_POST['phone'];
                 $email = $_POST['email'];
-//                $address = $_POST['address'];
-//                $facebook = $_POST['facebook'];
-//                $status = $_POST['status'];
                 if (!empty($email) && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
                     $this->error = 'Email is not valid';
                 }
-//                } else if (!empty($facebook) && !filter_var($facebook, FILTER_VALIDATE_URL)) {
-//                    $this->error = 'Facebook link is not valid';
-//                } else if ($_FILES['avatar']['error'] == 0) {
-//                    $extension = pathinfo($_FILES['avatar']['name'], PATHINFO_EXTENSION);
-//                    $extension = strtolower($extension);
-//                    $allow_extensions = ['png', 'jpg', 'jpeg'];
-//                    $file_size_mb = $_FILES['avatar']['size'] / 1024 / 1024;
-//                    $file_size_mb = round($file_size_mb, 2);
-//                    if (!in_array($extension, $allow_extensions)) {
-//                        $this->error = 'Avatar must be picture';
-//                    } else if ($file_size_mb > 2) {
-//                        $this->error = 'File too large, no more than 2MB';
-//                    }
-//                }
 
                 if (empty($this->error)) {
-//                    $filename = $user['avatar'];
-//                    if ($_FILES['avatar']['error'] == 0) {
-//                        $dir_uploads = __DIR__ . '/../assets/uploads';
-//                        //xóa file ảnh đã update trc đó
-//                        @unlink($dir_uploads . '/' . $filename);
-//                        if (!file_exists($dir_uploads)) {
-//                            mkdir($dir_uploads);
-//                        }
-//
-//                        $filename = time() . '-user-' . $_FILES['avatar']['name'];
-//                        move_uploaded_file($_FILES['avatar']['tmp_name'], $dir_uploads . '/' . $filename);
-//                    }
                     $user_model->fullname = $fullname;
                     $user_model->phone = $phone;
-//                    $user_model->address = $address;
                     $user_model->email = $email;
-//                    $user_model->avatar = $filename;
-//                    $user_model->facebook = $facebook;
-//                    $user_model->status = $status;
                     $is_update = $user_model->update($id);
                     if ($is_update) {
                         $_SESSION['success'] = 'Update successful';

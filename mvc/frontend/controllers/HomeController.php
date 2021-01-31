@@ -11,7 +11,7 @@ class HomeController extends Controller {
           'movies' => $movies
         ]);
 
-        $this->page_title = 'Homepage';
+        $this->page_title = 'KaoFlix Cinema';
         require_once 'views/layouts/main.php';
     }
 }

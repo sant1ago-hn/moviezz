@@ -155,8 +155,8 @@
                             }
                         }
                         ?>
-                        <option value="0" <?php echo $selected_disabled; ?>>Disabled</option>
-                        <option value="1" <?php echo $selected_active ?>>Active</option>
+                        <option value="0" <?php echo $selected_disabled; ?>>Unpublished</option>
+                        <option value="1" <?php echo $selected_active ?>>Published</option>
                     </select>
                 </div>
 

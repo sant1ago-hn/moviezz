@@ -36,12 +36,16 @@ require_once 'helpers/Helper.php';
                                 $hours = floor($minutes / 60);
                                 $min = $minutes - ($hours * 60);
 
-                                echo $hours."h:".$min."m";
+                                if (strlen($min) < 2) {
+                                    echo $hours."h:0".$min."m";
+                                } else {
+                                    echo $hours."h:".$min."m";
+                                }
                                 ?>
                             </li>
                         </ul>
 
-                        <p><?php echo $movie['description']?></p>
+                        <p>" <?php echo $movie['description']?> "</p>
                     </div>
                     <!-- end article content -->
                 </div>

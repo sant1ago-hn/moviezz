@@ -1,73 +1,72 @@
 <?php
+
+use JetBrains\PhpStorm\NoReturn;
+
 require_once 'controllers/Controller.php';
 require_once 'models/Category.php';
 require_once 'models/Pagination.php';
 
-class CategoryController extends Controller
-{
+class CategoryController extends Controller {
 
-  public function index()
-  {
-    $category_model = new Category();
-    $params = [
-      'limit' => 5,
-      'query_string' => 'page',
-      'controller' => 'category',
-      'action' => 'index',
-      'full_mode' => FALSE,
-    ];
-    $page = 1;
-    if (isset($_GET['page'])) {
-      $page = $_GET['page'];
-    }
-    if (isset($_GET['name'])) {
-      $params['query_additional'] = '&name=' . $_GET['name'];
-    }
-
-    $count_total = $category_model->countTotal();
-    $params['total'] = $count_total;
-
-    $params['page'] = $page;
-    $pagination = new Pagination($params);
-    $pages = $pagination->getPagination();
-
-    $categories = $category_model->getAllPagination($params);
-
-    $this->content = $this->render('views/categories/index.php', [
-      'categories' => $categories,
-      'pages' => $pages,
-    ]);
-
-    require_once 'views/layouts/main.php';
-  }
-
-  public function create()
-  {
-    if (isset($_POST['submit'])) {
-      $name = $_POST['name'];
-      $description = $_POST['description'];
-      $status = $_POST['status'];
-      $avatar_files = $_FILES['avatar'];
-
-      if (empty($name)) {
-        $this->error = 'Cần nhập tên';
-      }
-      else if ($avatar_files['error'] == 0) {
-        $extension_arr = ['jpg', 'jpeg', 'gif', 'png'];
-        $extension = pathinfo($avatar_files['name'], PATHINFO_EXTENSION);
-        $extension = strtolower($extension);
-        $file_size_mb = $avatar_files['size'] / 1024 / 1024;
-        $file_size_mb = round($file_size_mb, 2);
-
-        if (!in_array($extension, $extension_arr)) {
-          $this->error = 'Cần upload file định dạng ảnh';
-        } else if ($file_size_mb >= 2) {
-          $this->error = 'File upload không được lớn hơn 2Mb';
+    public function index() {
+        $category_model = new Category();
+        $params = [
+          'limit' => 5,
+          'query_string' => 'page',
+          'controller' => 'category',
+          'action' => 'index',
+          'full_mode' => FALSE,
+        ];
+        $page = 1;
+        if (isset($_GET['page'])) {
+          $page = $_GET['page'];
         }
-      }
+        if (isset($_GET['name'])) {
+          $params['query_additional'] = '&name=' . $_GET['name'];
+        }
+
+        $count_total = $category_model->countTotal();
+        $params['total'] = $count_total;
+
+        $params['page'] = $page;
+        $pagination = new Pagination($params);
+        $pages = $pagination->getPagination();
+
+        $categories = $category_model->getAllPagination($params);
+
+        $this->content = $this->render('views/categories/index.php', [
+          'categories' => $categories,
+          'pages' => $pages,
+        ]);
+
+        require_once 'views/layouts/main.php';
+    }
+
+    public function create() {
+        if (isset($_POST['submit'])) {
+            $name = $_POST['name'];
+            $description = $_POST['description'];
+            $status = $_POST['status'];
+            $avatar_files = $_FILES['avatar'];
+
+        if (empty($name)) {
+            $this->error = 'Cần nhập tên';
+        } else if ($avatar_files['error'] == 0) {
+            $extension_arr = ['jpg', 'jpeg', 'gif', 'png'];
+            $extension = pathinfo($avatar_files['name'], PATHINFO_EXTENSION);
+            $extension = strtolower($extension);
+            $file_size_mb = $avatar_files['size'] / 1024 / 1024;
+            $file_size_mb = round($file_size_mb, 2);
+
+            if (!in_array($extension, $extension_arr)) {
+                $this->error = 'Cần upload file định dạng ảnh';
+            } else if ($file_size_mb >= 2) {
+                $this->error = 'File upload không được lớn hơn 2Mb';
+            }
+        }
 
       $avatar = '';
-      if (empty($this->error)) {
+        if (empty($this->error)) {
         if ($avatar_files['error'] == 0) {
           $dir_uploads = __DIR__ . '/../assets/uploads';
           if (!file_exists($dir_uploads)) {
@@ -97,7 +96,7 @@ class CategoryController extends Controller
     require_once 'views/layouts/main.php';
   }
 
-  public function update()
+    public function update()
   {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
       $_SESSION['error'] = 'ID category không hợp lệ';
@@ -166,7 +165,7 @@ class CategoryController extends Controller
     require_once 'views/layouts/main.php';
   }
 
-  public function delete()
+    #[NoReturn] public function delete()
   {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
       $_SESSION['error'] = 'ID không hợp lệ';
@@ -185,7 +184,7 @@ class CategoryController extends Controller
     exit();
   }
 
-  public function detail()
+    public function detail()
   {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
       $_SESSION['error'] = 'ID không hợp lệ';

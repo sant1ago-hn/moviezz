@@ -1,24 +1,24 @@
 <?php
 require_once 'models/Model.php';
 class Category extends Model {
-  public $id;
-  public $name;
-  public $status;
-  public $created_at;
-  public $updated_at;
+    public $id;
+    public $name;
+    public $status;
+    public $created_at;
+    public $updated_at;
 
-  public function insert() {
-    $sql_insert = "INSERT INTO categories(`name`, `status`) VALUES (:name, :status)";
-    $obj_insert = $this->connection
-      ->prepare($sql_insert);
-    $arr_insert = [
-      ':name' => $this->name,
-      ':status' => $this->status
-    ];
-    return $obj_insert->execute($arr_insert);
-  }
+    public function insert(): bool {
+        $sql_insert = "INSERT INTO categories(`name`, `status`) VALUES (:name, :status)";
+        $obj_insert = $this->connection
+          ->prepare($sql_insert);
+        $arr_insert = [
+          ':name' => $this->name,
+          ':status' => $this->status
+        ];
+        return $obj_insert->execute($arr_insert);
+    }
 
-  public function getAll($params = []) {
+    public function getAll($params = []): array {
     $str_search = 'WHERE TRUE';
     if (isset($params['name']) && !empty($params['name'])) {
       $name = $params['name'];
@@ -29,15 +29,12 @@ class Category extends Model {
       $str_search .= " AND `status` = $status";
     }
     $sql_select_all = "SELECT * FROM categories $str_search";
-    $obj_select_all = $this->connection
-      ->prepare($sql_select_all);
+    $obj_select_all = $this->connection->prepare($sql_select_all);
     $obj_select_all->execute();
-    $categories = $obj_select_all
-      ->fetchAll(PDO::FETCH_ASSOC);
-    return $categories;
+    return $obj_select_all->fetchAll(PDO::FETCH_ASSOC);
   }
 
-  public function getById($id) {
+    public function getById($id) {
     $sql_select_one = "SELECT * FROM categories WHERE id = $id";
     $obj_select_one = $this->connection
       ->prepare($sql_select_one);
@@ -46,7 +43,7 @@ class Category extends Model {
     return $category;
   }
 
-  public function getCategoryById($id) {
+    public function getCategoryById($id) {
     $obj_select = $this->connection
       ->prepare("SELECT * FROM categories WHERE id = $id");
     $obj_select->execute();
@@ -55,7 +52,7 @@ class Category extends Model {
     return $category;
   }
 
-  public function update($id) {
+    public function update($id): bool {
     $obj_update = $this->connection->prepare("UPDATE categories SET `name` = :name, `status` = :status, `updated_at` = :updated_at WHERE id = $id");
     $arr_update = [
       ':name' => $this->name,
@@ -66,7 +63,7 @@ class Category extends Model {
     return $obj_update->execute($arr_update);
   }
 
-  public function delete($id) {
+    public function delete($id) {
     $obj_delete = $this->connection
       ->prepare("DELETE FROM categories WHERE id = $id");
     $is_delete = $obj_delete->execute();
@@ -76,14 +73,15 @@ class Category extends Model {
 
     return $is_delete;
   }
-  public function countTotal() {
+
+    public function countTotal() {
     $obj_select = $this->connection->prepare("SELECT COUNT(id) FROM categories");
     $obj_select->execute();
 
     return $obj_select->fetchColumn();
   }
 
-  public function getAllPagination($params = [])
+    public function getAllPagination($params = []): array
   {
     $limit = $params['limit'];
     $page = $params['page'];

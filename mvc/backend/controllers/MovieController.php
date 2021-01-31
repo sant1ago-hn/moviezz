@@ -17,7 +17,7 @@ class MovieController extends Controller {
         }
         $params = [
             'total' => $count_total,
-            'limit' => 5,
+            'limit' => 10,
             'query_string' => 'page',
             'controller' => 'movie',
             'action' => 'index',
@@ -39,6 +39,11 @@ class MovieController extends Controller {
                 'categories' => $categories,
                 'pages' => $pages,
             ]);
+
+        $this->page_title = 'Movie Manager';
+        $this->movie_nav_index = 'active';
+        $this->movie_nav_active = 'show';
+        $this->movie_tab = 'sidebar__nav-link--active';
         require_once 'views/layouts/main.php';
     }
 
@@ -115,14 +120,18 @@ class MovieController extends Controller {
         $this->content = $this->render('views/movies/create.php', [
             'categories' => $categories
         ]);
+        $this->page_title = 'New Movie';
+        $this->movie_nav_create = 'active';
+        $this->movie_nav_active = 'show';
+        $this->movie_tab = 'sidebar__nav-link--active';
         require_once 'views/layouts/main.php';
       }
 
     public function detail() {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-      $_SESSION['error'] = 'ID is not valid';
-      header('Location: index.php?controller=movie');
-      exit();
+        $_SESSION['error'] = 'ID is not valid';
+        header('Location: index.php?controller=movie');
+        exit();
     }
 
     $id = $_GET['id'];
@@ -132,8 +141,11 @@ class MovieController extends Controller {
     $this->content = $this->render('views/movies/detail.php', [
         'movie' => $movie
     ]);
+    $this->page_title = 'Movie Detail';
+    $this->nav_create = 'active';
+    $this->nav_active = 'show';
     require_once 'views/layouts/main.php';
-  }
+    }
 
     public function update() {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

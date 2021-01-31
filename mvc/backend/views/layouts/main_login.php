@@ -1,74 +1,56 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <title>Dashboard | Login</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-    <meta content="Themesdesign" name="author" />
-    <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- datepicker -->
-    <link href="assets/libs/air-datepicker/css/datepicker.min.css" rel="stylesheet" type="text/css" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="assets/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="assets/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="assets/css/select2.min.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+    <link rel="stylesheet" href="assets/css/main.css">
 
-    <!-- jvectormap -->
-    <link href="assets/libs/jqvmap/jqvmap.min.css" rel="stylesheet" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/png" href="assets/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="assets/icon/favicon-32x32.png">
 
-    <!-- Bootstrap Css -->
-    <link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-    <!-- Icons Css -->
-    <link href="assets/css/icons.min.css" rel="stylesheet" type="text/css" />
-    <!-- App Css-->
-    <link href="assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="Hoài Nam">
+    <title>
+        <?php echo $this->page_title; ?>
+    </title>
 
 </head>
 
 <body class="bg-primary bg-pattern">
-    <section class="content-header d-flex justify-content-center">
-        <?php if (isset($_SESSION['error'])): ?>
-            <div class="alert alert-danger">
-                <?php
-                    echo $_SESSION['error'];
-                    unset($_SESSION['error']);
-                ?>
-            </div>
-        <?php endif; ?>
+<section class="content-header d-flex justify-content-center">
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="alert alert-danger">
+            <?php
+            echo $_SESSION['error'];
+            unset($_SESSION['error']);
+            ?>
+        </div>
+    <?php endif; ?>
+</section>
 
-        <?php if (!empty($this->error)): ?>
-            <div class="alert alert-danger">
-                <?php echo $this->error; ?>
-            </div>
-        <?php endif; ?>
-    </section>
+<?php echo $this->content; ?>
 
-    <?php echo $this->content; ?>
-
-    <!-- JAVASCRIPT -->
-    <script src="assets/libs/jquery/jquery.min.js"></script>
-    <script src="assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="assets/libs/node-waves/waves.min.js"></script>
-
-    <script src="https://unicons.iconscout.com/release/v2.0.1/script/monochrome/bundle.js"></script>
-
-    <!-- datepicker -->
-    <script src="assets/libs/air-datepicker/js/datepicker.min.js"></script>
-    <script src="assets/libs/air-datepicker/js/i18n/datepicker.en.js"></script>
-
-    <!-- apexcharts -->
-    <script src="assets/libs/apexcharts/apexcharts.min.js"></script>
-
-    <script src="assets/libs/jquery-knob/jquery.knob.min.js"></script>
-
-    <!-- Jq vector map -->
-    <script src="assets/libs/jqvmap/jquery.vmap.min.js"></script>
-    <script src="assets/libs/jqvmap/maps/jquery.vmap.usa.js"></script>
-
-    <script src="assets/js/pages/dashboard.init.js"></script>
-
-    <script src="assets/js/app.js"></script>
+<!-- JS -->
+<script src="assets/js/jquery-3.5.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/owl.carousel.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/smooth-scrollbar.js"></script>
+<script src="assets/js/select2.min.js"></script>
+<script src="assets/js/jquery.magnific-popup.min.js"></script>
+<script src="assets/js/admin.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/validation.js"></script>
 </body>
 </html>

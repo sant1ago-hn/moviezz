@@ -29,6 +29,10 @@ class UserController extends Controller {
             'users' => $users,
             'pages' => $pages,
         ]);
+        $this->page_title = 'User Manager';
+        $this->user_nav_index = 'active';
+        $this->user_nav_active = 'show';
+        $this->user_tab = 'sidebar__nav-link--active';
 
         require_once 'views/layouts/main.php';
     }
@@ -109,6 +113,10 @@ class UserController extends Controller {
         }
 
         $this->content = $this->render('views/users/create.php');
+        $this->page_title = 'User Manager';
+        $this->user_nav_create = 'active';
+        $this->user_nav_active = 'show';
+        $this->user_tab = 'sidebar__nav-link--active';
 
         require_once 'views/layouts/main.php';
     }

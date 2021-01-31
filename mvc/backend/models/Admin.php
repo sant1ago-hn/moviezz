@@ -21,16 +21,14 @@ class Admin extends Model {
         }
     }
 
-    public function getAll() {
+    public function getAll(): array {
         $obj_select = $this->connection
             ->prepare("SELECT * FROM admins ORDER BY updated_at DESC, created_at DESC");
         $obj_select->execute();
-        $users = $obj_select->fetchAll(PDO::FETCH_ASSOC);
-
-        return $users;
+        return $obj_select->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllPagination($params = []) {
+    public function getAllPagination($params = []): array {
         $limit = $params['limit'];
         $page = $params['page'];
         $start = ($page - 1) * $limit;
@@ -38,9 +36,7 @@ class Admin extends Model {
             ->prepare("SELECT * FROM admins WHERE TRUE $this->str_search ORDER BY created_at DESC LIMIT $start, $limit");
 
         $obj_select->execute();
-        $admins = $obj_select->fetchAll(PDO::FETCH_ASSOC);
-
-        return $admins;
+        return $obj_select->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getTotal() {
@@ -64,7 +60,7 @@ class Admin extends Model {
         return $obj_select->fetchColumn();
     }
 
-    public function insert() {
+    public function insert(): bool {
         $obj_insert = $this->connection
             ->prepare("INSERT INTO admins(username, password, fullname, email, avatar, status) VALUES(:username, :password, :fullname, :email, :avatar, :status)");
         $arr_insert = [
@@ -78,7 +74,7 @@ class Admin extends Model {
         return $obj_insert->execute($arr_insert);
     }
 
-    public function update($id) {
+    public function update($id): bool {
         $obj_update = $this->connection
             ->prepare("UPDATE admins SET fullname=:fullname, email=:email, avatar=:avatar, status=:status, updated_at=:updated_at WHERE id = $id");
         $arr_update = [
@@ -92,8 +88,8 @@ class Admin extends Model {
 
         return $obj_update->execute($arr_update);
     }
-    public function delete($id)
-    {
+
+    public function delete($id): bool {
         $obj_delete = $this->connection
             ->prepare("DELETE FROM admins WHERE id = $id");
         return $obj_delete->execute();
@@ -108,12 +104,10 @@ class Admin extends Model {
         ];
         $obj_select->execute($arr_select);
 
-        $admins = $obj_select->fetch(PDO::FETCH_ASSOC);
-
-        return $admins;
+        return $obj_select->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function insertRegister() {
+    public function insertRegister(): bool {
         $obj_insert = $this->connection
             ->prepare("INSERT INTO admins(username, password, status) VALUES(:username, :password, :status)");
         $arr_insert = [

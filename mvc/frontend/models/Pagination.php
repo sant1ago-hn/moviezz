@@ -1,6 +1,6 @@
 <?php
 class Pagination {
-    public $params = [
+    public array $params = [
         'total' => 0,
         'limit' => 12,
         'controller' => '',
