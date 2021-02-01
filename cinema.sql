@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 31, 2021 at 10:35 AM
+-- Generation Time: Feb 01, 2021 at 10:23 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -67,7 +67,8 @@ CREATE TABLE `categories` (
 
 INSERT INTO `categories` (`id`, `name`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'Horror', 1, '2020-12-13 16:58:09', '2020-12-13 23:58:09'),
-(2, 'Sci-fi', 1, '2020-12-13 17:16:47', '2020-12-14 00:16:47');
+(2, 'Sci-fi', 1, '2020-12-13 17:16:47', '2020-12-14 00:16:47'),
+(5, 'Action', 1, '2021-01-31 13:58:40', '2021-01-31 20:58:40');
 
 -- --------------------------------------------------------
 
@@ -121,7 +122,7 @@ INSERT INTO `movies` (`id`, `title`, `IDcategory`, `lengthm`, `nation`, `yeary`,
 (4, 'Tenet', 2, 150, 'US', 2020, NULL, NULL, 1, 'Christopher Nolan', 1, 0, '1611833896tenet.jpg', 'You’re not shooting the bullet. You’re catching it', '2021-01-27 11:47:51', '2021-01-29 23:39:51', 'https://youtu.be/mgwGixbtIBU', 'https://dood.so/e/9x1uij37ya0556v6r2ee4s6ga2uz54u2', 'https://bit.ly/3pwP8dF', 'https://bit.ly/2NIOv2t'),
 (5, 'Now You See Me', 1, 125, 'US', 2013, NULL, NULL, 1, 'Louis Leterrier', 1, 0, '1611834829NowYouSeeMe.jpg', 'The closer you think you are, the less you\'ll actually see', '2021-01-28 11:53:49', '2021-01-28 19:05:45', 'https://www.youtube.com/watch?v=4OtM9j2lcUA', 'https://drive.google.com/file/d/1-8zg__3T9RsT8Edm9X-U3IWyVQjzu77H/preview', 'https://drive.google.com/file/d/1KeT83MTxl8d4MXdkmQLF9ZgSsU_fRqMC/view?usp=sharing', 'https://drive.google.com/file/d/1_hw2-AxtENQ1z-8IEgCtuzb9t978-HCX/view?usp=sharing'),
 (6, 'The Hitman\'s Bodyguard', 1, 118, 'US', 2017, NULL, NULL, 1, 'Patrick Hughes', 1, 0, '1611925747the-hitman-s-bodyguard.jpg', 'Question for a higher power. Who is more wicked, he who kills evil motherfuckers or he who protects them?', '2021-01-29 13:09:07', '2021-01-29 20:30:17', 'https://www.youtube.com/watch?v=qCOj_gCbp8I', 'https://drive.google.com/file/d/1r0EmkSrpTrO3K2_2WezWAUrfMvJnHTQa/preview', 'https://bit.ly/39s4k64', 'https://bit.ly/2YsnEtQ'),
-(10, 'Logan', 2, 137, 'US', 2017, NULL, NULL, 1, 'James Mangold', 1, 0, '1612048097logan.jpg', '', '2021-01-30 23:08:17', '2021-01-31 06:12:18', '', 'https://dood.so/e/i76omhvxt4dpk00nsf6rmt1au7ngmqpu', '', '');
+(10, 'Logan', 1, 137, 'US', 2017, NULL, NULL, 1, 'James Mangold', 1, 0, '1612048097logan.jpg', '', '2021-01-30 23:08:17', '2021-02-01 02:18:02', '', 'https://dood.so/e/i76omhvxt4dpk00nsf6rmt1au7ngmqpu', '', '');
 
 -- --------------------------------------------------------
 
@@ -223,7 +224,7 @@ ALTER TABLE `admins`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -235,7 +236,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT for table `movies`
 --
 ALTER TABLE `movies`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `users`

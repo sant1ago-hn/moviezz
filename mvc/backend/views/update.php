@@ -9,7 +9,7 @@ require_once 'helpers/Helper.php';
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Movie detail ID: #<?php echo $movie['id']?></h2>
+                    <h2>Update movie ID: #<?php echo $movie['id']?></h2>
                 </div>
             </div>
             <!-- end main title -->
@@ -67,11 +67,7 @@ require_once 'helpers/Helper.php';
 
                     <!-- profile btns -->
                     <div class="profile__actions">
-                        <a href="index.php?controller=movie&action=update&id=<?php echo $movie['id'] ?>" class="main__table-btn main__table-btn--edit">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"/>
-                            </svg>
-                        </a>
+                        <a href="#modal-status3" class="profile__action profile__action--banned open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12,13a1.49,1.49,0,0,0-1,2.61V17a1,1,0,0,0,2,0V15.61A1.49,1.49,0,0,0,12,13Zm5-4V7A5,5,0,0,0,7,7V9a3,3,0,0,0-3,3v7a3,3,0,0,0,3,3H17a3,3,0,0,0,3-3V12A3,3,0,0,0,17,9ZM9,7a3,3,0,0,1,6,0V9H9Zm9,12a1,1,0,0,1-1,1H7a1,1,0,0,1-1-1V12a1,1,0,0,1,1-1H17a1,1,0,0,1,1,1Z"/></svg></a>
                         <a href="#modal-delete3" class="profile__action profile__action--delete open-modal"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg></a>
                     </div>
                     <!-- end profile btns -->
@@ -81,9 +77,10 @@ require_once 'helpers/Helper.php';
 
             <!-- content tabs -->
             <div class="tab-content" id="myTabContent">
+                <!-- Information -->
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                     <div class="col-12">
-                        <div class="sign__wrap">
+                        <form action="" method="post" class="sign__wrap" enctype="multipart/form-data">
                             <div class="row">
                                 <!-- details form -->
                                 <div class="col-12 col-lg-6">
@@ -97,15 +94,28 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="title">Title</label>
-                                                    <input id="title" type="text" name="title" class="sign__input" placeholder="<?php echo $movie['title'] ?>" readonly>
+                                                    <input id="title" type="text" name="title" class="sign__input" value="<?php echo $movie['title'] ?>">
                                                 </div>
                                             </div>
 
                                             <!-- Category -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="category">Category</label>
-                                                    <input id="category" type="text" name="category" class="sign__input" placeholder="<?php echo $movie['category_name'] ?>" readonly>
+                                                    <label class="sign__label" for="idcategory">Category</label>
+                                                    <select name="idcategory" class="sign__input" id="idcategory">
+                                                        <?php foreach ($categories as $category):
+                                                            $selected = '';
+                                                            if ($category['name'] == $movie['category_name']) {
+                                                                $selected = 'selected';
+                                                            } else {
+                                                                $selected = '';
+                                                            }
+                                                            ?>
+                                                            <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
+                                                                <?php echo $category['name'] ?>
+                                                            </option>
+                                                        <?php endforeach; ?>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -113,37 +123,65 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="director">Director</label>
-                                                    <input id="director" type="text" name="director" class="sign__input" placeholder="<?php echo $movie['director'] ?>" readonly>
+                                                    <input id="director" type="text" name="director" class="sign__input" value="<?php echo $movie['director'] ?>">
                                                 </div>
                                             </div>
 
                                             <!-- Length -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="length">Length</label>
-                                                    <input id="length" type="text" name="length" class="sign__input" placeholder="<?php
-                                                    $minutes = $movie['lengthm'];
-                                                    $hours = floor($minutes / 60);
-                                                    $min = $minutes - ($hours * 60);
-
-                                                    if (strlen($min) < 2) {
-                                                        echo $hours."h:0".$min."m";
-                                                    } else {
-                                                        echo $hours." hours & ".$min." minutes";
-                                                    }
-                                                    ?>" readonly>
+                                                    <label class="sign__label" for="length">Length (Minutes)</label>
+                                                    <input id="lengthm" type="text" name="lengthm" class="sign__input" value="<?php echo $movie['lengthm']?>">
                                                 </div>
                                             </div>
 
-                                            <div class="col-12">
-                                                <butotn onclick="history.back()" class="sign__btn" type="button">Back</butotn>
+                                            <!-- Vietsub -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="en_sub">Vietnamese subtitle (Y/N)</label>
+                                                    <input id="en_sub" type="text" name="en_sub" class="sign__input" value="<?php echo $movie['en_sub']?>">
+                                                </div>
+                                            </div>
+
+                                            <!-- Engsub -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="vie_sub">English subtitle (Y/N)</label>
+                                                    <input id="vie_sub" type="text" name="vie_sub" class="sign__input" value="<?php echo $movie['vie_sub']?>">
+                                                </div>
+                                            </div>
+
+                                            <!-- Trailer -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="trailer">Trailer</label>
+                                                    <input id="trailer" type="text" name="trailer" class="sign__input" value="<?php echo $movie['trailer']?>">
+                                                </div>
+                                            </div>
+
+                                            <!-- Embed Link -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="link1080">Embed Link</label>
+                                                    <input id="link1080" type="text" name="link1080" class="sign__input" value="<?php echo $movie['link1080']?>">
+                                                </div>
+                                            </div>
+
+                                            <!-- Back -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <a href="index.php?controller=movie&action=detail&id=<?php echo $movie['id'] ?>" class="sign__btn" type="button">Back</a>
+                                            </div>
+
+                                            <!-- Save -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <button class="sign__btn" type="submit" name="submit">Save</button>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <!-- end details form -->
 
-                                <!-- password form -->
+                                <!-- Image & Description form -->
                                 <div class="col-12 col-lg-6">
                                     <div class="sign__form sign__form--profile">
                                         <div class="row">
@@ -156,7 +194,7 @@ require_once 'helpers/Helper.php';
                                                 <!-- Description -->
                                                 <div class="sign__group">
                                                     <label for="description" class="sign__label">Description</label>
-                                                    <textarea class="sign__textarea" name="description" id="description" placeholder="<?php echo $movie['description'] ?>" readonly></textarea>
+                                                    <textarea class="sign__textarea" name="description" id="description"><?php echo $movie['description'] ?></textarea>
                                                 </div>
                                                 <!-- Description -->
 
@@ -164,7 +202,7 @@ require_once 'helpers/Helper.php';
                                                 <div class="sign__group">
                                                     <label for="yeary" class="sign__label">Year</label>
                                                     <input class="sign__input" name="yeary" id="yeary"
-                                                           placeholder="<?php echo $movie['yeary'] ?>" readonly/>
+                                                           value="<?php echo $movie['yeary'] ?>"/>
                                                 </div>
                                                 <!-- Year -->
 
@@ -172,7 +210,7 @@ require_once 'helpers/Helper.php';
                                                 <div class="sign__group">
                                                     <label for="nation" class="sign__label">Nation</label>
                                                     <input class="sign__input" name="nation" id="nation"
-                                                           placeholder="<?php echo $movie['nation'] ?>" readonly/>
+                                                           value="<?php echo $movie['nation'] ?>"/>
                                                 </div>
                                                 <!-- Nation -->
                                             </div>
@@ -183,11 +221,13 @@ require_once 'helpers/Helper.php';
                                                 <div class="form__cover sign_group">
                                                     <div class="row">
                                                         <div class="col-12 col-sm-6 col-md-12">
-                                                            <label for="form__img-upload" class="sign__label">Image</label>
+                                                            <span class="sign__label">Image</span>
                                                             <div class="form__img">
-                                                                <?php if (!empty($movie['image'])): ?>
-                                                                    <img id="form__img" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
-                                                                <?php endif; ?>
+                                                                <label for="form__img-upload">
+                                                                    <?php if (empty($movie['image'])) echo 'Upload Poster (324 x 484)' ?>
+                                                                </label>
+                                                                <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
+                                                                <img id="form__img" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -196,19 +236,48 @@ require_once 'helpers/Helper.php';
                                             <!-- Image -->
 
                                             <div class="col-12 col-md-6 col-lg-12">
+
+                                                <!-- Status -->
                                                 <div class="sign__group">
-                                                    <input id="oldpass" type="password" name="oldpass" class="sign__input" style=" background: url() no-repeat center center;" readonly>
+                                                    <label for="status" class="sign__label">Status</label>
+                                                    <input class="sign__input" name="status" style="align-content: center" id="status" value="<?php echo Helper::getStatusText($movie['status']) ?>" readonly/>
                                                 </div>
+                                                <!-- Status -->
+
+                                                <!-- Movie Type -->
+                                                <div class="sign__group">
+                                                    <label for="movie_type" class="sign__label">Movie Type</label>
+                                                    <select name="movie_type" class="sign__input" id="movie_type">
+                                                        <?php
+                                                        $selected_movie = '';
+                                                        $selected_tvseries = '';
+                                                        if (isset($_POST['movie_type'])) {
+                                                            switch ($_POST['movie_type']) {
+                                                                case 0:
+                                                                    $selected_movie = 'selected';
+                                                                    break;
+                                                                case 1:
+                                                                    $selected_tvseries = 'selected';
+                                                                    break;
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <option value="0" <?php echo $selected_movie; ?>>Movies</option>
+                                                        <option value="1" <?php echo $selected_tvseries ?>>TV Series</option>
+                                                </div>
+                                                <!-- Movie Type -->
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <!-- end password form -->
+                                <!-- end Image & Description form -->
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
+                <!-- Information -->
 
+                <!-- Configs -->
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                     <!-- table -->
                     <div class="col-12">
@@ -532,33 +601,10 @@ require_once 'helpers/Helper.php';
                         </div>
                     </div>
                     <!-- end table -->
-
-                    <!-- paginator -->
-                    <div class="col-12">
-                        <div class="paginator">
-                            <span class="paginator__pages">10 from 38</span>
-
-                            <ul class="paginator__paginator">
-                                <li>
-                                    <a href="#">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.75 5.36475L13.1992 5.36475" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    </a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li>
-                                    <a href="#">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1992 5.3645L0.75 5.3645" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end paginator -->
                 </div>
+                <!-- Configs -->
 
+                <!-- Reviews -->
                 <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
                     <!-- table -->
                     <div class="col-12">
@@ -939,6 +985,7 @@ require_once 'helpers/Helper.php';
                     </div>
                     <!-- end paginator -->
                 </div>
+                <!-- Reviews -->
             </div>
             <!-- end content tabs -->
         </div>
@@ -949,7 +996,7 @@ require_once 'helpers/Helper.php';
 <!-- modal view -->
 <div id="modal-view" class="zoom-anim-dialog mfp-hide modal modal--view">
     <div class="comments__autor">
-        <img class="comments__avatar" src="assets/img/user.svg" alt="">
+        <img class="comments__avatar" src="img/user.svg" alt="">
         <span class="comments__name">John Doe</span>
         <span class="comments__time">30.08.2018, 17:53</span>
     </div>
@@ -1023,7 +1070,7 @@ require_once 'helpers/Helper.php';
     <p class="modal__text">Are you sure to permanently delete this user?</p>
 
     <div class="modal__btns">
-        <a href="index.php?controller=movie&action=delete&id=<?php echo $movie['id'] ?>" class="modal__btn modal__btn--apply" type="button">Delete</a>
+        <button class="modal__btn modal__btn--apply" type="button">Delete</button>
         <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
     </div>
 </div>

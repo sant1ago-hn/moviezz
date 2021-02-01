@@ -32,33 +32,31 @@ if (isset($_SESSION['admin'])) {
 <!-- sidebar -->
 <div class="sidebar">
     <!-- sidebar logo -->
-    <?php if (isset($_SESSION['error'])): ?>
-        <div class="sidebar__logo" id="hideDiv" style="color: green">
-            <?php
-            echo $_SESSION['error'];
-            unset($_SESSION['error']);
-            ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (!empty($this->error)): ?>
-        <div class="sidebar__logo" id="hideDiv" style="color: red">
-            <?php
-            echo $this->error;
-            ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['success'])): ?>
-        <div class="sidebar__logo" id="hideDiv" style="color: red">
-            <?php
-            echo $_SESSION['success'];
-            unset($_SESSION['success']);
-            ?>
-        </div>
-    <?php endif; ?>
     <a href="index.php" class="sidebar__logo">
         <img src="assets/img/logo.svg" alt="">
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="sidebar__logo" id="hideDiv" style="color: red">
+                <?php
+                echo $_SESSION['error'];
+                unset($_SESSION['error']);
+                ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (!empty($this->error)): ?>
+            <div class="sidebar__logo" id="hideDiv" style="color: red">
+                <?php echo $this->error; ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="sidebar__logo" id="hideDiv" style="color: green">
+                <?php
+                echo $_SESSION['success'];
+                unset($_SESSION['success']);
+                ?>
+            </div>
+        <?php endif; ?>
     </a>
     <!-- end sidebar logo -->
 
@@ -165,7 +163,9 @@ if (isset($_SESSION['admin'])) {
     <!-- end sidebar nav -->
 
     <!-- sidebar copyright -->
-    <div class="sidebar__copyright">© FlixTV Admin Dashboard, 2021. <br>Create by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Hoài Nam</a></div>
+    <div class="sidebar__copyright">
+        © FlixTV Admin Dashboard, 2021. <br>Create by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Hoài Nam</a>
+    </div>
     <!-- end sidebar copyright -->
 </div>
 <!-- end sidebar -->

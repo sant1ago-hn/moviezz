@@ -17,7 +17,7 @@ require_once "$path_controller";
 $object = new $controller();
 
 if (method_exists($object, $action) == false) {
-  die("Không tồn tại phương thức $action của class $controller");
+  die("Action $action of $controller is not exist");
 }
 $object->$action();
 ?>

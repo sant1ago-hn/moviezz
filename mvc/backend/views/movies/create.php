@@ -14,13 +14,14 @@
             <div class="col-12">
                 <form method="post" class="form" enctype="multipart/form-data">
                     <div class="row">
+                        <!-- Image -->
                         <div class="col-12 col-md-5 form__cover">
                             <div class="row">
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <!-- Image -->
                                     <div class="form__img">
-                                        <label for="form__img-upload">Upload cover (324 x 484)</label>
-                                        <input id="form__img-upload" name="image" type="file" accept=".png, .jpg, .jpeg">
+                                        <label for="form__img-upload">Upload Poster (324 x 484)</label>
+                                        <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
                                         <img id="form__img" src="#" alt=" ">
                                     </div>
                                 </div>
@@ -53,14 +54,14 @@
                                 <!-- Release Year -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
-                                        <input type="text" name="yeary" class="form__input" placeholder="Release year">
+                                        <input type="number" name="yeary" class="form__input" placeholder="Release year">
                                     </div>
                                 </div>
 
                                 <!-- Length -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
-                                        <input type="text" name="lengthm" class="form__input" placeholder="Running timed in minutes">
+                                        <input type="number" name="lengthm" class="form__input" placeholder="Running timed in minutes">
                                     </div>
                                 </div>
 
@@ -119,19 +120,13 @@
 
                         <!-- Movies Type -->
                         <div class="col-12">
-                            <ul class="form__radio">
-                                <li>
-                                    <span>Movies type:</span>
-                                </li>
-                                <li>
-                                    <input id="type1" type="radio" name="movie_type" value="0" checked="">
-                                    <label for="type1">Movies</label>
-                                </li>
-                                <li>
-                                    <input id="type2" type="radio" name="movie_type" value="1">
-                                    <label for="type2">TV Series</label>
-                                </li>
-                            </ul>
+                            <div class="form__radio col-12 col-lg-3">
+                                <span class="form__group">Movies type:</span>
+                                <select name="movie_type" class="form__input">
+                                    <option value="0">Movies</option>
+                                    <option value="1">TV Series</option>
+                                </select>
+                            </div>
                         </div>
 
                         <!-- Link embed & button -->
@@ -147,7 +142,7 @@
 
                                 <!-- Submit -->
                                 <div class="col-12">
-                                    <button type="submit" name="submit" class="form__btn">publish</button>
+                                    <button type="submit" name="submit" value="publish" class="form__btn">publish</button>
                                 </div>
                             </div>
                         </div>

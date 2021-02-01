@@ -141,9 +141,9 @@ class MovieController extends Controller {
     $this->content = $this->render('views/movies/detail.php', [
         'movie' => $movie
     ]);
-    $this->page_title = 'Movie Detail';
-    $this->nav_create = 'active';
-    $this->nav_active = 'show';
+    $this->page_title = 'Detail | ' . $movie['title'];
+    $this->movie_tab = 'sidebar__nav-link--active';
+    $this->movie_nav_active = 'show';
     require_once 'views/layouts/main.php';
     }
 
@@ -232,6 +232,10 @@ class MovieController extends Controller {
         'categories' => $categories,
         'movie' => $movie,
     ]);
+
+    $this->page_title = 'Update | '. $movie['title'];
+    $this->movie_tab = 'sidebar__nav-link--active';
+    $this->nav_active = 'show';
     require_once 'views/layouts/main.php';
   }
 

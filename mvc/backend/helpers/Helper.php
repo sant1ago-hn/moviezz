@@ -2,8 +2,8 @@
 class Helper {
     const STATUS_ACTIVE = 1;
     const STATUS_DISABLED = 0;
-    const STATUS_ACTIVE_TEXT = 'Active';
-    const STATUS_DISABLED_TEXT = 'Disabled';
+    const STATUS_ACTIVE_TEXT = 'Visible';
+    const STATUS_DISABLED_TEXT = 'Invisible';
 
     public static function getStatusText($status = 0): string {
         $status_text = '';
