@@ -2,7 +2,14 @@ RewriteEngine On
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 
+ErrorDocument 500 /500.html
+ErrorDocument 404 /404.html
+ErrorDocument 401 /401.html
+ErrorDocument 403 /403.html
+
 RewriteRule add-to-cart/([0-9]{1,}).html index.php?controller=cart&action=add&id=$1
+
+RewriteRule admin-dashboard ../frontend/redirect.html
 
 RewriteRule shopping-cart.html index.php?controller=cart&action=index
 
@@ -18,6 +25,12 @@ RewriteRule movie/(.*)/([0-9]{1,}).html index.php?controller=movie&action=detail
 
 RewriteRule delete-movie/([0-9]{1,}).html index.php?controller=cart&action=delete&id=$1
 
-RewriteRule login.html index.php?controller=login&action=login
+RewriteRule login index.php?controller=login&action=login
 
 RewriteRule register.html index.php?controller=user&action=register
+
+RewriteRule user index.php?controller=user
+
+RewriteRule logout index.php?controller=user&action=logout
+
+RewriteRule home ../fronted/index.php

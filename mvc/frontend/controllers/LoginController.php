@@ -73,6 +73,7 @@ class LoginController {
         }
 
         $this->content = $this->render('views/users/register.php');
+        $this->page_title = 'Sign Up';
         require_once 'views/layouts/main_login.php';
     }
 }

@@ -21,6 +21,5 @@ $object = new $controller();
 if (method_exists($object, $action) == false) {
     die("Không tồn tại phương thức $action của class $controller");
 }
-//index.php?controller=book&action=create
 $object->$action();
 ?>

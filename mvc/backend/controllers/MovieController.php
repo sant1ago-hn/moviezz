@@ -124,6 +124,7 @@ class MovieController extends Controller {
         $this->movie_nav_create = 'active';
         $this->movie_nav_active = 'show';
         $this->movie_tab = 'sidebar__nav-link--active';
+
         require_once 'views/layouts/main.php';
       }
 

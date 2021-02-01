@@ -61,7 +61,7 @@ class Movie extends Model {
     public function insert(): bool {
         $obj_insert = $this->connection->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, description, movie_type, trailer, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :description, :movie_type, :trailer, :link1080, :en_sub, :vie_sub, :status)");
         $arr_insert = [
-            ':idcategory' => $this->idcategory,
+            ':idcategory' => implode(",", $this->idcategory),
             ':title' => $this->title,
             ':image' => $this->image,
             ':lengthm' => $this->lengthm,

@@ -68,7 +68,7 @@
                                 <!-- Category's name -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
-                                        <select class="form__input" name="idcategory">
+                                        <select class="form__input" name="idcategory[]" multiple="multiple">
                                             <?php foreach ($categories as $category): ?>
                                                 <option value="<?php echo $category['id'] ?>">
                                                     <?php echo $category['name'] ?>
