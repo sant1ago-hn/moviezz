@@ -1,5 +1,5 @@
 <!-- sign in -->
-<div class="sign section--full-bg" data-bg="assets/img/bg.jpg">
+<div class="sign section--full-bg" data-bg="backend/assets/img/bg.jpg" style="background: url('backend/assets/img/bg.jpg') center center / cover no-repeat;">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -8,7 +8,7 @@
                     <!-- authorization form -->
                     <form action="" method="post" class="sign__form">
                         <a href="index.php" class="sign__logo">
-                            <img src="assets/img/logo.svg" alt="">
+                            <img src="backend/assets/img/logo.svg" alt="">
                         </a>
 
                         <label class="sign__group" for="username">

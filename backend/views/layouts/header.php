@@ -32,7 +32,7 @@ if (isset($_SESSION['admin'])) {
 <!-- sidebar -->
 <div class="sidebar">
     <!-- sidebar logo -->
-    <a href="index.php" class="sidebar__logo">
+    <a href="admin-dashboard" class="sidebar__logo">
         <img src="backend/assets/img/logo.svg" alt="">
         <?php if (isset($_SESSION['error'])): ?>
             <div class="sidebar__logo" id="hideDiv" style="color: red">
@@ -63,7 +63,7 @@ if (isset($_SESSION['admin'])) {
     <!-- sidebar user -->
     <div class="sidebar__user">
         <div class="sidebar__user-img">
-            <img src="backend/assets/img/user.svg" alt="">
+            <img src="backend/assets/img/avatar.svg" alt="">
         </div>
 
         <div class="sidebar__user-title">
@@ -107,8 +107,8 @@ if (isset($_SESSION['admin'])) {
             </a>
 
             <ul class="collapse sidebar__menu <?php echo $this->category_nav_active ?>" id="expandCategories">
-                <li><a href="index.php?controller=category&action=index" class="<?php echo $this->category_nav_index ?>">All Categories</a></li>
-                <li><a href="index.php?controller=category&action=create" class="<?php echo $this->category_nav_create ?>">New Category</a></li>
+                <li><a href="all-category" class="<?php echo $this->category_nav_index ?>">All Categories</a></li>
+                <li><a href="new-category" class="<?php echo $this->category_nav_create ?>">New Category</a></li>
             </ul>
         </li>
         <!-- End expand Categories -->
@@ -124,8 +124,8 @@ if (isset($_SESSION['admin'])) {
             </a>
 
             <ul class="collapse sidebar__menu <?php echo $this->movie_nav_active ?>" id="expandMovies">
-                <li><a href="index.php?controller=movie&action=index" class="<?php echo $this->movie_nav_index ?>">All Movies</a></li>
-                <li><a href="index.php?controller=movie&action=create" class="<?php echo $this->movie_nav_create ?>">New Movie</a></li>
+                <li><a href="all-movie" class="<?php echo $this->movie_nav_index ?>">All Movies</a></li>
+                <li><a href="new-movie" class="<?php echo $this->movie_nav_create ?>">New Movie</a></li>
             </ul>
         </li>
         <!-- End expand Movies -->
@@ -143,8 +143,8 @@ if (isset($_SESSION['admin'])) {
             </a>
 
             <ul class="collapse sidebar__menu <?php echo $this->user_nav_active ?>" id="expandUsers">
-                <li><a href="index.php?controller=user&action=index" class="<?php echo $this->user_nav_index ?>">All Users</a></li>
-                <li><a href="index.php?controller=user&action=create" class="<?php echo $this->user_nav_create ?>">New Users</a></li>
+                <li><a href="all-user" class="<?php echo $this->user_nav_index ?>">All Users</a></li>
+                <li><a href="new-user" class="<?php echo $this->user_nav_create ?>">New Users</a></li>
             </ul>
         </li>
         <!-- End expand Users -->
@@ -157,7 +157,7 @@ if (isset($_SESSION['admin'])) {
             <a href="#" class="sidebar__nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> <span>Reviews</span></a>
         </li>
         <li class="sidebar__nav-item">
-            <a href="../frontend/index.php" class="sidebar__nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg> <span>Back to FlixTV</span></a>
+            <a href="home" class="sidebar__nav-link"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17,11H9.41l3.3-3.29a1,1,0,1,0-1.42-1.42l-5,5a1,1,0,0,0-.21.33,1,1,0,0,0,0,.76,1,1,0,0,0,.21.33l5,5a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42L9.41,13H17a1,1,0,0,0,0-2Z"/></svg> <span>Back to FlixTV</span></a>
         </li>
     </ul>
     <!-- end sidebar nav -->

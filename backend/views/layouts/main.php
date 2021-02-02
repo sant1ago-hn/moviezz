@@ -11,6 +11,19 @@
     <link rel="stylesheet" href="backend/assets/css/magnific-popup.css">
     <link rel="stylesheet" href="backend/assets/css/select2.min.css">
     <link rel="stylesheet" href="backend/assets/css/admin.css">
+    <style>
+        /* Chrome, Safari, Edge, Opera */
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* Firefox */
+        input[type = number] {
+            -moz-appearance: textfield;
+        }
+    </style>
 
     <!-- Favicons -->
     <link rel="icon" type="image/png" href="backend/assets/icon/favicon-32x32.png" sizes="32x32">
@@ -49,11 +62,22 @@
     });
 
     $('#movie_type').select2({
-        placeholder: "Movie type"
+        placeholder: "Movie type",
+        allowClear: true
     });
 
     $('#status').select2({
         placeholder: "Choose status",
+        allowClear: true
+    });
+
+    $('#en_sub').select2({
+        placeholder: "English subtitle",
+        allowClear: true
+    });
+
+    $('#vie_sub').select2({
+        placeholder: "Vietnamese subtitle",
         allowClear: true
     });
 </script>

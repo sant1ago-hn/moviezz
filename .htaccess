@@ -9,7 +9,9 @@ ErrorDocument 404 /404.html
 ErrorDocument 401 /401.html
 ErrorDocument 403 /403.html
 
-RewriteRule add-to-cart/([0-9]{1,}).html index.php?controller=cart&action=add&id=$1
+DirectoryIndex frontend/index.php
+
+#back-end
 
 RewriteRule to-admin backend/index.php?controller=login&action=login
 
@@ -18,6 +20,40 @@ RewriteRule admin-dashboard backend/index.php
 RewriteRule image-(.*) backend/assets/posters/$1
 
 RewriteRule bg_img-(.*) backend/assets/img/$1
+
+RewriteRule log-in backend/index.php?controller=login&action=login
+
+RewriteRule log-out backend/index.php?controller=admin&action=logout
+
+RewriteRule new-category backend/index.php?controller=category&action=create
+
+RewriteRule all-category backend/index.php?controller=category&action=index
+
+RewriteRule view-category-(.*) backend/index.php?controller=category&action=detail&id=$1
+
+RewriteRule edit-category-(.*) backend/index.php?controller=category&action=update&id=$1
+
+RewriteRule delete-category-(.*) backend/index.php?controller=category&action=delete&id=$1
+
+RewriteRule new-movie backend/index.php?controller=movie&action=create
+
+RewriteRule all-movie backend/index.php?controller=movie&action=index
+
+RewriteRule view-movie-(.*) backend/index.php?controller=movie&action=detail&id=$1
+
+RewriteRule edit-movie-(.*) backend/index.php?controller=movie&action=update&id=$1
+
+#front-end
+
+RewriteRule home frontend/index.php
+
+RewriteRule sign-in frontend/index.php?controller=login&action=login
+
+RewriteRule register frontend/index.php?controller=user&action=register
+
+RewriteRule user frontend/index.php?controller=user
+
+RewriteRule sign-out frontend/index.php?controller=user&action=logout
 
 RewriteRule card_front-(.*) frontend/assets/img/card/$1
 
@@ -32,19 +68,3 @@ RewriteRule all-movies.html index.php?controller=movie&action=showAll
 RewriteRule movies-list/([0-9]+).html index.php?controller=movie&action=showAll&page=$1
 
 RewriteRule delete-movie/(.*).html backend/index.php?controller=movie&action=delete&id=$1
-
-RewriteRule sign-in frontend/index.php?controller=login&action=login
-
-RewriteRule log-in backend/index.php?controller=login&action=login
-
-RewriteRule register frontend/index.php?controller=user&action=register
-
-RewriteRule user frontend/index.php?controller=user
-
-RewriteRule sign-out frontend/index.php?controller=user&action=logout
-
-RewriteRule log-out backend/index.php?controller=user&action=logout
-
-RewriteRule home frontend/index.php
-
-RewriteRule () frontend/index.php

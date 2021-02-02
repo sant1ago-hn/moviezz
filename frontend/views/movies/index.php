@@ -11,7 +11,7 @@ require_once 'helpers/Helper.php';
                         <div class="item-slide">
                             <figure>
                                 <?php if (!empty($movie['image'])): ?>
-                                    <img src="../backend/assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                                    <img src="image-<?php echo $movie['image'] ?>" alt=""/>
                                 <?php endif; ?>
                             </figure>
                             <div class="info-product">
@@ -27,7 +27,7 @@ require_once 'helpers/Helper.php';
                         <div class="item-slide">
                             <figure>
                                 <?php if (!empty($movie['image'])): ?>
-                                    <img src="../backend/assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                                    <img src="image-<?php echo $movie['image'] ?>" alt=""/>
                                 <?php endif; ?>
                             </figure>
                             <div class="info-product">
@@ -43,7 +43,7 @@ require_once 'helpers/Helper.php';
                         <div class="item-slide">
                             <figure>
                                 <?php if (!empty($movie['image'])): ?>
-                                    <img src="../backend/assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                                    <img src="image-<?php echo $movie['image'] ?>" alt=""/>
                                 <?php endif; ?>
                             </figure>
                             <div class="info-product">

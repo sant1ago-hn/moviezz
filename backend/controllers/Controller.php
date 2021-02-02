@@ -13,7 +13,6 @@ class Controller {
     public $error;
 
     public function render($file, $variables = []) {
-
         extract($variables);
         ob_start();
         require_once $file;

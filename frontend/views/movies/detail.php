@@ -45,7 +45,7 @@ require_once 'helpers/Helper.php';
                             </li>
                         </ul>
 
-                        <p>" <?php echo $movie['description']?> "</p>
+                        <p>"<?php echo $movie['description']?>"</p>
                     </div>
                     <!-- end article content -->
                 </div>

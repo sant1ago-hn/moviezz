@@ -60,7 +60,7 @@ class CategoryController extends Controller {
                 } else {
                     $_SESSION['error'] = 'Add failed';
                 }
-                header('Location: index.php?controller=category&action=index');
+                header('Location: all-category');
                 exit();
             }
         }
@@ -76,7 +76,7 @@ class CategoryController extends Controller {
     public function update() {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $_SESSION['error'] = 'ID category is not valid';
-            header('Location: index.php?controller=category&action=index');
+            header('Location: all-category');
             exit();
         }
 
@@ -85,7 +85,6 @@ class CategoryController extends Controller {
         $category = $category_model->getCategoryById($id);
         if (isset($_POST['submit'])) {
           $name = $_POST['name'];
-          $description = $_POST['description'];
           $status = $_POST['status'];
 
           if (empty($name)) {
@@ -104,7 +103,7 @@ class CategoryController extends Controller {
             } else {
               $_SESSION['error'] = 'Update failed';
             }
-            header('Location: index.php?controller=category&action=index');
+            header('Location: all-category');
             exit();
           }
 
@@ -112,13 +111,15 @@ class CategoryController extends Controller {
 
         $this->content = $this->render('views/categories/update.php', ['category' => $category]);
         $this->page_title = 'Edit Category';
+        $this->category_tab = 'sidebar__nav-link--active';
+        $this->category_nav_active = 'show';
         require_once 'views/layouts/main.php';
   }
 
     public function delete() {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
       $_SESSION['error'] = 'ID is not valid';
-      header('Location: index.php?controller=category&action=index');
+      header('Location: all-category');
       exit();
     }
     $id = $_GET['id'];
@@ -129,25 +130,26 @@ class CategoryController extends Controller {
     } else {
       $_SESSION['error'] = 'Delete failed';
     }
-    header('Location: index.php?controller=category&action=index');
+    header('Location: all-category');
     exit();
   }
 
     public function detail() {
-    if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-      $_SESSION['error'] = 'ID is not valid';
-      header('Location: index.php?controller=category&action=index');
-      exit();
-    }
-    $id = $_GET['id'];
-    $category_model = new Category();
-    $category = $category_model->getCategoryById($id);
-    $this->content = $this->render('views/categories/detail.php', [
-      'category' => $category
-    ]);
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            $_SESSION['error'] = 'ID is not valid';
+            header('Location: all-category');
+            exit();
+        }
+        $id = $_GET['id'];
+        $category_model = new Category();
+        $category = $category_model->getCategoryById($id);
+        $this->content = $this->render('views/categories/detail.php', [
+          'category' => $category
+        ]);
 
-      $this->page_title = 'Category Detail';
+        $this->page_title = 'Category Detail';
+        $this->category_tab = 'sidebar__nav-link--active';
+        $this->category_nav_active = 'show';
     require_once 'views/layouts/main.php';
-
-  }
+    }
 }

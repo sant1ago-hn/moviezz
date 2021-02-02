@@ -33,7 +33,7 @@ class MovieController extends Controller {
         $category_model = new Category();
         $categories = $category_model->getAll();
 
-        $this->content = $this->render('views/movies/index.php',
+        $this->content = $this->render('backend/views/movies/index.php',
             [
                 'movies' => $movies,
                 'categories' => $categories,
@@ -44,7 +44,7 @@ class MovieController extends Controller {
         $this->movie_nav_index = 'active';
         $this->movie_nav_active = 'show';
         $this->movie_tab = 'sidebar__nav-link--active';
-        require_once 'views/layouts/main.php';
+        require_once 'backend/views/layouts/main.php';
     }
 
     public function create() {
@@ -131,7 +131,7 @@ class MovieController extends Controller {
     public function detail() {
     if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
         $_SESSION['error'] = 'ID is not valid';
-        header('Location: index.php?controller=movie');
+        header('Location: all-movie');
         exit();
     }
 
@@ -151,7 +151,7 @@ class MovieController extends Controller {
     public function update() {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $_SESSION['error'] = 'ID is not valid';
-            header('Location: index.php?controller=movie');
+            header('Location: all-movie');
             exit();
         }
 
@@ -243,7 +243,7 @@ class MovieController extends Controller {
     public function delete() {
         if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
             $_SESSION['error'] = 'ID is not valid';
-            header('Location: index.php?controller=movie');
+            header('Location: all-movie');
             exit();
         }
 
@@ -255,7 +255,7 @@ class MovieController extends Controller {
         } else {
             $_SESSION['error'] = 'Deletion failed';
         }
-        header('Location: index.php?controller=movie');
+        header('Location: all-movie');
         exit();
     }
 }

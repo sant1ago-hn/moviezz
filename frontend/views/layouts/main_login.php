@@ -6,17 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSS -->
-    <link rel="stylesheet" href="assets/css/bootstrap-reboot.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap-grid.min.css">
-    <link rel="stylesheet" href="assets/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="assets/css/slider-radio.css">
-    <link rel="stylesheet" href="assets/css/select2.min.css">
-    <link rel="stylesheet" href="assets/css/magnific-popup.css">
-    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="frontend/assets/css/bootstrap-reboot.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/bootstrap-grid.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/slider-radio.css">
+    <link rel="stylesheet" href="frontend/assets/css/select2.min.css">
+    <link rel="stylesheet" href="frontend/assets/css/magnific-popup.css">
+    <link rel="stylesheet" href="frontend/assets/css/main.css">
 
     <!-- Favicons -->
-    <link rel="icon" type="image/png" href="assets/icon/favicon-32x32.png" sizes="32x32">
-    <link rel="apple-touch-icon" href="assets/icon/favicon-32x32.png">
+    <link rel="icon" type="image/png" href="frontend/assets/icon/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="frontend/assets/icon/favicon-32x32.png">
 
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -40,14 +40,14 @@
 <?php echo $this->content; ?>
 
 <!-- Javascript -->
-<script src="assets/js/jquery-3.5.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/owl.carousel.min.js"></script>
-<script src="assets/js/slider-radio.js"></script>
-<script src="assets/js/select2.min.js"></script>
-<script src="assets/js/smooth-scrollbar.js"></script>
-<script src="assets/js/jquery.magnific-popup.min.js"></script>
-<script src="assets/js/main.js"></script>
-<script src="assets/js/validation.js"></script>
+<script src="frontend/assets/js/jquery-3.5.1.min.js"></script>
+<script src="frontend/assets/js/bootstrap.bundle.min.js"></script>
+<script src="frontend/assets/js/owl.carousel.min.js"></script>
+<script src="frontend/assets/js/slider-radio.js"></script>
+<script src="frontend/assets/js/select2.min.js"></script>
+<script src="frontend/assets/js/smooth-scrollbar.js"></script>
+<script src="frontend/assets/js/jquery.magnific-popup.min.js"></script>
+<script src="frontend/assets/js/main.js"></script>
+<script src="frontend/assets/js/validation.js"></script>
 </body>
 </html>
