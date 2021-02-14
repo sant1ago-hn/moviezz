@@ -13,47 +13,27 @@ DirectoryIndex frontend/index.php
 
 #back-end
 
-RewriteRule to-admin backend/index.php?controller=login&action=login
-
-RewriteRule admin-dashboard backend/index.php
-
 RewriteRule image-(.*) backend/assets/posters/$1
 
 RewriteRule bg_img-(.*) backend/assets/img/$1
 
-RewriteRule log-in backend/index.php?controller=login&action=login
-
-RewriteRule log-out backend/index.php?controller=admin&action=logout
-
-RewriteRule new-category backend/index.php?controller=category&action=create
-
-RewriteRule all-category backend/index.php?controller=category&action=index
-
-RewriteRule view-category-(.*) backend/index.php?controller=category&action=detail&id=$1
-
-RewriteRule edit-category-(.*) backend/index.php?controller=category&action=update&id=$1
-
-RewriteRule delete-category-(.*) backend/index.php?controller=category&action=delete&id=$1
-
-RewriteRule new-movie backend/index.php?controller=movie&action=create
-
-RewriteRule all-movie backend/index.php?controller=movie&action=index
-
-RewriteRule view-movie-(.*) backend/index.php?controller=movie&action=detail&id=$1
-
-RewriteRule edit-movie-(.*) backend/index.php?controller=movie&action=update&id=$1
-
 #front-end
 
+#home
 RewriteRule home frontend/index.php
 
 RewriteRule sign-in frontend/index.php?controller=login&action=login
+
+RewriteRule sign-up frontend/index.php?controller=user&action=register
+
+RewriteRule sign-out frontend/index.php?controller=user&action=logout
 
 RewriteRule register frontend/index.php?controller=user&action=register
 
 RewriteRule user frontend/index.php?controller=user
 
-RewriteRule sign-out frontend/index.php?controller=user&action=logout
+#images
+RewriteRule img_front-(.*) frontend/assets/img/$1
 
 RewriteRule card_front-(.*) frontend/assets/img/card/$1
 
@@ -61,7 +41,8 @@ RewriteRule shopping-cart.html index.php?controller=cart&action=index
 
 RewriteRule check-out.html index.php?controller=payment&action=index
 
-RewriteRule movie-(.*) frontend/index.php?controller=movie&action=detail&id=$1
+#movies detail
+RewriteRule ^movie-(.*)$ frontend/index.php?controller=movie&action=detail&id=$1
 
 RewriteRule all-movies.html index.php?controller=movie&action=showAll
 

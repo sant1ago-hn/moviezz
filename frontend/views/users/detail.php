@@ -29,7 +29,7 @@ require_once 'helpers/Helper.php';
                 <div class="profile">
                     <div class="profile__user">
                         <div class="profile__avatar">
-                            <img src="img/avatar.svg" alt="">
+                            <img src="assets/img/avatar.svg" alt="">
                         </div>
                         <div class="profile__meta">
                             <h3>John Doe</h3>

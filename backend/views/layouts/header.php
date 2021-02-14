@@ -14,7 +14,7 @@ if (isset($_SESSION['admin'])) {
     <div class="header__content">
         <!-- header logo -->
         <a href="index.html" class="header__logo">
-            <img src="backend/assets/img/logo.svg" alt="">
+            <img src="assets/img/logo.svg" alt="">
         </a>
         <!-- end header logo -->
 
@@ -32,8 +32,8 @@ if (isset($_SESSION['admin'])) {
 <!-- sidebar -->
 <div class="sidebar">
     <!-- sidebar logo -->
-    <a href="admin-dashboard" class="sidebar__logo">
-        <img src="backend/assets/img/logo.svg" alt="">
+    <a href="home" class="sidebar__logo">
+        <img src="assets/img/logo.svg" alt="">
         <?php if (isset($_SESSION['error'])): ?>
             <div class="sidebar__logo" id="hideDiv" style="color: red">
                 <?php
@@ -63,7 +63,7 @@ if (isset($_SESSION['admin'])) {
     <!-- sidebar user -->
     <div class="sidebar__user">
         <div class="sidebar__user-img">
-            <img src="backend/assets/img/avatar.svg" alt="">
+            <img src="assets/img/avatar.svg" alt="">
         </div>
 
         <div class="sidebar__user-title">

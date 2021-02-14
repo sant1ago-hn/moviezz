@@ -14,7 +14,7 @@ class LoginController {
 
     public function login() {
         if (isset($_SESSION['admin'])) {
-            header('Location: admin-dashboard');
+            header('Location: home');
             exit();
         }
         if (isset($_POST['submit'])) {
@@ -28,7 +28,7 @@ class LoginController {
                     $this->error = 'Wrong username or password';
                 } else {
                     $_SESSION['admin'] = $admin;
-                    header("Location: admin-dashboard");
+                    header("Location: home");
                     exit();
                 }
             }

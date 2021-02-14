@@ -33,7 +33,7 @@ class MovieController extends Controller {
         $category_model = new Category();
         $categories = $category_model->getAll();
 
-        $this->content = $this->render('backend/views/movies/index.php',
+        $this->content = $this->render('views/movies/index.php',
             [
                 'movies' => $movies,
                 'categories' => $categories,
@@ -44,7 +44,7 @@ class MovieController extends Controller {
         $this->movie_nav_index = 'active';
         $this->movie_nav_active = 'show';
         $this->movie_tab = 'sidebar__nav-link--active';
-        require_once 'backend/views/layouts/main.php';
+        require_once 'views/layouts/main.php';
     }
 
     public function create() {
@@ -55,10 +55,14 @@ class MovieController extends Controller {
             $lengthm = $_POST['lengthm'];
             $nation = $_POST['nation'];
             $yeary = $_POST['yeary'];
+            $episodes = $_POST['episode'];
+            $ep_name = $_POST['ep_name'];
             $director = $_POST['director'];
             $description = $_POST['description'];
             $trailer = $_POST['trailer'];
-            $link1080 = $_POST['link1080'];
+            $link_basic = $_POST['link_basic'];
+            $link_premium = $_POST['link_premium'];
+            $link_exclusive = $_POST['link_exclusive'];
             $en_sub = $_POST['en_sub'];
             $vie_sub = $_POST['vie_sub'];
             $status = $_POST['status'];
@@ -80,7 +84,7 @@ class MovieController extends Controller {
                 if (empty($this->error)) {
                     $filename = '';
                 if ($_FILES['image']['error'] == 0) {
-                    $dir_uploads = __DIR__ . '/../assets/posters';
+                    $dir_uploads = __DIR__ . '/../backend/assets/posters';
                     if (!file_exists($dir_uploads)) {
                         mkdir($dir_uploads);
                     }
@@ -95,10 +99,14 @@ class MovieController extends Controller {
                 $movie_model->lengthm = $lengthm;
                 $movie_model->nation = $nation;
                 $movie_model->yeary = $yeary;
+                $movie_model->episodes = $episodes;
+                $movie_model->ep_name = $ep_name;
                 $movie_model->director = $director;
                 $movie_model->description = $description;
                 $movie_model->trailer = $trailer;
-                $movie_model->link1080 = $link1080;
+                $movie_model->link_basic = $link_basic;
+                $movie_model->link_premium = $link_premium;
+                $movie_model->link_exclusive = $link_exclusive;
                 $movie_model->en_sub = $en_sub;
                 $movie_model->vie_sub = $vie_sub;
                 $movie_model->status = $status;
@@ -109,9 +117,9 @@ class MovieController extends Controller {
                 } else {
                     $_SESSION['error'] = 'Insert failed';
                 }
-                header('Location: index.php?controller=movie');
+                header('Location: all-movie');
                 exit();
-              }
+                }
         }
 
         $category_model = new Category();
@@ -165,10 +173,14 @@ class MovieController extends Controller {
         $lengthm = $_POST['lengthm'];
         $nation = $_POST['nation'];
         $yeary = $_POST['yeary'];
+        $episodes = $_POST['episode'];
+        $ep_name = $_POST['ep_name'];
         $director = $_POST['director'];
         $description = $_POST['description'];
         $trailer = $_POST['trailer'];
-        $link1080 = $_POST['link1080'];
+        $link_basic = $_POST['link_basic'];
+        $link_premium = $_POST['link_premium'];
+        $link_exclusive = $_POST['link_exclusive'];
         $en_sub = $_POST['en_sub'];
         $vie_sub = $_POST['vie_sub'];
         $status = $_POST['status'];
@@ -205,11 +217,15 @@ class MovieController extends Controller {
             $movie_model->movie_type = $movie_type;
             $movie_model->lengthm = $lengthm;
             $movie_model->yeary = $yeary;
+            $movie_model->episodes = $episodes;
+            $movie_model->ep_name = $ep_name;
             $movie_model->nation = $nation;
             $movie_model->director = $director;
             $movie_model->description = $description;
             $movie_model->trailer = $trailer;
-            $movie_model->link1080 = $link1080;
+            $movie_model->link_basic = $link_basic;
+            $movie_model->link_premium = $link_premium;
+            $movie_model->link_exclusive = $link_exclusive;
             $movie_model->en_sub = $en_sub;
             $movie_model->vie_sub = $vie_sub;
             $movie_model->status = $status;
@@ -221,7 +237,7 @@ class MovieController extends Controller {
             } else {
                 $_SESSION['error'] = 'Update failed';
             }
-            header('Location: index.php?controller=movie');
+            header('Location: all-movie');
             exit();
         }
     }

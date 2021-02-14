@@ -10,8 +10,8 @@ class MovieController extends Controller {
         if (isset($_POST['filter'])) {
             if (isset($_POST['category'])) {
                 $category = implode(',', $_POST['category']);
-                $str_category_id = "($category)";
-                $params['category'] = $str_category_id;
+                $str_idcategory = "($category)";
+                $params['category'] = $str_idcategory;
             }
         }
 
@@ -43,8 +43,8 @@ class MovieController extends Controller {
         if (isset($_GET['title'])) {
             $query_additional .= '&title=' . $_GET['title'];
         }
-        if (isset($_GET['category_id'])) {
-            $query_additional .= '&category_id=' . $_GET['category_id'];
+        if (isset($_GET['idcategory'])) {
+            $query_additional .= '&idcategory=' . $_GET['idcategory'];
         }
         $arr_params = [
             'total' => $count_total,
@@ -87,8 +87,11 @@ class MovieController extends Controller {
         $this->content = $this->render('views/movies/detail.php', [
             'movie' => $movie
         ]);
-
-        $this->page_title = $movie['title'] . " | " . $movie['yeary'];
+        if (!empty($movie['season'])) {
+            $this->page_title = $movie['title'] . ' (Season ' . $movie['season'] . ')' . " | " . $movie['yeary'];
+        } else {
+            $this->page_title = $movie['title'] . " | " . $movie['yeary'];
+        }
 
         require_once 'views/layouts/main.php';
     }

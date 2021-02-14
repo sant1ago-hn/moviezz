@@ -9,6 +9,7 @@ class Movie extends Model {
     public $lengthm;
     public $movie_type;
     public $episodes;
+    public $ep_name;
     public $director;
     public $nation;
     public $yeary;
@@ -20,7 +21,9 @@ class Movie extends Model {
     public $updated_at;
     public $str_search = '';
     public $trailer;
-    public $link1080;
+    public $link_basic;
+    public $link_premium;
+    public $link_exclusive;
     public $en_sub;
     public $vie_sub;
 
@@ -59,19 +62,22 @@ class Movie extends Model {
     }
 
     public function insert(): bool {
-        $obj_insert = $this->connection->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, director, description, movie_type, trailer, link1080, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :director, :description, :movie_type, :trailer, :link1080, :en_sub, :vie_sub, :status)");
+        $obj_insert = $this->connection->prepare("INSERT INTO movies(idcategory, title, image, lengthm, nation, yeary, episode, director, description, movie_type, trailer, link_basic, link_premium, link_exclusive, en_sub, vie_sub, status) VALUES (:idcategory, :title, :image, :lengthm, :nation, :yeary, :episode, :director, :description, :movie_type, :trailer, :link_basic, :link_premium, :link_exclusive, :en_sub, :vie_sub, :status)");
         $arr_insert = [
             ':idcategory' => implode(",", $this->idcategory),
             ':title' => $this->title,
             ':image' => $this->image,
-            ':lengthm' => $this->lengthm,
+            ':lengthm' => implode(",", $this->lengthm),
             ':nation' => $this->nation,
             ':yeary' => $this->yeary,
+            ':episode' => $this->episodes,
             ':director' => $this->director,
             ':description' => $this->description,
             ':movie_type' => $this->movie_type,
             ':trailer' => $this->trailer,
-            ':link1080' => $this->link1080,
+            ':link_basic' => implode(",", $this->link_basic),
+            ':link_premium' => implode(",", $this->link_premium),
+            ':link_exclusive' => implode(",", $this->link_exclusive),
             ':en_sub' => $this->en_sub,
             ':vie_sub' => $this->vie_sub,
             ':status' => $this->status,
@@ -86,19 +92,23 @@ class Movie extends Model {
     }
 
     public function update($id): bool {
-        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, director=:director, description=:description, movie_type=:movie_type, trailer=:trailer, link1080=:link1080, en_sub=:en_sub, vie_sub=:vie_sub, status=:status, updated_at=:updated_at WHERE id = $id");
+        $obj_update = $this->connection->prepare("UPDATE movies SET idcategory=:idcategory, title=:title, image=:image, lengthm=:lengthm, nation=:nation, yeary=:yeary, episode=:episode, ep_name=:ep_name, director=:director, description=:description, movie_type=:movie_type, trailer=:trailer, link_basic=:link_basic, link_premium=:link_premium, link_exclusive=:link_exclusive, en_sub=:en_sub, vie_sub=:vie_sub, status=:status, updated_at=:updated_at WHERE id = $id");
         $arr_update = [
-            ':idcategory' => $this->idcategory,
+            ':idcategory' => implode(",", $this->idcategory),
             ':title' => $this->title,
             ':image' => $this->image,
-            ':lengthm' => $this->lengthm,
+            ':lengthm' => implode(",", $this->lengthm),
             ':nation' => $this->nation,
             ':yeary' => $this->yeary,
+            ':episode' => $this->episodes,
+            ':ep_name' => implode(";", $this->ep_name),
             ':director' => $this->director,
             ':description' => $this->description,
             ':movie_type' => $this->movie_type,
             ':trailer' => $this->trailer,
-            ':link1080' => $this->link1080,
+            ':link_basic' => implode(",", $this->link_basic),
+            ':link_premium' => implode(",", $this->link_premium),
+            ':link_exclusive' => implode(",", $this->link_exclusive),
             ':en_sub' => $this->en_sub,
             ':vie_sub' => $this->vie_sub,
             ':status' => $this->status,

@@ -19,7 +19,15 @@ require_once 'helpers/Helper.php';
 
                     <!-- article content -->
                     <div class="article__content">
-                        <h1><?php echo $movie['title']?></h1>
+                        <h1>
+                            <?php
+                            if (!empty($movie['season'])) {
+                                echo $movie['title'] . ' (Season ' . $movie['season'] . ')';
+                            } else {
+                                echo $movie['title'];
+                            }
+                            ?>
+                        </h1>
 
                         <ul class="list">
                             <li>
@@ -27,49 +35,189 @@ require_once 'helpers/Helper.php';
                                     <path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/>
                                 </svg> 9.7
                             </li>
-                            <li><?php echo $movie['category_name']?></li>
+                            <li>
+                                <?php for ($categories_item = 0; $categories_item < count(explode(',', $movie['idcategory'])); $categories_item++): ?>
+                                    <?php
+                                    $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
+                                    mysqli_query($link,'set names utf8');
+                                    $sql = 'SELECT * FROM categories';
+                                    $query = mysqli_query($link, $sql);
+                                    while($result = mysqli_fetch_assoc($query)) {
+                                        ?>
+                                        <?php if (explode(',', $movie['idcategory'])[$categories_item] == $result['id'])
+                                            if ($categories_item < count(explode(',', $movie['idcategory'])) - 1) {
+                                                echo $result['name'] . ', ';
+                                            } elseif ($categories_item == count(explode(',', $movie['idcategory'])) - 1) {
+                                                echo $result['name'];
+                                            }
+                                        ?>
+                                    <?php } ?>
+                                <?php endfor;?>
+                            </li>
                             <li><?php echo $movie['yeary']?></li>
                             <li>
-                                <?php
-                                $minutes = $movie['lengthm'];
+                                <?php if ($movie['episode'] > 1):?>
+                                    <?php $min = 0; for ($eps = 0; $eps < $movie['episode']; $eps++): ?>
+                                        <?php
+                                        $min += (int)explode(",", $movie['lengthm'])[$eps];
+                                        ?>
+                                    <?php endfor;?>
+                                    <?php echo gmdate("H:i:s", $min);?>
+                                <?php else:?>
+                                    <?php
+                                    $minutes = $movie['lengthm'];
+                                    $hours = floor($minutes / 60);
+                                    $min = $minutes - ($hours * 60);
 
-                                $hours = floor($minutes / 60);
-                                $min = $minutes - ($hours * 60);
-
-                                if (strlen($min) < 2) {
-                                    echo $hours."h:0".$min."m";
-                                } else {
-                                    echo $hours."h:".$min."m";
-                                }
-                                ?>
+                                    if (strlen($min) < 2) {
+                                        echo $hours."h:0".$min."m";
+                                    } else {
+                                        echo $hours."h:".$min."m";
+                                    }
+                                    ?>
+                                <?php endif;?>
                             </li>
                         </ul>
 
-                        <p>"<?php echo $movie['description']?>"</p>
+                        <p>
+                            "<?php
+                            if (strlen($movie['description']) > 0) {
+                                echo $movie['description'];
+                            } else {
+                                echo 'Boo! what a movie.';
+                            }
+                            ?>"
+                        </p>
                     </div>
                     <!-- end article content -->
                 </div>
 
                 <!-- video player -->
                 <div class="col-12 col-xl-8">
+                    <!-- Iframe player -->
                     <div tabindex="0" class="plyr plyr--video">
                         <div class="plyr__video-wrapper" style="padding-top: 56.25%;">
                         <?php if (isset($_SESSION['user'])): ?>
-                            <iframe id="player" src="<?php echo $movie['link1080']?>"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;"></iframe>
+                            <?php if ($movie['episode'] > 1):?>
+                                <iframe id="player" src="<?php echo explode(',', $movie['link_basic'])[0]?>?>"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;"></iframe>
+                            <?php else:?>
+                                <iframe id="player" src="<?php echo $movie['link_basic']?>"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;"></iframe>
+                            <?php endif;?>
                         <?php else:?>
                             <img src="bg_img-warning.png" alt="sign in to continue" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;">
                         <?php endif; ?>
                         </div>
                     </div>
 
+                    <!-- Switch link button -->
+                    <div class="categories">
+                        <a href="<?php echo explode(',', $movie['link_basic'])[0]?>" target="player" class="frame_button_basic" id="button_ba" style="margin: 0 auto auto 0;" type="button">basic server</a>
+                        <a href="<?php echo explode(',', $movie['link_premium'])[0]?>" target="player" class="frame_button_premium" id="button_pr" style="margin: 0 auto auto 0;" type="button">premium server</a>
+                        <a href="<?php echo explode(',', $movie['link_exclusive'])[0]?>" target="player" class="frame_button_exclusive" id="button_ex" style="margin: 0 auto auto 0;" type="button">exclusive server</a>
+                    </div>
                 </div>
                 <!-- end video player -->
 
+                <!-- ads -->
+                <div class="col-12 col-xl-4">
+
+                </div>
+                <!-- end ads -->
+
+                <!-- Episodes -->
+                <?php if ($movie['episode'] > 1): ?>
+                <div class="col-12">
+                    <div class="series-wrap">
+                        <h3 class="series-wrap__title">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/>
+                            </svg>
+                            <?php if ($movie['season'] == 1):?>
+                            1st season
+                            <?php elseif ($movie['season'] == 2):?>
+                            2nd season
+                            <?php elseif ($movie['season'] == 3):?>
+                            3rd season
+                            <?php else:?>
+                            <?php echo $movie['season'] . "th season"?>
+                            <?php endif;?>
+                        </h3>
+                        <div class="section__carousel-wrap">
+                            <div class="section__series owl-carousel" id="series">
+                                <?php for ($eps = 0; $eps < $movie['episode']; $eps++):?>
+                                <div class="series">
+                                    <a href="<?php
+                                    if (strlen(explode(',', $movie['link_basic'])[$eps]) > 0) {
+                                        echo explode(',', $movie['link_basic'])[$eps];
+                                    } else {
+                                        echo '#';
+                                    } ?>" link_ba="<?php
+                                    if (strlen(explode(',', $movie['link_basic'])[$eps]) > 0) {
+                                        echo explode(',', $movie['link_basic'])[$eps];
+                                    } else {
+                                        echo '#';
+                                    } ?>" link_pr="<?php
+                                    if (strlen(explode(',', $movie['link_premium'])[$eps]) > 0) {
+                                        echo explode(',', $movie['link_premium'])[$eps];
+                                    } else {
+                                        echo '#';
+                                    } ?>" link_ex="<?php
+                                    if (strlen(explode(',', $movie['link_exclusive'])[$eps]) > 0) {
+                                        echo explode(',', $movie['link_exclusive'])[$eps];
+                                    } else {
+                                        echo '#';
+                                    } ?>" target="player" class="series__cover" id="frame_player">
+                                        <img src="image-<?php echo $movie['image']?>" alt="">
+                                        <span>
+                                            <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd" d="M11 1C16.5228 1 21 5.47716 21 11C21 16.5228 16.5228 21 11 21C5.47716 21 1 16.5228 1 11C1 5.47716 5.47716 1 11 1Z" stroke-linecap="round" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M14.0501 11.4669C13.3211 12.2529 11.3371 13.5829 10.3221 14.0099C10.1601 14.0779 9.74711 14.2219 9.65811 14.2239C9.46911 14.2299 9.28711 14.1239 9.19911 13.9539C9.16511 13.8879 9.06511 13.4569 9.03311 13.2649C8.93811 12.6809 8.88911 11.7739 8.89011 10.8619C8.88911 9.90489 8.94211 8.95489 9.04811 8.37689C9.07611 8.22089 9.15811 7.86189 9.18211 7.80389C9.22711 7.69589 9.30911 7.61089 9.40811 7.55789C9.48411 7.51689 9.57111 7.49489 9.65811 7.49789C9.74711 7.49989 10.1091 7.62689 10.2331 7.67589C11.2111 8.05589 13.2801 9.43389 14.0401 10.2439C14.1081 10.3169 14.2951 10.5129 14.3261 10.5529C14.3971 10.6429 14.4321 10.7519 14.4321 10.8619C14.4321 10.9639 14.4011 11.0679 14.3371 11.1549C14.3041 11.1999 14.1131 11.3999 14.0501 11.4669Z" stroke-linecap="round" stroke-linejoin="round"/>
+                                            </svg>
+                                            <?php
+                                            if (strlen(explode(',', $movie['link_basic'])[$eps]) > 0 || strlen(explode(',', $movie['link_premium'])[$eps]) > 0 || strlen(explode(',', $movie['link_exclusive'])[$eps]) > 0) {
+                                                echo gmdate("H:i:s", (int)explode(",", $movie['lengthm'])[$eps]);
+                                            } else {
+                                                echo 'Unavailable';
+                                            }
+                                            ?>
+                                        </span>
+                                    </a>
+                                    <h3 class="series__title">
+                                        <a href="#">
+                                            <?php echo "Episode " . ($eps + 1) . ": " . explode(";", $movie['ep_name'])[$eps]?>
+                                        </a>
+                                    </h3>
+                                </div>
+                                <?php endfor;?>
+                            </div>
+
+                            <button class="section__nav section__nav--series section__nav--prev" data-nav="#series" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1.25 7.72559L16.25 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M7.2998 1.70124L1.2498 7.72524L7.2998 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                            <button class="section__nav section__nav--series section__nav--next" data-nav="#series" type="button"><svg width="17" height="15" viewBox="0 0 17 15" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M15.75 7.72559L0.75 7.72559" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M9.7002 1.70124L15.7502 7.72524L9.7002 13.7502" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                        </div>
+                    </div>
+                </div>
+                <?php endif;?>
+                <!-- Episodes -->
+
+                <!-- Categories -->
                 <div class="col-12 col-xl-8">
                     <!-- categories -->
                     <div class="categories">
                         <h3 class="categories__title">Genres</h3>
-                        <a href="#" class="categories__item"><?php echo $movie['category_name']?></a>
+                        <?php for ($categories_item = 0; $categories_item < count(explode(',', $movie['idcategory'])); $categories_item++): ?>
+                            <a href="#" class="categories__item">
+                                <?php
+                                $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
+                                mysqli_query($link,'set names utf8');
+                                $sql = 'SELECT * FROM categories';
+                                $query = mysqli_query($link, $sql);
+                                while($result = mysqli_fetch_assoc($query)) {
+                                ?>
+                                    <?php if (explode(',', $movie['idcategory'])[$categories_item] == $result['id'])
+                                        echo $result['name'];
+                                    ?>
+                                <?php } ?>
+                            </a>
+                        <?php endfor;?>
                     </div>
                     <!-- end categories -->
 
@@ -89,6 +237,7 @@ require_once 'helpers/Helper.php';
                     </div>
                     <!-- end share -->
                 </div>
+                <!-- Categories -->
             </div>
 
             <div class="row">

@@ -51,7 +51,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Category's name -->
+                                <!-- Movie's type -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
                                         <select name="movie_type" class="form__input" id="movie_type">
@@ -72,17 +72,17 @@
                                 <!-- Length -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
-                                        <input type="number" name="lengthm" class="form__input" placeholder="Running timed in minutes">
+                                        <input type="number" name="lengthm[]" class="form__input" placeholder="Running timed in minutes">
                                     </div>
                                 </div>
 
-                                <!-- Nation -->
+                                <!-- Status -->
                                 <div class="col-12 col-sm-6 col-lg-3">
                                     <div class="form__group">
                                         <select class="form__input" name="status" id="status">
                                             <option value=""></option>
-                                            <option value="1">Visible</option>
-                                            <option value="0">Invisible</option>
+                                            <option value="1">Published</option>
+                                            <option value="0">Unpublished</option>
                                         </select>
                                     </div>
                                 </div>
@@ -116,7 +116,7 @@
                                     </div>
                                 </div>
 
-                                <!-- Status -->
+                                <!-- Nation -->
                                 <div class="col-12 col-lg-6">
                                     <div class="form__group">
                                         <select class="js-example-basic-multiple" id="country" name="nation" multiple="multiple">
@@ -347,17 +347,19 @@
                             </div>
                         </div>
 
-                        <!-- Movies Type -->
+                        <!-- Category's name -->
                         <div class="col-12">
                             <div class="row">
                                 <div class="col-12">
                                     <div class="form__group">
                                         <select class="js-example-basic-multiple" name="idcategory[]" multiple="multiple" id="genre">
-                                            <?php foreach ($categories as $category): ?>
-                                                <option value="<?php echo $category['id'] ?>">
-                                                    <?php echo $category['name'] ?>
-                                                </option>
-                                            <?php endforeach; ?>
+                                            <?php if (!empty($categories)): ?>
+                                                <?php foreach ($categories as $category): ?>
+                                                    <option value="<?php echo $category['id'] ?>">
+                                                        <?php echo $category['name'] ?>
+                                                    </option>
+                                                <?php endforeach; ?>
+                                            <?php endif?>
                                         </select>
                                     </div>
                                 </div>
@@ -367,11 +369,34 @@
                         <!-- Link embed & button -->
                         <div class="col-12">
                             <div class="row">
-                                <!-- Link embed -->
+                                <!-- Episodes -->
                                 <div class="col-12">
-                                    <div class="form__group">
-                                        <input type="text" data-name="#movie1" id="form__video-upload" name="link1080" class="form__input" placeholder="Embed Link">
-                                        <img src="backend/assets/img/video.svg" style="position:absolute; width:24px; height:24px; top: 10px; right: 15px" alt="">
+                                    <div class="form__group" id="episode" style="display:none;">
+                                        <input type="text" data-name="#movie1" id="form__video-upload" name="episode" class="form__input" placeholder="Number of episodes">
+                                    </div>
+                                </div>
+
+                                <!-- Link Basic -->
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                    <div class="form__group" id="link_basic" style="display:none;">
+                                        <input type="text" data-name="#movie1" id="form__video-upload" name="link_basic[]" class="form__input" placeholder="Basic Link">
+                                        <img src="bg_img-video.svg" style="position:absolute; width:24px; height:24px; top: 10px; right: 15px" alt="">
+                                    </div>
+                                </div>
+
+                                <!-- Link Premium -->
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                    <div class="form__group" id="link_premium" style="display:none;">
+                                        <input type="text" data-name="#movie1" id="form__video-upload" name="link_premium[]" class="form__input" placeholder="Premium Link">
+                                        <img src="bg_img-video.svg" style="position:absolute; width:24px; height:24px; top: 10px; right: 15px" alt="">
+                                    </div>
+                                </div>
+
+                                <!-- Link Exclusive -->
+                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                    <div class="form__group" id="link_exclusive" style="display:none;">
+                                        <input type="text" data-name="#movie1" id="form__video-upload" name="link_exclusive[]" class="form__input" placeholder="Exclusive Link">
+                                        <img src="bg_img-video.svg" style="position:absolute; width:24px; height:24px; top: 10px; right: 15px" alt="">
                                     </div>
                                 </div>
 

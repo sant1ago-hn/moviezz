@@ -9,7 +9,7 @@ require_once 'helpers/Helper.php';
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Update movie ID: #<?php echo $movie['id']?></h2>
+                    <h2>Update movie ID: #<?php if (isset($movie)) { echo $movie['id']; } ?></h2>
                 </div>
             </div>
             <!-- end main title -->
@@ -20,11 +20,20 @@ require_once 'helpers/Helper.php';
                     <!-- movie user -->
                     <div class="profile__user">
                         <div class="profile__avatar">
-                            <img src="assets/img/video.svg" alt="">
+                            <img src="bg_img-video.svg" alt="">
                         </div>
                         <!-- or red -->
                         <div class="profile__meta profile__meta--green">
-                            <h3><?php echo $movie['title'] ?> <span>(<?php echo Helper::getStatusText($movie['status']) ?>)</span></h3>
+                            <h3>
+                                <?php
+                                if (!empty($movie['season'])) {
+                                    echo $movie['title'] . ' (Season ' . $movie['season'] . ')';
+                                } else {
+                                    echo $movie['title'];
+                                }
+                                ?>
+                                <span>(<?php echo Helper::getStatusText($movie['status']) ?>)</span>
+                            </h3>
                             <span>Movie's ID: <?php echo $movie['id']?></span>
                         </div>
                     </div>
@@ -102,19 +111,21 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="idcategory">Category</label>
-                                                    <select name="idcategory" class="sign__input" id="idcategory">
+                                                    <select name="idcategory[]" class="sign__input" id="idcategory" multiple="multiple">
+                                                        <?php if (isset($categories)): ?>
                                                         <?php foreach ($categories as $category):
                                                             $selected = '';
-                                                            if ($category['name'] == $movie['category_name']) {
-                                                                $selected = 'selected';
-                                                            } else {
-                                                                $selected = '';
+                                                            for ($categories_item = 0; $categories_item < count(explode(',', $movie['idcategory'])); $categories_item++) {
+                                                                if (explode(',', $movie['idcategory'])[$categories_item] == $category['id']) {
+                                                                    $selected = 'selected';
+                                                                }
                                                             }
-                                                            ?>
+                                                        ?>
                                                             <option value="<?php echo $category['id'] ?>" <?php echo $selected; ?>>
                                                                 <?php echo $category['name'] ?>
                                                             </option>
                                                         <?php endforeach; ?>
+                                                        <?php endif;?>
                                                     </select>
                                                 </div>
                                             </div>
@@ -131,7 +142,7 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="length">Length (Minutes)</label>
-                                                    <input id="lengthm" type="text" name="lengthm" class="sign__input" value="<?php echo $movie['lengthm']?>">
+                                                    <input id="lengthm" type="text" name="lengthm" class="sign__input" value="<?php echo $movie['lengthm']?>" readonly>
                                                 </div>
                                             </div>
 
@@ -139,16 +150,20 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="en_sub">Vietnamese subtitle (Y/N)</label>
-                                                    <input id="en_sub" type="text" name="en_sub" class="sign__input" value="<?php echo $movie['en_sub']?>">
-                                                </div>
+                                                    <select class="form__input" name="vie_sub" id="vie_sub">
+                                                        <option value="Y">Available</option>
+                                                        <option value="N">Unavailable</option>
+                                                    </select>                                                </div>
                                             </div>
 
                                             <!-- Engsub -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="vie_sub">English subtitle (Y/N)</label>
-                                                    <input id="vie_sub" type="text" name="vie_sub" class="sign__input" value="<?php echo $movie['vie_sub']?>">
-                                                </div>
+                                                    <select class="form__input" name="en_sub" id="en_sub">
+                                                        <option value="Y">Available</option>
+                                                        <option value="N">Unavailable</option>
+                                                    </select>                                                </div>
                                             </div>
 
                                             <!-- Trailer -->
@@ -159,24 +174,16 @@ require_once 'helpers/Helper.php';
                                                 </div>
                                             </div>
 
-                                            <!-- Embed Link -->
-                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                                <div class="sign__group">
-                                                    <label class="sign__label" for="link1080">Embed Link</label>
-                                                    <input id="link1080" type="text" name="link1080" class="sign__input" value="<?php echo $movie['link1080']?>">
-                                                </div>
-                                            </div>
-
                                             <!-- Movie type -->
-                                            <div class="col-12 col-md-6 col-lg-12">
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label for="movie_type" class="sign__label">Movie Type</label>
                                                     <select name="movie_type" class="sign__input" id="movie_type">
                                                         <?php
                                                         $selected_movie = '';
                                                         $selected_tvseries = '';
-                                                        if (isset($_POST['movie_type'])) {
-                                                            switch ($_POST['movie_type']) {
+                                                        if (isset($movie['movie_type'])) {
+                                                            switch ($movie['movie_type']) {
                                                                 case 0:
                                                                     $selected_movie = 'selected';
                                                                     break;
@@ -192,7 +199,39 @@ require_once 'helpers/Helper.php';
 
                                                 </div>
                                             </div>
-                                            <!-- Movie type -->
+
+                                            <!-- Episodes -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="episode">Num of episode: </label>
+                                                    <input id="episode" type="number" name="episode" class="sign__input" value="<?php echo $movie['episode']?>">
+                                                </div>
+                                            </div>
+
+                                            <!-- Status -->
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label for="status" class="sign__label">Status</label>
+                                                    <?php
+                                                    $selected_unpublished = '';
+                                                    $selected_published = '';
+                                                    if (isset($movie['status'])) {
+                                                        switch ($movie['status']) {
+                                                            case 0:
+                                                                $selected_unpublished = 'selected';
+                                                                break;
+                                                            case 1:
+                                                                $selected_published = 'selected';
+                                                                break;
+                                                        }
+                                                    }
+                                                    ?>
+                                                    <select name="status" id="status">
+                                                        <option value="0" <?php echo $selected_unpublished?>>Unpublished</option>
+                                                        <option value="1" <?php echo $selected_published?>>Published</option>
+                                                    </select>
+                                                </div>
+                                            </div>
 
                                             <!-- Back -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
@@ -251,10 +290,10 @@ require_once 'helpers/Helper.php';
                                                             <span class="sign__label">Image</span>
                                                             <div class="form__img">
                                                                 <label for="form__img-upload">
-                                                                    <?php if (empty($movie['image'])) echo 'Upload Poster (324 x 484)' ?>
+                                                                    <?php if (empty($movie['image'])) {echo 'Upload Poster (324 x 484)';} ?>
                                                                 </label>
                                                                 <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
-                                                                <img id="form__img" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                                                                <img id="form__img" src="image-<?php echo $movie['image'] ?>" alt=""/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -262,16 +301,86 @@ require_once 'helpers/Helper.php';
                                             </div>
                                             <!-- Image -->
 
-                                            <div class="col-12 col-md-6 col-lg-12">
-
-                                                <!-- Status -->
+                                            <div class="col-12">
                                                 <div class="sign__group">
-                                                    <label for="status" class="sign__label">Status</label>
-                                                    <input class="sign__input" name="status" style="align-content: center" id="status" value="<?php echo Helper::getStatusText($movie['status']) ?>" readonly/>
+                                                    <input type="text" class="sign__input" style="background: url() no-repeat center center;" readonly placeholder="<?php if ($movie['episode'] > 1) {echo 'Episode source:';} else { echo 'Source:';}?>">
                                                 </div>
-                                                <!-- Status -->
                                             </div>
                                         </div>
+
+                                        <!-- Source -->
+                                        <?php if ($movie['movie_type'] == 1):?>
+                                            <?php for ($eps = 0; $eps < $movie['episode']; $eps++): ?>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <h6 class="sign__title" style="color: gold"><?php echo 'Episode ' . ($eps + 1)?></h6>
+                                                    </div>
+                                                    <!-- Title -->
+                                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                        <div class="sign__group">
+                                                            <input type="text" class="sign__input" name="ep_name[]" value="<?php if (!empty($movie['ep_name'])) {echo explode(';', $movie['ep_name'])[$eps];}?>" placeholder="<?php echo 'Episode ' . ($eps + 1) . '\'s title:'?>">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Length -->
+                                                    <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                        <div class="sign__group">
+                                                            <input type="number" class="sign__input" name="lengthm[]" value="<?php if (!empty($movie['lengthm'])) {echo explode(',', $movie['lengthm'])[$eps];}?>" placeholder="<?php echo 'Episode ' . ($eps + 1) . '\'s length:'?>">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Basic Link -->
+                                                    <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                        <div class="sign__group">
+                                                            <input type="text" name="link_basic[]" class="sign__input" value="<?php echo explode(',', $movie['link_basic'])[$eps] ?>" placeholder="Basic Link">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Basic Link -->
+
+                                                    <!-- Premium Link -->
+                                                    <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                        <div class="sign__group">
+                                                            <input type="text" name="link_premium[]" class="sign__input" value="<?php echo explode(',', $movie['link_premium'])[$eps]?>" placeholder="Premium Link">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Premium Link -->
+
+                                                    <!-- Exclusive Link -->
+                                                    <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                        <div class="sign__group">
+                                                            <input type="text" name="link_exclusive[]" class="sign__input" value="<?php echo explode(',', $movie['link_exclusive'])[$eps]?>" placeholder="Exclusive Link">
+                                                        </div>
+                                                    </div>
+                                                    <!-- Exclusive Link -->
+                                                </div>
+                                            <?php endfor;?>
+                                        <?php else:?>
+                                            <div class="row">
+                                                <!-- Basic Link -->
+                                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                    <div class="sign__group">
+                                                        <input id="link_basic" type="text" name="link_basic[]" class="sign__input" value="<?php echo $movie['link_basic']?>" placeholder="Basic Link">
+                                                    </div>
+                                                </div>
+                                                <!-- Basic Link -->
+
+                                                <!-- Premium Link -->
+                                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                    <div class="sign__group">
+                                                        <input id="link_premium" type="text" name="link_premium[]" class="sign__input" value="<?php echo $movie['link_premium']?>" placeholder="Premium Link">
+                                                    </div>
+                                                </div>
+                                                <!-- Premium Link -->
+
+                                                <!-- Exclusive Link -->
+                                                <div class="col-12 col-md-6 col-lg-12 col-xl-4">
+                                                    <div class="sign__group">
+                                                        <input id="link_exclusive" type="text" name="link_exclusive[]" class="sign__input" value="<?php echo $movie['link_exclusive']?>" placeholder="Exclusive Link">
+                                                    </div>
+                                                </div>
+                                                <!-- Exclusive Link -->
+                                            </div>
+                                        <?php endif;?>
+                                        <!-- Source -->
+
                                     </div>
                                 </div>
                                 <!-- end Image & Description form -->
@@ -280,716 +389,6 @@ require_once 'helpers/Helper.php';
                     </div>
                 </div>
                 <!-- Information -->
-
-                <!-- Configs -->
-                <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
-                    <!-- table -->
-                    <div class="col-12">
-                        <div class="main__table-wrap">
-                            <table class="main__table">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>ITEM</th>
-                                    <th>AUTHOR</th>
-                                    <th>TEXT</th>
-                                    <th>LIKE / DISLIKE</th>
-                                    <th>CREATED DATE</th>
-                                    <th>ACTIONS</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">23</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">12 / 7</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">24</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">67 / 22</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">25</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Whitney</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">44 / 5</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">26</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Blindspotting</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">20 / 6</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">27</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">8 / 132</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">28</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">6 / 1</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">29</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Whitney</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">10 / 0</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">30</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Blindspotting</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">13 / 14</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">31</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">12 / 7</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">32</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">67 / 22</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- end table -->
-                </div>
-                <!-- Configs -->
-
-                <!-- Reviews -->
-                <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
-                    <!-- table -->
-                    <div class="col-12">
-                        <div class="main__table-wrap">
-                            <table class="main__table">
-                                <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>ITEM</th>
-                                    <th>AUTHOR</th>
-                                    <th>TEXT</th>
-                                    <th>RATING</th>
-                                    <th>LIKE / DISLIKE</th>
-                                    <th>CRAETED DATE</th>
-                                    <th>ACTIONS</th>
-                                </tr>
-                                </thead>
-
-                                <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">23</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 7.9</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">12 / 7</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">24</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 8.6</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">67 / 22</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">25</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Whitney</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 6.0</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">44 / 5</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">26</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Blindspotting</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 9.1</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">20 / 6</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">27</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 5.5</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">8 / 132</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">28</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 7.0</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">6 / 1</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">29</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Whitney</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 9.0</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">10 / 0</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">30</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Blindspotting</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 6.2</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">13 / 14</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">31</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">I Dream in Another Language</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 7.9</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">12 / 7</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="main__table-text">32</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text"><a href="#">Benched</a></div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">John Doe</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">Lorem Ipsum is simply dummy text...</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text main__table-text--rate"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/></svg> 8.6</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">67 / 22</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-text">24 Oct 2021</div>
-                                    </td>
-                                    <td>
-                                        <div class="main__table-btns">
-                                            <a href="#modal-view2" class="main__table-btn main__table-btn--view open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21.92,11.6C19.9,6.91,16.1,4,12,4S4.1,6.91,2.08,11.6a1,1,0,0,0,0,.8C4.1,17.09,7.9,20,12,20s7.9-2.91,9.92-7.6A1,1,0,0,0,21.92,11.6ZM12,18c-3.17,0-6.17-2.29-7.9-6C5.83,8.29,8.83,6,12,6s6.17,2.29,7.9,6C18.17,15.71,15.17,18,12,18ZM12,8a4,4,0,1,0,4,4A4,4,0,0,0,12,8Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,12,14Z"/></svg>
-                                            </a>
-                                            <a href="#modal-delete2" class="main__table-btn main__table-btn--delete open-modal">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10,18a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,10,18ZM20,6H16V5a3,3,0,0,0-3-3H11A3,3,0,0,0,8,5V6H4A1,1,0,0,0,4,8H5V19a3,3,0,0,0,3,3h8a3,3,0,0,0,3-3V8h1a1,1,0,0,0,0-2ZM10,5a1,1,0,0,1,1-1h2a1,1,0,0,1,1,1V6H10Zm7,14a1,1,0,0,1-1,1H8a1,1,0,0,1-1-1V8H17Zm-3-1a1,1,0,0,0,1-1V11a1,1,0,0,0-2,0v6A1,1,0,0,0,14,18Z"/></svg>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- end table -->
-
-                    <!-- paginator -->
-                    <div class="col-12">
-                        <div class="paginator">
-                            <span class="paginator__pages">10 from 49</span>
-
-                            <ul class="paginator__paginator">
-                                <li>
-                                    <a href="#">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M0.75 5.36475L13.1992 5.36475" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M5.771 10.1271L0.749878 5.36496L5.771 0.602051" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    </a>
-                                </li>
-                                <li class="active"><a href="#">1</a></li>
-                                <li><a href="#">2</a></li>
-                                <li><a href="#">3</a></li>
-                                <li><a href="#">4</a></li>
-                                <li>
-                                    <a href="#">
-                                        <svg width="14" height="11" viewBox="0 0 14 11" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M13.1992 5.3645L0.75 5.3645" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path><path d="M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- end paginator -->
-                </div>
-                <!-- Reviews -->
             </div>
             <!-- end content tabs -->
         </div>

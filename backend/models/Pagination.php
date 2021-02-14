@@ -36,9 +36,38 @@ class Pagination {
         if ($current_page >= 2) {
             $controller = $this->params['controller'];
             $action = $this->params['action'];
-            $page = $current_page - 1;
-            $prev_url = "index.php?controller=$controller&action=$action&page=$page";
-            $prev_page = "<li class='page-item'><a class='page-link' href='$prev_url' aria-label='Previous'><i class='mdi mdi-chevron-left'></i></a></li>";
+            $page_before = $current_page - 1;
+            if ($controller == 'movie' && $action == 'index') {
+                $prev_url = "all-movie-$page_before";
+                $prev_page = "<li>
+                              <a href='$prev_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M0.75 5.36475L13.1992 5.36475' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                      <path d='M5.771 10.1271L0.749878 5.36496L5.771 0.602051' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            } elseif ($controller == 'category' && $action == 'index') {
+                $prev_url = "all-category-$page_before";
+                $prev_page = "<li>
+                              <a href='$prev_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M0.75 5.36475L13.1992 5.36475' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                      <path d='M5.771 10.1271L0.749878 5.36496L5.771 0.602051' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            } elseif ($controller == 'user' && $action == 'index') {
+                $prev_url = "all-user-$page_before";
+                $prev_page = "<li>
+                              <a href='$prev_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M0.75 5.36475L13.1992 5.36475' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                      <path d='M5.771 10.1271L0.749878 5.36496L5.771 0.602051' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            }
         }
         return $prev_page;
     }
@@ -50,9 +79,36 @@ class Pagination {
         if ($current_page < $total_page) {
             $controller = $this->params['controller'];
             $action = $this->params['action'];
-            $page = $current_page + 1;
-            $next_url = "index.php?controller=$controller&action=$action&page=$page";
-            $next_page = "<li class='page-item'><a class='page-link' href='$next_url' aria-label='Next'><i class='mdi mdi-chevron-right'></i></a></li>";
+            $page_after = $current_page + 1;
+            if ($controller == 'movie' && $action == 'index') {
+                $next_url = "all-movie-$page_after";
+                $next_page = "<li>
+                              <a href='$next_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M13.1992 5.3645L0.75 5.3645' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path><path d='M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            } elseif ($controller == 'category' && $action == 'index') {
+                $next_url = "all-category-$page_after";
+                $next_page = "<li>
+                              <a href='$next_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M13.1992 5.3645L0.75 5.3645' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path><path d='M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            } elseif ($controller == 'user' && $action == 'index') {
+                $next_url = "all-user-$page_after";
+                $next_page = "<li>
+                              <a href='$next_url'>
+                                  <svg width='14' height='11' viewBox='0 0 14 11' fill='none' xmlns='http://www.w3.org/2000/svg'>
+                                      <path d='M13.1992 5.3645L0.75 5.3645' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path><path d='M8.17822 0.602051L13.1993 5.36417L8.17822 10.1271' stroke-width='1.2' stroke-linecap='round' stroke-linejoin='round'></path>
+                                  </svg>
+                              </a>
+                              </li>";
+            }
+
         }
         return $next_page;
     }
@@ -64,7 +120,7 @@ class Pagination {
             return '';
         }
 
-        $data .= "<ul class='pagination'>";
+        $data .= "<ul class='paginator__paginator'>";
         $prev_link = $this->getPrevPage();
         $data .= $prev_link;
 
@@ -72,30 +128,94 @@ class Pagination {
         $action = $this->params['action'];
 
         $full_mode = $this->params['full_mode'];
-        if ($full_mode == FALSE) {
-            for ($page = 1; $page <= $total_page; $page++) {
-                $current_page = $this->getCurrentPage();
-                if ($page == 1 || $page == $total_page || $page  == $current_page - 1 || $page == $current_page + 1) {
-                    $page_url = "index.php?controller=$controller&action=$action&page=$page";
-                    $data .= "<li class='page-item'><a class='page-link' href='$page_url'>$page</a></li>";
+        if ($controller == 'movie' && $action == 'index') {
+            if ($full_mode == FALSE) {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($page == 1 || $page == $total_page || $page  == $current_page - 1 || $page == $current_page + 1) {
+                        $page_url = "all-movie-$page";
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href='$page_url'>$page</a></li>";
+                        }
+                    } else if (in_array($page, [$current_page - 2, $current_page - 3, $current_page + 2, $current_page + 3])){
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href=''>...</a></li>";
+                        }
+                    }
                 }
-                else if ($page == $current_page) {
-                    $data .= "<li class='page-item active'><a class='page-link' href=''>$page</a></li>";
-                }
-                else if (in_array($page, [$current_page - 2, $current_page - 3, $current_page + 2, $current_page + 3])){
-                    $data .= "<li class='page-item'><a class='page-link' href=''>...</a></li>";
+            } else {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($current_page == $page) {
+                        $data .= "<li class='active'><a href='#'>$page</a></li>";
+                    } else {
+                        $page_url = "all-movie-$page";
+                        $data .= "<li><a href='$page_url'>$page</a></li>";
+                    }
                 }
             }
-        }
-        else {
-            for ($page = 1; $page <= $total_page; $page++) {
-                $current_page = $this->getCurrentPage();
-                if ($current_page == $page) {
-                    $data .= "<li class='active'><a href='#'>$page</a></li>";
-                } else {
-                    $page_url
-                        = "index.php?controller=$controller&action=$action&page=$page";
-                    $data .= "<li class='page-item'><a class='page-link' href='$page_url'>$page</a></li>";
+        } elseif ($controller == 'category' && $action == 'index') {
+            if ($full_mode == FALSE) {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($page == 1 || $page == $total_page || $page  == $current_page - 1 || $page == $current_page + 1) {
+                        $page_url = "all-category-$page";
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href='$page_url'>$page</a></li>";
+                        }
+                    } else if (in_array($page, [$current_page - 2, $current_page - 3, $current_page + 2, $current_page + 3])){
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href=''>...</a></li>";
+                        }
+                    }
+                }
+            } else {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($current_page == $page) {
+                        $data .= "<li class='active'><a href='#'>$page</a></li>";
+                    } else {
+                        $page_url = "all-category-$page";
+                        $data .= "<li><a href='$page_url'>$page</a></li>";
+                    }
+                }
+            }
+        } elseif ($controller == 'user' && $action == 'index') {
+            if ($full_mode == FALSE) {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($page == 1 || $page == $total_page || $page  == $current_page - 1 || $page == $current_page + 1) {
+                        $page_url = "all-user-$page";
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href='$page_url'>$page</a></li>";
+                        }
+                    } else if (in_array($page, [$current_page - 2, $current_page - 3, $current_page + 2, $current_page + 3])){
+                        if ($page == $current_page) {
+                            $data .= "<li class='active'><a href='#'>$page</a></li>";
+                        } else {
+                            $data .= "<li><a href=''>...</a></li>";
+                        }
+                    }
+                }
+            } else {
+                for ($page = 1; $page <= $total_page; $page++) {
+                    $current_page = $this->getCurrentPage();
+                    if ($current_page == $page) {
+                        $data .= "<li class='active'><a href='#'>$page</a></li>";
+                    } else {
+                        $page_url = "all-user-$page";
+                        $data .= "<li><a href='$page_url'>$page</a></li>";
+                    }
                 }
             }
         }

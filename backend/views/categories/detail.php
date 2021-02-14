@@ -181,7 +181,7 @@
     <p class="modal__text">Are you sure to permanently delete this user?</p>
 
     <div class="modal__btns">
-        <a href="index.php?controller=movie&action=delete&id=<?php echo $movie['id'] ?>" class="modal__btn modal__btn--apply" type="button">Delete</a>
+        <a href="delete-category-<?php echo $movie['id'] ?>" class="modal__btn modal__btn--apply" type="button">Delete</a>
         <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
     </div>
 </div>

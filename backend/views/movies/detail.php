@@ -9,7 +9,7 @@ require_once 'helpers/Helper.php';
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Movie detail ID: #<?php echo $movie['id']?></h2>
+                    <h2>Movie detail ID: #<?php if (isset($movie)) { echo $movie['id']; }?></h2>
                 </div>
             </div>
             <!-- end main title -->
@@ -20,7 +20,7 @@ require_once 'helpers/Helper.php';
                     <!-- movie user -->
                     <div class="profile__user">
                         <div class="profile__avatar">
-                            <img src="assets/img/video.svg" alt="">
+                            <img src="backend/assets/img/video.svg" alt="">
                         </div>
                         <!-- or red -->
                         <div class="profile__meta profile__meta--green">
@@ -67,7 +67,7 @@ require_once 'helpers/Helper.php';
 
                     <!-- profile btns -->
                     <div class="profile__actions">
-                        <a href="index.php?controller=movie&action=update&id=<?php echo $movie['id'] ?>" class="main__table-btn main__table-btn--edit">
+                        <a href="edit-movie-<?php echo $movie['id'] ?>" class="main__table-btn main__table-btn--edit">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M22,7.24a1,1,0,0,0-.29-.71L17.47,2.29A1,1,0,0,0,16.76,2a1,1,0,0,0-.71.29L13.22,5.12h0L2.29,16.05a1,1,0,0,0-.29.71V21a1,1,0,0,0,1,1H7.24A1,1,0,0,0,8,21.71L18.87,10.78h0L21.71,8a1.19,1.19,0,0,0,.22-.33,1,1,0,0,0,0-.24.7.7,0,0,0,0-.14ZM6.83,20H4V17.17l9.93-9.93,2.83,2.83ZM18.17,8.66,15.34,5.83l1.42-1.41,2.82,2.82Z"/>
                             </svg>
@@ -81,6 +81,7 @@ require_once 'helpers/Helper.php';
 
             <!-- content tabs -->
             <div class="tab-content" id="myTabContent">
+                <!-- Information tab -->
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="1-tab">
                     <div class="col-12">
                         <div class="sign__wrap">
@@ -104,8 +105,28 @@ require_once 'helpers/Helper.php';
                                             <!-- Category -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="category">Category</label>
-                                                    <input id="category" type="text" name="category" class="sign__input" placeholder="<?php echo $movie['category_name'] ?>" readonly>
+                                                    <label class="sign__label" for="idcategory">Category</label>
+                                                    <select name="idcategory[]" class="sign__input" id="idcategory" multiple="multiple" >
+                                                        <?php
+                                                        $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
+                                                        mysqli_query($link,'set names utf8');
+                                                        $sql = 'SELECT * FROM categories';
+                                                        $query = mysqli_query($link, $sql);
+                                                        while($result = mysqli_fetch_assoc($query)) {
+                                                        ?>
+                                                            <?php
+                                                                $selected = '';
+                                                                for ($categories_item = 0; $categories_item < count(explode(',', $movie['idcategory'])); $categories_item++) {
+                                                                    if (explode(',', $movie['idcategory'])[$categories_item] == $result['id']) {
+                                                                        $selected = 'selected';
+                                                                    }
+                                                                }
+                                                            ?>
+                                                                <option value="<?php echo $result['id'] ?>" <?php echo $selected; ?>>
+                                                                    <?php echo $result['name'] ?>
+                                                                </option>
+                                                        <?php } ?>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -121,8 +142,27 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="length">Length</label>
-                                                    <input id="length" type="text" name="length" class="sign__input" placeholder="<?php
-                                                    $minutes = $movie['lengthm'];
+                                                    <?php if ($movie['episode'] > 1):?>
+                                                        <input id="length" type="text" name="length" class="sign__input" placeholder="<?php
+                                                        $total = '';
+                                                        for ($eps = 0; $eps < $movie['episode']; $eps++) {
+                                                            $total += explode(',', $movie['lengthm'])[$eps];
+                                                        }
+                                                        $seconds = $total;
+                                                        $minutes = floor($seconds / 60);
+                                                        $hours = floor($minutes / 60);
+                                                        $min = $minutes - ($hours * 60);
+
+                                                        if (strlen($min) < 2) {
+                                                            echo $hours."h:0".$min."m";
+                                                        } else {
+                                                            echo $hours." hours & ".$min." minutes";
+                                                        }
+                                                        ?>" readonly>
+                                                    <?php else:?>
+                                                        <input id="length" type="text" name="length" class="sign__input" placeholder="<?php
+                                                    $seconds = $movie['lengthm'];
+                                                    $minutes = floor($seconds / 60);
                                                     $hours = floor($minutes / 60);
                                                     $min = $minutes - ($hours * 60);
 
@@ -132,11 +172,12 @@ require_once 'helpers/Helper.php';
                                                         echo $hours." hours & ".$min." minutes";
                                                     }
                                                     ?>" readonly>
+                                                    <?php endif;?>
                                                 </div>
                                             </div>
 
                                             <div class="col-12">
-                                                <butotn onclick="history.back()" class="sign__btn" type="button">Back</butotn>
+                                                <button onclick="history.back()" class="sign__btn" type="button">Back</button>
                                             </div>
                                         </div>
                                     </div>
@@ -186,7 +227,7 @@ require_once 'helpers/Helper.php';
                                                             <label for="form__img-upload" class="sign__label">Image</label>
                                                             <div class="form__img">
                                                                 <?php if (!empty($movie['image'])): ?>
-                                                                    <img id="form__img" src="assets/posters/<?php echo $movie['image'] ?>" alt=""/>
+                                                                    <img id="form__img" src="image-<?php echo $movie['image'] ?>" alt=""/>
                                                                 <?php endif; ?>
                                                             </div>
                                                         </div>
@@ -208,7 +249,9 @@ require_once 'helpers/Helper.php';
                         </div>
                     </div>
                 </div>
+                <!-- Information tab -->
 
+                <!-- Configs tab -->
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="2-tab">
                     <!-- table -->
                     <div class="col-12">
@@ -558,7 +601,9 @@ require_once 'helpers/Helper.php';
                     </div>
                     <!-- end paginator -->
                 </div>
+                <!-- Configs tab -->
 
+                <!-- Something tab -->
                 <div class="tab-pane fade" id="tab-3" role="tabpanel" aria-labelledby="3-tab">
                     <!-- table -->
                     <div class="col-12">
@@ -939,6 +984,7 @@ require_once 'helpers/Helper.php';
                     </div>
                     <!-- end paginator -->
                 </div>
+                <!-- Something tab -->
             </div>
             <!-- end content tabs -->
         </div>
@@ -1023,7 +1069,7 @@ require_once 'helpers/Helper.php';
     <p class="modal__text">Are you sure to permanently delete this user?</p>
 
     <div class="modal__btns">
-        <a href="index.php?controller=movie&action=delete&id=<?php echo $movie['id'] ?>" class="modal__btn modal__btn--apply" type="button">Delete</a>
+        <a href="delete-movie-<?php echo $movie['id'] ?>" class="modal__btn modal__btn--apply" type="button">Delete</a>
         <button class="modal__btn modal__btn--dismiss" type="button">Dismiss</button>
     </div>
 </div>

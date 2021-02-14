@@ -14,7 +14,7 @@ require_once 'helpers/Helper.php';
          while($result = mysqli_fetch_assoc($query)) {
              ?>
              <div class="home__card">
-                    <a href="movie-<?php echo $result['id'] ?>">
+                    <a href="movie-<?php echo $result['id']?>">
                         <img src="image-<?php echo $result['image'] ?>" alt="">
                     </a>
                     <div>
@@ -41,7 +41,7 @@ require_once 'helpers/Helper.php';
                     <path d="M22,9.67A1,1,0,0,0,21.14,9l-5.69-.83L12.9,3a1,1,0,0,0-1.8,0L8.55,8.16,2.86,9a1,1,0,0,0-.81.68,1,1,0,0,0,.25,1l4.13,4-1,5.68A1,1,0,0,0,6.9,21.44L12,18.77l5.1,2.67a.93.93,0,0,0,.46.12,1,1,0,0,0,.59-.19,1,1,0,0,0,.4-1l-1-5.68,4.13-4A1,1,0,0,0,22,9.67Zm-6.15,4a1,1,0,0,0-.29.88l.72,4.2-3.76-2a1.06,1.06,0,0,0-.94,0l-3.76,2,.72-4.2a1,1,0,0,0-.29-.88l-3-3,4.21-.61a1,1,0,0,0,.76-.55L12,5.7l1.88,3.82a1,1,0,0,0,.76.55l4.21.61Z"/>
                 </svg> 9.1
             </span>
-                </div s>
+                </div>
          <?php } ?>
         </div>
 
@@ -58,16 +58,16 @@ require_once 'helpers/Helper.php';
                 <div class="catalog__nav">
                     <div class="catalog__select-wrap">
                         <select class="catalog__select" name="genres">
-                            <option value="All genres">All genres</option>
+                            <option value="">All genres</option>
                             <?php
                             $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
                             mysqli_query($link,'set names utf8');
-                            $sql = 'SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON movies.idcategory = categories.id ORDER by id;';
+                            $sql = 'SELECT * FROM categories ORDER by id;';
                             $query = mysqli_query($link, $sql);
                             while($result = mysqli_fetch_assoc($query)) {
                             ?>
                                     <option value="<?php echo $result['idcategory'] ?>">
-                                        <?php echo $result['category_name'] ?>
+                                        <?php echo $result['name'] ?>
                                     </option>
                             <?php } ?>
                         </select>
@@ -92,7 +92,7 @@ require_once 'helpers/Helper.php';
                     <?php
                     $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
                     mysqli_query($link,'set names utf8');
-                    $sql = 'SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON movies.idcategory = categories.id WHERE movies.status = 1 ORDER by id limit 8;';
+                    $sql = 'SELECT movies.*, categories.name AS category_name FROM movies INNER JOIN categories ON movies.idcategory = categories.id WHERE movies.status = 1 ORDER by id limit 9;';
                     $query = mysqli_query($link, $sql);
                     while($result = mysqli_fetch_assoc($query)) {
                     ?>
@@ -156,7 +156,7 @@ require_once 'helpers/Helper.php';
                         <?php
                         $link = mysqli_connect("localhost", "kaoflixc_bimbimpoca", "vx8_]^-JV18F", "kaoflixc_cinema");
                         mysqli_query($link,'set names utf8');
-                        $sql = 'SELECT COUNT(*) AS "total" FROM movies WHERE idcategory = 1';
+                        $sql = 'SELECT COUNT(*) AS "total" FROM movies WHERE status = 1';
                         $query = mysqli_query($link, $sql);
                         while($result = mysqli_fetch_assoc($query)) {
                         ?>
@@ -189,7 +189,7 @@ require_once 'helpers/Helper.php';
                     <div class="section__carousel owl-carousel" id="subscriptions">
                         <div class="card">
                             <a href="details.html" class="card__cover">
-                                <img src="assets/img/card/11.png" alt="">
+                                <img src="card_front-11.png" alt="">
                                 <svg width="20" height="16" viewBox="0 0 20 16" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M13.1615 8.05308C13.1615 9.79908 11.7455 11.2141 9.9995 11.2141C8.2535 11.2141 6.8385 9.79908 6.8385 8.05308C6.8385 6.30608 8.2535 4.89108 9.9995 4.89108C11.7455 4.89108 13.1615 6.30608 13.1615 8.05308Z" stroke-linecap="round" stroke-linejoin="round"/><path fill-rule="evenodd" clip-rule="evenodd" d="M9.998 15.3549C13.806 15.3549 17.289 12.6169 19.25 8.05289C17.289 3.48888 13.806 0.750885 9.998 0.750885H10.002C6.194 0.750885 2.711 3.48888 0.75 8.05289C2.711 12.6169 6.194 15.3549 10.002 15.3549H9.998Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
                             </a>
                             <button class="card__add" type="button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16,2H8A3,3,0,0,0,5,5V21a1,1,0,0,0,.5.87,1,1,0,0,0,1,0L12,18.69l5.5,3.18A1,1,0,0,0,18,22a1,1,0,0,0,.5-.13A1,1,0,0,0,19,21V5A3,3,0,0,0,16,2Zm1,17.27-4.5-2.6a1,1,0,0,0-1,0L7,19.27V5A1,1,0,0,1,8,4h8a1,1,0,0,1,1,1Z"/></svg></button>

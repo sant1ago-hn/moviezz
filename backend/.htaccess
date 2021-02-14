@@ -1,0 +1,63 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+IndexIgnore *
+
+ErrorDocument 500 /500.html
+ErrorDocument 404 /404.html
+ErrorDocument 401 /401.html
+ErrorDocument 403 /403.html
+
+DirectoryIndex index.php
+
+#back-end
+
+RewriteRule home index.php
+
+RewriteRule image-(.*) assets/posters/$1
+
+RewriteRule bg_img-(.*) assets/img/$1
+
+RewriteRule log-in index.php?controller=login&action=login
+
+RewriteRule log-out index.php?controller=admin&action=logout
+
+#categories
+RewriteRule new-category index.php?controller=category&action=create
+
+RewriteRule ^all-category$ index.php?controller=category&action=index
+
+RewriteRule ^all-category-([0-9]+)$ index.php?controller=category&action=index&page=$1
+
+RewriteRule view-category-(.*) index.php?controller=category&action=detail&id=$1
+
+RewriteRule edit-category-(.*) index.php?controller=category&action=update&id=$1
+
+RewriteRule delete-category-(.*) index.php?controller=category&action=delete&id=$1
+
+#movie
+RewriteRule ^new-movie$ index.php?controller=movie&action=create
+
+RewriteRule ^all-movie$ index.php?controller=movie
+
+RewriteRule ^all-movie-([0-9]+)$ index.php?controller=movie&action=index&page=$1
+
+RewriteRule view-movie-(.*) index.php?controller=movie&action=detail&id=$1
+
+RewriteRule edit-movie-(.*) index.php?controller=movie&action=update&id=$1
+
+RewriteRule delete-movie-(.*) index.php?controller=movie&action=delete&id=$1
+
+#users
+RewriteRule ^new-user$ index.php?controller=user&action=create
+
+RewriteRule ^all-user$ index.php?controller=user
+
+RewriteRule ^all-user-([0-9]+)$ index.php?controller=user&action=index&page=$1
+
+RewriteRule view-user-(.*) index.php?controller=user&action=detail&id=$1
+
+RewriteRule edit-user-(.*) index.php?controller=user&action=update&id=$1
+
+RewriteRule delete-user-(.*) index.php?controller=user&action=delete&id=$1

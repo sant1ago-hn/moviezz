@@ -58,16 +58,11 @@
                             </a>
 
                             <ul class="dropdown-menu header__nav-menu header__nav-menu--scroll" aria-labelledby="dropdownMenu3">
-                                <li><a href="to-admin" target="_blank">Admin dashboard</a></li>
                                 <li><a href="about.html">About us</a></li>
                                 <li><a href="profile.html">Profile</a></li>
                                 <li><a href="contacts.html">Contacts</a></li>
                                 <li><a href="interview.html">Interview</a></li>
                                 <li><a href="privacy.html">Privacy policy</a></li>
-                                <li><a href="signin.html">Sign in</a></li>
-                                <li><a href="signup.html">Sign up</a></li>
-                                <li><a href="forgot.html">Forgot password</a></li>
-                                <li><a href="404.html">404 Page</a></li>
                             </ul>
                         </li>
                     </ul>
