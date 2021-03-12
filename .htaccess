@@ -13,8 +13,6 @@ DirectoryIndex frontend/index.php
 
 #back-end
 
-RewriteRule image-(.*) backend/assets/posters/$1
-
 RewriteRule bg_img-(.*) backend/assets/img/$1
 
 #front-end

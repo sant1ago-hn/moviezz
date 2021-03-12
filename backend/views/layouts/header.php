@@ -180,7 +180,7 @@ if (isset($_SESSION['user'])) {
 
     <!-- sidebar copyright -->
     <div class="sidebar__copyright">
-        © FlixTV Admin Dashboard, 2021. <br>Create by <a href="https://themeforest.net/user/dmitryvolkov/portfolio" target="_blank">Hoài Nam</a>
+        © FlixTV Admin Dashboard, 2021. <br>Create by <a href="https://www.facebook.com/sant1ago.dahanoi/" target="_blank">Hoài Nam</a>
     </div>
     <!-- end sidebar copyright -->
 </div>

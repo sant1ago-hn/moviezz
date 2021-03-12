@@ -19,10 +19,8 @@
                             <div class="row">
                                 <div class="col-12 col-sm-6 col-md-12">
                                     <!-- Image -->
-                                    <div class="form__img">
-                                        <label for="form__img-upload">Upload Poster (324 x 484)</label>
-                                        <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
-                                        <img id="form__img" src="#" alt="">
+                                    <div class="form__group">
+                                        <input type="text" style="position: relative; width: 100%; height: 400px; overflow: hidden; background-color: #151f30; margin-bottom: 20px; border-radius: 16px; text-align: center" id="form__img-upload" class="form__input" name="image" placeholder="Poster Link">
                                     </div>
                                 </div>
                             </div>

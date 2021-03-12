@@ -173,7 +173,7 @@ require_once 'helpers/Helper.php';
                                         <div class="main__table-text">
                                             <a href="#">
                                                 <?php if (!empty($movie['image'])): ?>
-                                                    <img style="width: 18px" src="image-<?php echo $movie['image'] ?>" alt=""/>
+                                                    <img style="width: 18px" src="<?php echo $movie['image'] ?>" alt=""/>
                                                 <?php else: echo 'N/A';?>
                                                 <?php endif; ?>
                                             </a>

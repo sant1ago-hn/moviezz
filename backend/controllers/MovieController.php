@@ -66,35 +66,16 @@ class MovieController extends Controller {
             $en_sub = $_POST['en_sub'];
             $vie_sub = $_POST['vie_sub'];
             $status = $_POST['status'];
+            $image = $_POST['image'];
                 if (empty($title)) {
                     $this->error = 'Title could not be empty';
-                } else if ($_FILES['image']['error'] == 0) {
-                    $img_extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-                    $img_extension = strtolower($img_extension);
-                    $arr_extension = ['jpg', 'jpeg', 'png'];
-                    $file_size_mb = $_FILES['image']['size'] / 1024 / 1024;
-                    $file_size_mb = round($file_size_mb, 2);
-                        if (!in_array($img_extension, $arr_extension)) {
-                            $this->error = 'image must be picture';
-                        }   else if ($file_size_mb > 2) {
-                            $this->error = 'File too large, no more than 2MB';
-                        }
                 }
 
                 if (empty($this->error)) {
-                    $filename = '';
-                if ($_FILES['image']['error'] == 0) {
-                    $dir_uploads = __DIR__ . '/../backend/assets/posters';
-                    if (!file_exists($dir_uploads)) {
-                        mkdir($dir_uploads);
-                    }
-                    $filename = time() . $_FILES['image']['name'];
-                    move_uploaded_file($_FILES['image']['tmp_name'], $dir_uploads . '/' . $filename);
-                }
                 $movie_model = new Movie();
                 $movie_model->idcategory = $idcategory;
                 $movie_model->title = $title;
-                $movie_model->image = $filename;
+                $movie_model->image = $image;
                 $movie_model->movie_type = $movie_type;
                 $movie_model->lengthm = $lengthm;
                 $movie_model->nation = $nation;
@@ -137,23 +118,23 @@ class MovieController extends Controller {
       }
 
     public function detail() {
-    if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-        $_SESSION['error'] = 'ID is not valid';
-        header('Location: all-movie');
-        exit();
-    }
+        if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
+            $_SESSION['error'] = 'ID is not valid';
+            header('Location: all-movie');
+            exit();
+        }
 
-    $id = $_GET['id'];
-    $movie_model = new Movie();
-    $movie = $movie_model->getById($id);
+        $id = $_GET['id'];
+        $movie_model = new Movie();
+        $movie = $movie_model->getById($id);
 
-    $this->content = $this->render('views/movies/detail.php', [
-        'movie' => $movie
-    ]);
-    $this->page_title = 'Detail | ' . $movie['title'];
-    $this->movie_tab = 'sidebar__nav-link--active';
-    $this->movie_nav_active = 'show';
-    require_once 'views/layouts/main.php';
+        $this->content = $this->render('views/movies/detail.php', [
+            'movie' => $movie
+        ]);
+        $this->page_title = 'Detail | ' . $movie['title'];
+        $this->movie_tab = 'sidebar__nav-link--active';
+        $this->movie_nav_active = 'show';
+        require_once 'views/layouts/main.php';
     }
 
     public function update() {
@@ -173,6 +154,7 @@ class MovieController extends Controller {
         $lengthm = $_POST['lengthm'];
         $nation = $_POST['nation'];
         $yeary = $_POST['yeary'];
+        $image = $_POST['image'];
         $episodes = $_POST['episode'];
         $ep_name = $_POST['ep_name'];
         $director = $_POST['director'];
@@ -186,34 +168,12 @@ class MovieController extends Controller {
         $status = $_POST['status'];
         if (empty($title)) {
             $this->error = 'Please fill the title';
-        } else if ($_FILES['image']['error'] == 0) {
-            $extension = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
-            $extension = strtolower($extension);
-            $arr_extension = ['jpg', 'jpeg', 'png'];
-
-            $file_size_mb = $_FILES['image']['size'] / 1024 / 1024;
-            $file_size_mb = round($file_size_mb, 2);
-            if (!in_array($extension, $arr_extension)) {
-                $this->error = 'Image must be picture';
-            } else if ($file_size_mb > 2) {
-                $this->error = 'File too large, no more than 2MB';
-            }
         }
 
         if (empty($this->error)) {
-            $filename = $movie['image'];
-            if ($_FILES['image']['error'] == 0) {
-                $dir_uploads = __DIR__ . '/../assets/posters';
-                @unlink($dir_uploads . '/' . $filename);
-                if (!file_exists($dir_uploads)) {
-                    mkdir($dir_uploads);
-                }
-                $filename = time() . $_FILES['image']['name'];
-                move_uploaded_file($_FILES['image']['tmp_name'], $dir_uploads . '/' . $filename);
-            }
             $movie_model->idcategory = $idcategory;
             $movie_model->title = $title;
-            $movie_model->image = $filename;
+            $movie_model->image = $image;
             $movie_model->movie_type = $movie_type;
             $movie_model->lengthm = $lengthm;
             $movie_model->yeary = $yeary;

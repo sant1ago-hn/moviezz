@@ -142,7 +142,13 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="lengthm">Length (Minutes)</label>
-                                                    <input id="lengthm" type="text" name="lengthm[]" class="sign__input" value="<?php echo $movie['lengthm']?>" <?php if ($movie['episode'] > 1) {echo 'readonly';} else {echo '';}?>>
+                                                    <?php
+                                                        $e = 0;
+                                                        for ($eps = 0; $eps < $movie['episode']; $eps++) {
+                                                            $e += explode(',', $movie['lengthm'])[$eps] / 60;
+                                                        }
+                                                    ?>
+                                                    <input id="lengthm" type="text" class="sign__input" value="<?php echo round($e)?>" <?php if ($movie['episode'] > 1) {echo 'readonly';} else {echo '';}?>>
                                                 </div>
                                             </div>
 
@@ -292,8 +298,8 @@ require_once 'helpers/Helper.php';
                                                                 <label for="form__img-upload">
                                                                     <?php if (empty($movie['image'])) {echo 'Upload Poster (324 x 484)';} ?>
                                                                 </label>
-                                                                <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
-                                                                <img id="form__img" src="image-<?php echo $movie['image'] ?>" alt=""/>
+                                                                <input type="text" style="position: relative; width: 100%; height: 400px; overflow: hidden; background-color: #151f30; margin-bottom: 20px; border-radius: 16px; text-align: center" id="form__img-upload" class="form__input" name="image" placeholder="Poster Link">
+                                                                <img id="form__img" src="<?php echo $movie['image'] ?>" alt=""/>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -303,13 +309,20 @@ require_once 'helpers/Helper.php';
 
                                             <div class="col-12">
                                                 <div class="sign__group">
-                                                    <input type="text" class="sign__input" style="background: url() no-repeat center center;" readonly placeholder="<?php if ($movie['episode'] > 1) {echo 'Episode source:';} else { echo 'Source:';}?>">
+                                                    <label for="link_poster" class="sign__label">Poster Link</label>
+                                                    <input type="text" class="sign__input" id="link_poster" value="<?php echo $movie['image'] ?>" name="image">
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Source -->
                                         <?php if ($movie['movie_type'] == 1):?>
+                                            <div class="row">
+
+                                                <div class="col-12">
+                                                    <label class="sign__label">Source:</label>
+                                                </div>
+                                            </div>
                                             <?php for ($eps = 0; $eps < $movie['episode']; $eps++): ?>
                                                 <div class="row">
                                                     <div class="col-12">
@@ -321,12 +334,14 @@ require_once 'helpers/Helper.php';
                                                             <input type="text" class="sign__input" name="ep_name[]" value="<?php if (!empty($movie['ep_name'])) {echo explode(';', $movie['ep_name'])[$eps];}?>" placeholder="<?php echo 'Episode ' . ($eps + 1) . '\'s title:'?>">
                                                         </div>
                                                     </div>
+
                                                     <!-- Length -->
                                                     <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                         <div class="sign__group">
                                                             <input type="number" class="sign__input" name="lengthm[]" value="<?php if (!empty($movie['lengthm'])) {echo explode(',', $movie['lengthm'])[$eps];}?>" placeholder="<?php echo 'Episode ' . ($eps + 1) . '\'s length:'?>">
                                                         </div>
                                                     </div>
+
                                                     <!-- Basic Link -->
                                                     <div class="col-12 col-md-6 col-lg-12 col-xl-4">
                                                         <div class="sign__group">
@@ -354,6 +369,10 @@ require_once 'helpers/Helper.php';
                                             <?php endfor;?>
                                         <?php else:?>
                                             <div class="row">
+                                                <div class="col-12">
+                                                    <label class="sign__label">Source:</label>
+                                                </div>
+
                                                 <!-- Basic Link -->
                                                 <div class="col-12 col-md-6 col-lg-12 col-xl-4">
                                                     <div class="sign__group">

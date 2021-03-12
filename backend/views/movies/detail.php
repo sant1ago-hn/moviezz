@@ -227,7 +227,7 @@ require_once 'helpers/Helper.php';
                                                             <label for="form__img-upload" class="sign__label">Image</label>
                                                             <div class="form__img">
                                                                 <?php if (!empty($movie['image'])): ?>
-                                                                    <img id="form__img" src="image-<?php echo $movie['image'] ?>" alt=""/>
+                                                                    <img id="form__img" src="<?php echo $movie['image'] ?>" alt=""/>
                                                                 <?php endif; ?>
                                                             </div>
                                                         </div>
@@ -238,7 +238,7 @@ require_once 'helpers/Helper.php';
 
                                             <div class="col-12 col-md-6 col-lg-12">
                                                 <div class="sign__group">
-                                                    <input id="oldpass" type="password" name="oldpass" class="sign__input" style=" background: url() no-repeat center center;" readonly>
+                                                    <input type="text" name="image" class="sign__input" placeholder="Poster Link: <?php echo $movie['image'] ?>" readonly>
                                                 </div>
                                             </div>
                                         </div>
