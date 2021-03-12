@@ -26,6 +26,8 @@
                             <label for="remember">Remember Me</label>
                         </div>
 
+                        <div class="sign__group g-recaptcha" data-sitekey="6LfVE0oaAAAAAF3BVMMsIasCJK7sJef2IlIKkcbf"></div>
+
                         <?php if (!empty($this->error)): ?>
                             <label class="sign__group">
                                 <span class="form-message" style="color: red">

@@ -2,10 +2,10 @@
 $year = '';
 $username = '';
 $avatar = '';
-if (isset($_SESSION['admin'])) {
-    $username = $_SESSION['admin']['username'];
-    $avatar = $_SESSION['admin']['avatar'];
-    $year = date('Y', strtotime($_SESSION['admin']['created_at']));
+if (isset($_SESSION['user'])) {
+    $username = $_SESSION['user']['username'];
+    $avatar = $_SESSION['user']['avatar'];
+    $year = date('Y', strtotime($_SESSION['user']['created_at']));
 }
 ?>
 
@@ -67,8 +67,24 @@ if (isset($_SESSION['admin'])) {
         </div>
 
         <div class="sidebar__user-title">
-            <span>Admin</span>
-            <p><?php echo $username; ?></p>
+            <span style="color: aqua">
+                <?php
+                $color = '';
+                if ($_SESSION['user']['role'] == 1) {
+                    echo 'Moderator';
+                    $color = 'lightgrey';
+                } elseif ($_SESSION['user']['role'] == 0) {
+                    echo 'Admin';
+                    $color = 'gold';
+                } elseif ($_SESSION['user']['username'] == 2) {
+                    $_SESSION = [];
+                    session_destroy();
+                    header("Location: log-out");
+                    exit();
+                }
+                ?>
+            </span>
+            <p style="color: <?php echo $color?>"><?php echo $username; ?></p>
         </div>
 
         <button class="sidebar__user-btn" type="button">

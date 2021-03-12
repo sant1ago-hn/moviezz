@@ -67,7 +67,7 @@ require_once 'helpers/Helper.php';
                             <th>FULLNAME</th>
                             <th>AVATAR</th>
                             <th>EMAIL</th>
-                            <th>LAST LOGIN</th>
+                            <th>BALANCES</th>
                             <th>SUBSCRIPTION</th>
                             <th>STATUS</th>
                             <th>CREATED DATE</th>
@@ -106,10 +106,10 @@ require_once 'helpers/Helper.php';
                                                         echo "<span style='color: gold'>Admin</span>";
                                                         break;
                                                     case 1:
-                                                        echo "<span style='color: silver'>Moderator</span>";
+                                                        echo "<span style='color: aqua'>Moderator</span>";
                                                         break;
                                                     case 2:
-                                                        echo "<span style='color: aqua'>User</span>";
+                                                        echo "<span style='color: #cd7f32'>User</span>";
                                                         break;
                                                 }
                                                 ?>
@@ -175,7 +175,7 @@ require_once 'helpers/Helper.php';
                                                 <?php
                                                 switch ($user['subscription']) {
                                                     case 0:
-                                                        echo "<span style='color: red'>Exclusive</span>";
+                                                        echo "<span style='color: deeppink'>Exclusive</span>";
                                                         break;
                                                     case 1:
                                                         echo "<span style='color: greenyellow'>Premium</span>";

@@ -5,8 +5,29 @@
       <webServer id="fd641d38-cd34-4359-919a-1c62cd525bb1" name="moviezz" url="http://localhost/moviezz">
         <fileTransfer accessType="LOCAL" port="0" />
       </webServer>
-      <webServer id="667cf9da-a819-435f-bfcd-3846b744de16" name="kaoflix" url="http://kaoflix.cf">
+      <webServer id="667cf9da-a819-435f-bfcd-3846b744de16" name="kaoflix" url="http://ftp.kaoflix.cf">
         <fileTransfer rootFolder="/public_html" host="103.97.125.250" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="c569677f-6005-4277-ba98-57b3c0dde862" name="cdn_kaoflix" url="http://ftp.kaoflix.cf">
+        <fileTransfer host="103.97.125.250" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" showHiddenFiles="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="95f05d2c-b114-43d6-a6e9-11d3c3385d01" name="infi" url="http://ftpupload.net">
+        <fileTransfer host="ftpupload.net" port="21">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+      <webServer id="6ad8d34f-f6bc-4933-813f-11f1bcaf5f1f" name="000w" url="http://files.000webhost.com">
+        <fileTransfer host="files.000webhost.com" port="21">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

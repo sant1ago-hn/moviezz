@@ -144,12 +144,25 @@ require_once 'helpers/Helper.php';
                         </div>
                         <div class="profile__meta">
                             <?php if (isset($_SESSION['user'])): ?>
-                                <h3 style="color: gold">
+                                <?php
+                                $color = '';
+                                switch ($_SESSION['user']['subscription']) {
+                                    case 0:
+                                        $color = 'gold';
+                                        break;
+                                    case 1:
+                                        $color = 'lightgrey';
+                                        break;
+                                    case 2:
+                                        $color = '#cd7f32';
+                                        break;
+                                }
+                                ?>
+                                <h3 style="color: <?php echo $color?>">
                                     <?php echo $_SESSION['user']['username']?>
                                 </h3>
                                 <span>User ID: <?php echo $_SESSION['user']['id']?></span>
                             <?php endif; ?>
-
                         </div>
                     </div>
 
@@ -164,7 +177,7 @@ require_once 'helpers/Helper.php';
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" data-toggle="" href="index.php?controller=user&action=update&id=<?php echo $_SESSION['user']['id'] ?>" role="tab" aria-controls="tab-3" aria-selected="false">Settings</a>
+                            <a class="nav-link" data-toggle="" href="update-account-<?php echo $_SESSION['user']['id'] ?>" role="tab" aria-controls="tab-3" aria-selected="false">Settings</a>
                         </li>
                     </ul>
                     <!-- end tabs nav -->
@@ -188,30 +201,46 @@ require_once 'helpers/Helper.php';
                     <!-- stats -->
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="stats">
-                            <span>
-                                Plan: <?php
-                                if ($_SESSION['user']['subscription'] == 0) {
-                                    echo 'Exclusive';
+                            <?php
+                            $subscription = '';
+                            $price = 0;
+                            $color = '';
+                            switch ($_SESSION['user']['subscription']) {
+                                case 0:
+                                    $subscription = 'Exclusive';
                                     $price = 49000;
-                                } elseif ($_SESSION['user']['subscription'] == 1) {
-                                    echo 'Premium';
+                                    $color = 'gold';
+                                    break;
+                                case 1:
+                                    $subscription = 'Premium';
                                     $price = 19000;
-                                } else {
-                                    echo 'Basic';
+                                    $color = 'lightgrey';
+                                    break;
+                                case 2:
+                                    $subscription = 'Basic';
                                     $price = 0;
-                                }
-                                ?>
+                                    $color = '#cd7f32';
+                                    break;
+                            }
+                            ?>
+                            <span>
+                                Plan: <a style="color: <?php echo $color;?>"><?php echo $subscription?></a>
                             </span>
                             <p>
-                                <?php
-                                if ($price == 0) {
-                                    echo 'Free';
-                                } else {
-                                    echo $price;
-                                }
-                                ?>
+                                <a href="#" class="tooltip">
+                                    <?php
+                                    if ($price == 0) {
+                                        echo 'Free';
+                                    } else {
+                                        echo number_format($price) . " VND/month";
+                                    }
+                                    ?>
+                                    <span class="tooltiptext">Upgrade Plan</span>
+                                </a>
                             </p>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M9,10a1,1,0,0,0-1,1v2a1,1,0,0,0,2,0V11A1,1,0,0,0,9,10Zm12,1a1,1,0,0,0,1-1V6a1,1,0,0,0-1-1H3A1,1,0,0,0,2,6v4a1,1,0,0,0,1,1,1,1,0,0,1,0,2,1,1,0,0,0-1,1v4a1,1,0,0,0,1,1H21a1,1,0,0,0,1-1V14a1,1,0,0,0-1-1,1,1,0,0,1,0-2ZM20,9.18a3,3,0,0,0,0,5.64V17H10a1,1,0,0,0-2,0H4V14.82A3,3,0,0,0,4,9.18V7H8a1,1,0,0,0,2,0H20Z"/>
+                            </svg>
                         </div>
                     </div>
                     <!-- end stats -->
@@ -219,9 +248,16 @@ require_once 'helpers/Helper.php';
                     <!-- stats -->
                     <div class="col-12 col-sm-6 col-xl-3">
                         <div class="stats">
-                            <span>Films watched</span>
-                            <p><a href="#">1 678</a></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21,2a1,1,0,0,0-1,1V5H18V3a1,1,0,0,0-2,0V4H8V3A1,1,0,0,0,6,3V5H4V3A1,1,0,0,0,2,3V21a1,1,0,0,0,2,0V19H6v2a1,1,0,0,0,2,0V20h8v1a1,1,0,0,0,2,0V19h2v2a1,1,0,0,0,2,0V3A1,1,0,0,0,21,2ZM6,17H4V15H6Zm0-4H4V11H6ZM6,9H4V7H6Zm10,9H8V13h8Zm0-7H8V6h8Zm4,6H18V15h2Zm0-4H18V11h2Zm0-4H18V7h2Z"/></svg>
+                            <span>Available Balances</span>
+                            <p>
+                                <a href="#" class="tooltip">
+                                    <?php echo number_format($_SESSION['user']['subscription']) . ' VND'?>
+                                    <span class="tooltiptext">Recharge Balances</span>
+                                </a>
+                            </p>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M19,7H18V6a3,3,0,0,0-3-3H5A3,3,0,0,0,2,6H2V18a3,3,0,0,0,3,3H19a3,3,0,0,0,3-3V10A3,3,0,0,0,19,7ZM5,5H15a1,1,0,0,1,1,1V7H5A1,1,0,0,1,5,5ZM20,15H19a1,1,0,0,1,0-2h1Zm0-4H19a3,3,0,0,0,0,6h1v1a1,1,0,0,1-1,1H5a1,1,0,0,1-1-1V8.83A3,3,0,0,0,5,9H19a1,1,0,0,1,1,1Z"/>
+                            </svg>
                         </div>
                     </div>
                     <!-- end stats -->
@@ -231,7 +267,9 @@ require_once 'helpers/Helper.php';
                         <div class="stats">
                             <span>Your comments</span>
                             <p><a href="#">2 573</a></p>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8,11a1,1,0,1,0,1,1A1,1,0,0,0,8,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,12,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,16,11ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,.3-.71,1,1,0,0,0-.3-.7A8,8,0,1,1,12,20Z"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M8,11a1,1,0,1,0,1,1A1,1,0,0,0,8,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,12,11Zm4,0a1,1,0,1,0,1,1A1,1,0,0,0,16,11ZM12,2A10,10,0,0,0,2,12a9.89,9.89,0,0,0,2.26,6.33l-2,2a1,1,0,0,0-.21,1.09A1,1,0,0,0,3,22h9A10,10,0,0,0,12,2Zm0,18H5.41l.93-.93a1,1,0,0,0,.3-.71,1,1,0,0,0-.3-.7A8,8,0,1,1,12,20Z"/>
+                            </svg>
                         </div>
                     </div>
                     <!-- end stats -->

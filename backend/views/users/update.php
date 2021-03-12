@@ -1,76 +1,3 @@
-<?php if (empty($user)): ?>
-    <h2>Category is not exist</h2>
-<?php else: ?>
-    <div class="col-lg-12">
-        <div class="card">
-            <div class="card-body">
-                <h2>Edit user #<?php echo $user['id'] ?></h2>
-                <div class="table-responsive">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <div class="form-group">
-                            <label for="username">Username <span class="red">*</span></label>
-                            <input type="text" name="username" id="username" value="<?php echo isset($_POST['username']) ? $_POST['username'] : $user['username'] ?>" disabled class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="first_name">First name</label>
-                            <input type="text" name="first_name" id="first_name" value="<?php echo isset($_POST['first_name']) ? $_POST['first_name'] : $user['first_name']; ?>" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="last_name">Last name</label>
-                            <input type="text" name="last_name" id="last_name" value="<?php echo isset($_POST['last_name']) ? $_POST['last_name'] : $user['last_name']; ?>" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="phone">Phone</label>
-                            <input type="text" name="phone" id="phone" value="<?php echo isset($_POST['phone']) ? $_POST['phone'] : $user['phone']; ?>" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="">Email</label>
-                            <input type="email" name="email" id="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : $user['email']; ?>" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="address">Address</label>
-                            <input type="text" name="address" id="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : $user['address']; ?>" class="form-control"/>
-                        </div>
-                        <div class="form-group">
-                            <label>Avatar</label>
-                            <input type="file" name="avatar" class="form-control"/>
-                            <img src="#" id="img-preview" style="display: none" width="100" height="100"/>
-                        </div>
-                        <?php if (!empty($user['avatar'])): ?>
-                            <img src="assets/uploads/<?php echo $user['avatar']; ?>" height="50"/>
-                        <?php endif; ?>
-                        <div class="form-group">
-                            <?php
-                            $selected_active = '';
-                            $selected_disabled = '';
-                            if (isset($_POST['status'])) {
-                                switch ($_POST['status']) {
-                                    case 0:
-                                        $selected_disabled = 'selected';
-                                        break;
-                                    case 1:
-                                        $selected_active = 'selected';
-                                        break;
-                                }
-                            }
-                            ?>
-                            <label>Status</label>
-                            <select name="status" class="form-control">
-                                <option value="0" <?php echo $selected_active ?> >Disabled</option>
-                                <option value="1" <?php echo $selected_disabled ?> >Active</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary waves-effect waves-light" name="submit">Save</button>
-                        <button class="btn btn-secondary waves-effect waves-light">
-                            <a href="index.php?controller=user&action=index" style="color: white">Back</a>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-<?php endif; ?>
-
 <?php
 require_once 'helpers/Helper.php';
 ?>
@@ -82,7 +9,7 @@ require_once 'helpers/Helper.php';
             <!-- main title -->
             <div class="col-12">
                 <div class="main__title">
-                    <h2>Update movie ID: #<?php if (isset($user)) { echo $user['id']; } ?></h2>
+                    <h2>Update user ID: #<?php if (isset($user)) { echo $user['id']; } ?></h2>
                 </div>
             </div>
             <!-- end main title -->
@@ -101,8 +28,10 @@ require_once 'helpers/Helper.php';
                         </div>
                         <!-- or red -->
                         <div class="profile__meta profile__meta--green">
-                            <h3><?php echo $user['username'] ?> <span>(<?php echo Helper::getStatusText($user['status']) ?>)</span></h3>
-                            <span>Movie's ID: <?php echo $user['id']?></span>
+                            <h3><?php echo $user['username'] . " "?>
+                                <span>(<?php echo Helper::getStatusText($user['status']) ?>)</span>
+                            </h3>
+                            <span>User's ID: <?php echo $user['id']?></span>
                         </div>
                     </div>
                     <!-- end movie user -->
@@ -233,7 +162,29 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="role">Right</label>
-                                                    <input id="role" type="text" name="role" class="sign__input" value="<?php echo $user['role']?>">
+                                                    <select class="js-example-basic-single" name="role" id="role">
+                                                        <?php
+                                                        $admin = '';
+                                                        $mod = '';
+                                                        $user = '';
+                                                        if (isset($_POST['role'])) {
+                                                            switch ($_POST['role']) {
+                                                                case 0:
+                                                                    $admin = 'selected';
+                                                                    break;
+                                                                case 1:
+                                                                    $mod = 'selected';
+                                                                    break;
+                                                                case 2:
+                                                                    $user = 'selected';
+                                                                    break;
+                                                            }
+                                                        }
+                                                        ?>
+                                                        <option value="2" style="color: lightgrey" <?php echo $user; ?>>User</option>
+                                                        <option value="1" style="color: aqua" <?php echo $mod; ?>>Moderator</option>
+                                                        <option value="0" style="color: gold" <?php echo $admin; ?>>Administrator</option>
+                                                    </select>
                                                 </div>
                                             </div>
 
@@ -256,58 +207,12 @@ require_once 'helpers/Helper.php';
                                     <div class="sign__form sign__form--profile">
                                         <div class="row">
                                             <div class="col-12">
-                                                <h4 class="sign__title">Avatar & Password</h4>
+                                                <h4 class="sign__title">Status & Time</h4>
                                             </div>
-
-                                            <!-- Info -->
-                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                                <!-- Description -->
-                                                <div class="sign__group">
-                                                    <label for="description" class="sign__label">Description</label>
-                                                    <textarea class="sign__textarea" name="description" id="description"><?php echo $user['description'] ?></textarea>
-                                                </div>
-                                                <!-- Description -->
-
-                                                <!-- Year -->
-                                                <div class="sign__group">
-                                                    <label for="yeary" class="sign__label">Year</label>
-                                                    <input class="sign__input" name="yeary" id="yeary"
-                                                           value="<?php echo $user['yeary'] ?>"/>
-                                                </div>
-                                                <!-- Year -->
-
-                                                <!-- Nation -->
-                                                <div class="sign__group">
-                                                    <label for="nation" class="sign__label">Nation</label>
-                                                    <input class="sign__input" name="nation" id="nation"
-                                                           value="<?php echo $user['nation'] ?>"/>
-                                                </div>
-                                                <!-- Nation -->
-                                            </div>
-                                            <!-- Info -->
-
-                                            <!-- Image -->
-                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
-                                                <div class="form__cover sign_group">
-                                                    <div class="row">
-                                                        <div class="col-12 col-md-12">
-                                                            <span class="sign__label">Image</span>
-                                                            <div class="form__img">
-                                                                <label for="form__img-upload">
-                                                                    <?php if (empty($user['image'])) echo 'Upload Poster (324 x 484)' ?>
-                                                                </label>
-                                                                <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
-                                                                <img id="form__img" src="image-<?php echo $user['image'] ?>" alt=""/>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Image -->
 
                                             <!-- Status -->
-                                            <div class="col-12 col-lg-12">
-                                                <div class="sign__group col-12 col-md-6">
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
                                                     <label for="status" class="sign__label">Status</label>
                                                     <?php
                                                     $selected_unpublished = '';
@@ -324,12 +229,19 @@ require_once 'helpers/Helper.php';
                                                     }
                                                     ?>
                                                     <select name="status" id="status">
-                                                        <option value="0" <?php echo $selected_unpublished?>>Unpublished</option>
-                                                        <option value="1" <?php echo $selected_published?>>Published</option>
+                                                        <option value="0" <?php echo $selected_unpublished?>>Inactive</option>
+                                                        <option value="1" <?php echo $selected_published?>>Active</option>
                                                     </select>
                                                 </div>
                                             </div>
                                             <!-- Status -->
+
+                                            <div class="col-12 col-md-6 col-lg-12 col-xl-6">
+                                                <div class="sign__group">
+                                                    <label class="sign__label" for="last_login">Last time Login</label>
+                                                    <input id="last_login" type="text" value="<?php echo $user['last_login']?>" class="sign__input" readonly>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

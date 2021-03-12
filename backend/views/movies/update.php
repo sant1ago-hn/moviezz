@@ -141,8 +141,8 @@ require_once 'helpers/Helper.php';
                                             <!-- Length -->
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
-                                                    <label class="sign__label" for="length">Length (Minutes)</label>
-                                                    <input id="lengthm" type="text" name="lengthm" class="sign__input" value="<?php echo $movie['lengthm']?>" readonly>
+                                                    <label class="sign__label" for="lengthm">Length (Minutes)</label>
+                                                    <input id="lengthm" type="text" name="lengthm[]" class="sign__input" value="<?php echo $movie['lengthm']?>" <?php if ($movie['episode'] > 1) {echo 'readonly';} else {echo '';}?>>
                                                 </div>
                                             </div>
 
@@ -204,7 +204,7 @@ require_once 'helpers/Helper.php';
                                             <div class="col-12 col-md-6 col-lg-12 col-xl-6">
                                                 <div class="sign__group">
                                                     <label class="sign__label" for="episode">Num of episode: </label>
-                                                    <input id="episode" type="number" name="episode" class="sign__input" value="<?php echo $movie['episode']?>">
+                                                    <input id="episode" type="number" name="episode" class="sign__input" value="<?php echo $movie['episode']?>" <?php if ($movie['episode'] <= 1) {echo 'readonly';} else {echo '';}?>>
                                                 </div>
                                             </div>
 

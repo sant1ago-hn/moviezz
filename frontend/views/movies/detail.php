@@ -97,23 +97,20 @@ require_once 'helpers/Helper.php';
                     <!-- Iframe player -->
                     <div tabindex="0" class="plyr plyr--video">
                         <div class="plyr__video-wrapper" style="padding-top: 56.25%;">
-                        <?php if (isset($_SESSION['user'])): ?>
                             <?php if ($movie['episode'] > 1):?>
                                 <iframe id="player" src="<?php echo explode(',', $movie['link_basic'])[0]?>?>"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;"></iframe>
                             <?php else:?>
                                 <iframe id="player" src="<?php echo $movie['link_basic']?>"  frameborder="0" allowFullScreen="true" webkitallowfullscreen="true" mozallowfullscreen="true" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;"></iframe>
                             <?php endif;?>
-                        <?php else:?>
-                            <img src="bg_img-warning.png" alt="sign in to continue" style="position: absolute;  top: 0;  left: 0;  bottom: 0;  right: 0;  width: 100%;  height: 100%;  border: none;">
-                        <?php endif; ?>
                         </div>
                     </div>
 
                     <!-- Switch link button -->
                     <div class="categories">
-                        <a href="<?php echo explode(',', $movie['link_basic'])[0]?>" target="player" class="frame_button_basic" id="button_ba" style="margin: 0 auto auto 0;" type="button">basic server</a>
-                        <a href="<?php echo explode(',', $movie['link_premium'])[0]?>" target="player" class="frame_button_premium" id="button_pr" style="margin: 0 auto auto 0;" type="button">premium server</a>
-                        <a href="<?php echo explode(',', $movie['link_exclusive'])[0]?>" target="player" class="frame_button_exclusive" id="button_ex" style="margin: 0 auto auto 0;" type="button">exclusive server</a>
+                        <h3 class="categories__title" style="color: aqua">Servers</h3>
+                        <a href="<?php echo explode(',', $movie['link_basic'])[0]?>" target="player" class="frame_button_basic categories__item sclt" id="button_ba" type="button">server #1</a>
+                        <a href="<?php echo explode(',', $movie['link_premium'])[0]?>" target="player" class="frame_button_premium categories__item" id="button_pr" type="button">server #2</a>
+                        <a href="<?php echo explode(',', $movie['link_exclusive'])[0]?>" target="player" class="frame_button_exclusive categories__item" id="button_ex" type="button">server #3</a>
                     </div>
                 </div>
                 <!-- end video player -->

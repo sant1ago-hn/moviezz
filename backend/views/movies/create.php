@@ -22,7 +22,7 @@
                                     <div class="form__img">
                                         <label for="form__img-upload">Upload Poster (324 x 484)</label>
                                         <input id="form__img-upload" name="image" value="" type="file" accept=".png, .jpg, .jpeg">
-                                        <img id="form__img" src="#" alt=" ">
+                                        <img id="form__img" src="#" alt="">
                                     </div>
                                 </div>
                             </div>

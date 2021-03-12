@@ -2,7 +2,7 @@
 
 class Controller {
     public function __construct() {
-        if (!isset($_SESSION['admin'])) {
+        if (!isset($_SESSION['user'])) {
             $_SESSION['error'] = 'Sign in to continue';
             header('Location: log-in');
             exit();

@@ -21,7 +21,7 @@ RewriteRule bg_img-(.*) assets/img/$1
 
 RewriteRule log-in index.php?controller=login&action=login
 
-RewriteRule log-out index.php?controller=admin&action=logout
+RewriteRule log-out index.php?controller=user&action=logout
 
 #categories
 RewriteRule new-category index.php?controller=category&action=create

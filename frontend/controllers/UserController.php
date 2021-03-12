@@ -187,7 +187,6 @@ class UserController extends Controller {
     }
 
     public function logout() {
-
         $_SESSION = [];
         session_destroy();
         unset($_SESSION['user']);

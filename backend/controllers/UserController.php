@@ -191,6 +191,7 @@ class UserController extends Controller {
         $this->content = $this->render('views/users/update.php', [
             'user' => $user
         ]);
+        $this->page_title = 'Update user | '. $user['fullname'];
 
         require_once 'views/layouts/main.php';
     }
@@ -233,7 +234,7 @@ class UserController extends Controller {
     public function logout() {
         $_SESSION = [];
         session_destroy();
-        header('Location: index.php?controller=login&action=login');
+        header('Location: log-in');
         exit();
     }
 }

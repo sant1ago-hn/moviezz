@@ -200,9 +200,9 @@ require_once 'helpers/Helper.php';
                                     <td>
                                         <div class="main__table-text main__table-text--green">
                                             <?php
-                                            $status_text = 'Visible';
+                                            $status_text = 'Published';
                                             if ($result['status'] == 0) {
-                                                $status_text = 'Invisible';
+                                                $status_text = 'Unpublished';
                                             }
                                             ?>
                                             <?php if ($result['status'] == 1): ?>
@@ -245,6 +245,7 @@ require_once 'helpers/Helper.php';
                                 <th>FULL NAME</th>
                                 <th>EMAIL</th>
                                 <th>USERNAME</th>
+                                <th>ROLE</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -257,16 +258,49 @@ require_once 'helpers/Helper.php';
                                 ?>
                                 <tr>
                                     <td>
-                                        <div class="main__table-text"><?php echo $result['id']?></div>
+                                        <div class="main__table-text">
+                                            <?php echo $result['id']?>
+                                        </div>
                                     </td>
                                     <td>
-                                        <div class="main__table-text"><a href="#"><?php echo $result['fullname']?></a></div>
+                                        <div class="main__table-text">
+                                            <a href="#"><?php echo $result['fullname']?></a>
+                                        </div>
                                     </td>
                                     <td>
-                                        <div class="main__table-text"><?php echo $result['email']?></div>
+                                        <div class="main__table-text">
+                                            <?php echo $result['email']?>
+                                        </div>
                                     </td>
                                     <td>
-                                        <div class="main__table-text main__table-text--green"><?php echo $result['username']?></div>
+                                        <div class="main__table-text main__table-text--green">
+                                            <?php echo $result['username']?>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <?php
+                                            $role = '';
+                                            $color = '';
+                                            if (isset($result['role'])) {
+                                                switch ($result['role']) {
+                                                    case 0:
+                                                        $role = 'Admin';
+                                                        $color = 'gold';
+                                                        break;
+                                                    case 1:
+                                                        $role = 'Moderator';
+                                                        $color = 'aqua';
+                                                        break;
+                                                    case 2:
+                                                        $role = 'User';
+                                                        $color = '#cd7f32';
+                                                        break;
+                                                }
+                                            }
+                                        ?>
+                                        <div class="main__table-text" style="color: <?php echo $color?>">
+                                            <?php echo $role;?>
+                                        </div>
                                     </td>
                                 </tr>
                             <?php } ?>

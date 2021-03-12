@@ -107,6 +107,11 @@
         placeholder: "Vietnamese subtitle",
         allowClear: true
     });
+
+    $('#role').select2({
+        placeholder: "Choose Right",
+        allowClear: true
+    });
 </script>
 <script src="assets/js/sortable.min.js"></script>
 

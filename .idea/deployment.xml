@@ -2,6 +2,32 @@
 <project version="4">
   <component name="PublishConfigData" serverName="moviezz" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="000w">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/public_html" local="$PROJECT_DIR$/../cdn4" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="cdn_kaoflix">
+        <serverdata>
+          <mappings>
+            <mapping deploy="" local="D:/Prjs" web="/" />
+            <mapping deploy="/" local="$PROJECT_DIR$/../cdn" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="infi">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/htdocs" local="$PROJECT_DIR$/../cdn3" web="/" />
+            <mapping local="$PROJECT_DIR$/../cdn2" />
+            <mapping local="$PROJECT_DIR$" />
+            <mapping local="D:/Prjs" />
+            <mapping local="$PROJECT_DIR$/../cdn" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="kaoflix">
         <serverdata>
           <mappings>

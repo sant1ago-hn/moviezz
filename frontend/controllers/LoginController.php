@@ -4,6 +4,9 @@ require_once 'models/User.php';
 class LoginController {
     public $content;
     public $error;
+    /* Google recaptcha API url */
+    private $google_url = "https://www.google.com/recaptcha/api/siteverify";
+    private $secret = '6LfVE0oaAAAAANCq_okg1lRPIFEudbngZE5MiaIW';
 
     public function render($file, $variables = []) {
         extract($variables);
@@ -14,18 +17,27 @@ class LoginController {
 
     public function login() {
         if (isset($_SESSION['user'])) {
-            header('Location: index.php');
+            header('Location: home');
             exit();
         }
         if (isset($_POST['submit'])) {
             $username = $_POST['username'];
             $password = md5($_POST['password']);
-
+            $response = $_POST['g-recaptcha-response'];
             $user_model = new User();
             if (empty($this->error)) {
                 $user = $user_model->getUserByUsernameAndPassword($username, $password);
                 if (empty($user)) {
                     $this->error = 'Wrong username or password';
+                    if (!$response) {
+                        $this->error = "Please re-enter captcha";
+                    } else {
+                        $verify = file_get_contents($this->google_url.'?secret='.$this->secret.'&response='.$response);
+                        $verified = json_decode($verify);
+                        if (!($verified->success)) {
+                            $this->error = "Your account has been logged as a spammer, you cannot continue!";
+                        }
+                    }
                 } else {
                     $_SESSION['user'] = $user;
                     header("Location: home");

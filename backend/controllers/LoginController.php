@@ -1,5 +1,5 @@
 <?php
-require_once 'models/Admin.php';
+require_once 'models/User.php';
 
 class LoginController {
     public $content;
@@ -13,27 +13,37 @@ class LoginController {
     }
 
     public function login() {
-        if (isset($_SESSION['admin'])) {
-            header('Location: home');
-            exit();
+        if (isset($_SESSION['user'])) {
+            if ($_SESSION['user']['role'] > 1) {
+                $this->error = 'You do not have permission to access this page';
+                session_destroy();
+                header('Location: log-in');
+                exit();
+            } else {
+                header('Location: home');
+                exit();
+            }
         }
         if (isset($_POST['submit'])) {
             $username = $_POST['username'];
             $password = md5($_POST['password']);
-
-            $admin_model = new Admin();
+            $user_model = new User();
             if (empty($this->error)) {
-                $admin = $admin_model->getUserByUsernameAndPassword($username, $password);
-                if (empty($admin)) {
+                $user = $user_model->getUserByUsernameAndPassword($username, $password);
+                if (empty($user)) {
                     $this->error = 'Wrong username or password';
                 } else {
-                    $_SESSION['admin'] = $admin;
-                    header("Location: home");
-                    exit();
+                    if ((int)$user['role'] > 1) {
+                        $this->error = 'You do not have permission to access this page';
+                    } else {
+                        $_SESSION['user'] = $user;
+                        header("Location: home");
+                        exit();
+                    }
                 }
             }
         }
-        $this->content = $this->render('views/admins/login.php');
+        $this->content = $this->render('views/users/login.php');
         $this->page_title = 'Sign In';
 
         require_once 'views/layouts/main_login.php';
@@ -42,24 +52,24 @@ class LoginController {
     public function register() {
 
         if (isset($_POST['submit'])) {
-            $admin_model = new Admin();
+            $user_model = new User();
             $username = $_POST['username'];
             $password = $_POST['password'];
             $password_confirm = $_POST['password_confirm'];
-            $admin = $admin_model->getUserByUsername($username);
+            $user = $user_model->getUserByUsername($username);
             if (empty($username) || empty($password) || empty($password_confirm)) {
                 $this->error = 'Fields could not be empty';
             } else if ($password != $password_confirm) {
                 $this->error = 'Password confirm incorrect';
-            } else if (!empty($admin)) {
+            } else if (!empty($user)) {
                 $this->error = 'Username is not available';
             }
             if (empty($this->error)) {
 
-                $admin_model->username = $username;
-                $admin_model->password = md5($password);
-                $admin_model->status = 1;
-                $is_insert = $admin_model->insertRegister();
+                $user_model->username = $username;
+                $user_model->password = md5($password);
+                $user_model->status = 1;
+                $is_insert = $user_model->insertRegister();
                 if ($is_insert) {
                     $_SESSION['success'] = 'Sign up successful';
                 } else {
@@ -70,7 +80,7 @@ class LoginController {
             }
         }
 
-        $this->content = $this->render('views/admins/register.php');
+        $this->content = $this->render('views/users/register.php');
         $this->page_title = 'Sign Up';
         require_once 'views/layouts/main_login.php';
     }
