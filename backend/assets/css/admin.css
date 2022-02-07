@@ -30,7 +30,8 @@ Primary use:	FlixTV Admin Template
 /*==============================
 	Fonts
 ==============================*/
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Rubik:ital,wght@0,300;0,400;0,500;1,400&amp;display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,400&amp;display=swap");
 /*==============================
 	Common styles
 ==============================*/
